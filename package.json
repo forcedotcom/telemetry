@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "description": "Library for application insights",
   "main": "lib/exported",
-  "repository": "https://github.com/forcedotcom/cli-packages",
+  "repository": "https://github.com/forcedotcom/telemetry",
   "author": "Salesforce",
   "license": "BSD-3-Clause",
   "scripts": {
