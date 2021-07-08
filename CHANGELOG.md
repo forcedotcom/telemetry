@@ -1,7 +1,13 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## 3.0.0 (2021-07-08)
+
+
+### Features
+
+* publish ([9336302](https://github.com/forcedotcom/telemetry/commit/9336302f15b43bd824ec70fe604e05a6bb2f5ba2))
 
 ## [2.0.6](https://github.com/forcedotcom/cli-packages/compare/@salesforce/telemetry@2.0.5...@salesforce/telemetry@2.0.6) (2021-05-11)
 
