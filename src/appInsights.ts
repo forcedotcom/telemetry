@@ -51,6 +51,8 @@ export function getCpus(): string {
   }
 }
 
+const homeDir = os.homedir();
+
 function getSystemMemory(): string {
   return `${(os.totalmem() / (1024 * 1024 * 1024)).toFixed(2)} GB`;
 }
@@ -68,7 +70,7 @@ export function buildPropertiesAndMeasurements(attributes: Attributes): {
   Object.keys(attributes).forEach((key) => {
     const value = attributes[key];
     if (isString(value)) {
-      properties[key] = value;
+      properties[key] = value.replace(homeDir, '~');
     } else if (isNumber(value)) {
       measurements[key] = value;
     } else if (isBoolean(value)) {
