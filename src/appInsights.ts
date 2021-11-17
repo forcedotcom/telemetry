@@ -51,6 +51,21 @@ export function getCpus(): string {
   }
 }
 
+const homeDir = os.homedir();
+
+const sanitizeError = (err: Error): Error => {
+  if (err.name) {
+    err.name = err.name.replace(homeDir, '~');
+  }
+  if (err.message) {
+    err.message = err.message.replace(homeDir, '~');
+  }
+  if (err.stack) {
+    // there might be lots of this one
+    err.stack = err.stack.replace(new RegExp(`\\b${homeDir}\\b`, 'gi'), '~');
+  }
+  return err;
+};
 function getSystemMemory(): string {
   return `${(os.totalmem() / (1024 * 1024 * 1024)).toFixed(2)} GB`;
 }
@@ -68,7 +83,7 @@ export function buildPropertiesAndMeasurements(attributes: Attributes): {
   Object.keys(attributes).forEach((key) => {
     const value = attributes[key];
     if (isString(value)) {
-      properties[key] = value;
+      properties[key] = value.replace(homeDir, '~');
     } else if (isNumber(value)) {
       measurements[key] = value;
     } else if (isBoolean(value)) {
@@ -134,9 +149,10 @@ export class AppInsights extends AsyncCreatable<TelemetryOptions> {
    * @param attributes {Attributes} - map of measurements to publish alongside the exception.
    */
   public sendTelemetryException(exception: Error, attributes: Attributes = {}): void {
-    this.logger.debug(`Sending telemetry exception: ${exception.message}`);
+    const cleanException = sanitizeError(exception);
+    this.logger.debug(`Sending telemetry exception: ${cleanException.message}`);
     const { properties, measurements } = buildPropertiesAndMeasurements(attributes);
-    this.appInsightsClient.trackException({ exception, properties, measurements });
+    this.appInsightsClient.trackException({ exception: cleanException, properties, measurements });
   }
 
   /**
