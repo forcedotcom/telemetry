@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/forcedotcom/telemetry/compare/v3.0.0...v3.1.0) (2021-11-30)
+
+
+### Features
+
+* bump version of core and axios ([376ae9c](https://github.com/forcedotcom/telemetry/commit/376ae9c2c2c26517f2ede7e1ac7b065caeca9390))
+
+
+### Bug Fixes
+
+* release 3.0.1 ([050953a](https://github.com/forcedotcom/telemetry/commit/050953a117a4f3c6c5a2100d2a47e80719e64976))
+* replace homedir ([2bcb2ed](https://github.com/forcedotcom/telemetry/commit/2bcb2ede66dc7ef3c14cb40d530fb34530b84147))
+* sanitizing exception strings ([b12c52c](https://github.com/forcedotcom/telemetry/commit/b12c52cad97b736bcb0e5968c8427ae89f0d8397))
+* sinon types match sinon ([4cbefbf](https://github.com/forcedotcom/telemetry/commit/4cbefbf4ded50b4fdd1f451e27aba449c886b481))
+* typescript bump and fixes ([012bcff](https://github.com/forcedotcom/telemetry/commit/012bcffee2655705b0e97684eec20b81d3f9e6f2))
+
 ## 3.0.0 (2021-07-08)
 
 
