@@ -156,8 +156,9 @@ describe('TelemetryReporter', () => {
     const options = { project, key, waitForConnection: true };
     try {
       await TelemetryReporter.create(options);
-    } catch (err) {
-      expect(err.message).to.equal('Unable to connect to app insights.');
+    } catch (err: unknown) {
+      const e = err as Error;
+      expect(e.message).to.equal('Unable to connect to app insights.');
     }
   });
 
