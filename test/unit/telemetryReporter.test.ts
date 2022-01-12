@@ -29,6 +29,7 @@ describe('TelemetryReporter', () => {
 
   it('should send a telemetry event', async () => {
     const options = { project, key };
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackEvent').callsFake(() => {});
 
@@ -38,6 +39,7 @@ describe('TelemetryReporter', () => {
 
   it('should send a telemetry exception', async () => {
     const options = { project, key };
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackException').callsFake(() => {});
 
@@ -48,6 +50,7 @@ describe('TelemetryReporter', () => {
 
   it('should send a telemetry trace', async () => {
     const options = { project, key };
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackTrace').callsFake(() => {});
 
@@ -57,6 +60,7 @@ describe('TelemetryReporter', () => {
 
   it('should send a telemetry metric', async () => {
     const options = { project, key };
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackMetric').callsFake(() => {});
 
@@ -119,6 +123,7 @@ describe('TelemetryReporter', () => {
 
   it('should log to disable telemetry metric when enabled', async () => {
     const warn = sandbox.stub();
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     sandbox.stub(Logger, 'child').resolves({ warn, debug: sandbox.stub() } as any);
     const options = { project, key };
