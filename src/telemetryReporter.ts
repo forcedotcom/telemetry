@@ -43,8 +43,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
     }
     const configValue = TelemetryReporter.config.getPropertyValue(DISABLE_TELEMETRY);
     const sfdxDisableInsights = configValue === 'true' || env.getBoolean('SFDX_DISABLE_INSIGHTS');
-    const isEnabled = !sfdxDisableInsights;
-    return isEnabled;
+    return !sfdxDisableInsights;
   }
 
   public async init(): Promise<void> {
@@ -128,7 +127,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    * Sends exception to child process.
    *
    * @param exception {Error} - exception you want published.
-   * @param measurements {Measurements} - map of measurements to publish alongside the event.
+   * @param attributes {Attributes} - map of measurements to publish alongside the event.
    */
   public sendTelemetryException(exception: Error, attributes: Attributes = {}): void {
     if (this.isSfdxTelemetryEnabled()) {
@@ -142,7 +141,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
   /**
    * Publishes diagnostic information to app insights dashboard
    *
-   * @param message {string} - trace message to sen to app insights.
+   * @param traceMessage {string} - trace message to sen to app insights.
    * @param properties {Properties} - map of properties to publish alongside the event.
    */
   public sendTelemetryTrace(traceMessage: string, properties?: Properties): void {
@@ -154,7 +153,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
   /**
    * Publishes metric to app insights dashboard
    *
-   * @param name {string} - name of the metric you want published
+   * @param metricName {string} - name of the metric you want published
    * @param value {number} - value of the metric
    * @param properties {Properties} - map of properties to publish alongside the event.
    */
@@ -171,8 +170,8 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
   public isSfdxTelemetryEnabled(): boolean {
     const configValue = this.config.getPropertyValue(DISABLE_TELEMETRY);
     const sfdxDisableInsights = configValue === 'true' || env.getBoolean('SFDX_DISABLE_INSIGHTS');
-    const isEnabled = !sfdxDisableInsights;
-    return isEnabled;
+    // isEnabled = !sfdxDisableInsights
+    return !sfdxDisableInsights;
   }
 
   public logTelemetryStatus(): void {
