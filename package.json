@@ -15,7 +15,7 @@
     "format": "sf-format",
     "lint": "sf-lint",
     "lint-fix": "yarn sfdx-lint --fix",
-    "prepack": "sf-build",
+    "prepack": "sf-prepack",
     "prepare": "npm run build",
     "pretest": "sf-compile-test",
     "test": "sf-test"
