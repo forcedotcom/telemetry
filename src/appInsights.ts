@@ -5,7 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import * as os from 'os';
-import { Logger, Messages } from '@salesforce/core';
+import { Logger } from '@salesforce/core';
 import { AsyncCreatable, Env } from '@salesforce/kit';
 import { isBoolean, isNumber, isString, JsonPrimitive } from '@salesforce/ts-types';
 import * as appInsights from 'applicationinsights';
@@ -35,8 +35,6 @@ export interface TelemetryOptions {
   sessionId?: string;
   waitForConnection?: boolean;
 }
-
-Messages.importMessagesDirectory(__dirname);
 
 export function getPlatformVersion(): string {
   return (os.release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3');
@@ -158,7 +156,7 @@ export class AppInsights extends AsyncCreatable<TelemetryOptions> {
   /**
    * Publishes diagnostic information to app insights dashboard
    *
-   * @param message {string} - trace message to sen to app insights.
+   * @param traceMessage {string} - trace message to sen to app insights.
    * @param properties {Properties} - map of properties to publish alongside the event.
    */
   public sendTelemetryTrace(traceMessage: string, properties?: Properties): void {
@@ -169,7 +167,7 @@ export class AppInsights extends AsyncCreatable<TelemetryOptions> {
   /**
    * Publishes metric to app insights dashboard
    *
-   * @param name {string} - name of the metric you want published
+   * @param metricName {string} - name of the metric you want published
    * @param value {number} - value of the metric
    * @param properties {Properties} - map of properties to publish alongside the event.
    */
