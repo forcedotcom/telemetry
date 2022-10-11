@@ -132,8 +132,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
   public sendTelemetryException(exception: Error, attributes: Attributes = {}): void {
     if (this.isSfdxTelemetryEnabled()) {
       // Scrub stack for GDPR
-      exception.stack =
-        exception.stack && exception.stack.replace(new RegExp(os.homedir(), 'g'), AppInsights.GDPR_HIDDEN);
+      exception.stack = exception.stack?.replace(new RegExp(os.homedir(), 'g'), AppInsights.GDPR_HIDDEN);
       this.reporter.sendTelemetryException(exception, attributes);
     }
   }

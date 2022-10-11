@@ -177,7 +177,7 @@ describe('AppInsights', () => {
   });
 
   it('should handle missing os.cpus value', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     osStub = sandbox.stub(os, 'cpus').callsFake((() => undefined) as any);
     const actual = getCpus();
     expect(actual).to.equal('');
@@ -185,7 +185,7 @@ describe('AppInsights', () => {
   });
 
   it('should handle missing os release value', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     osStub = sandbox.stub(os, 'release').callsFake((() => undefined) as any);
     const actual = getPlatformVersion();
     expect(actual).to.equal('');

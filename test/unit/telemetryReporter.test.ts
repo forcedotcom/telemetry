@@ -111,7 +111,7 @@ describe('TelemetryReporter', () => {
   it('should log to enable telemetry metric when disabled', async () => {
     sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('true');
     const warn = sandbox.stub();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     sandbox.stub(Logger, 'child').resolves({ warn, debug: sandbox.stub() } as any);
     const options = { project, key };
     const reporter = await TelemetryReporter.create(options);
@@ -124,7 +124,7 @@ describe('TelemetryReporter', () => {
   it('should log to disable telemetry metric when enabled', async () => {
     const warn = sandbox.stub();
     sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('false');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     sandbox.stub(Logger, 'child').resolves({ warn, debug: sandbox.stub() } as any);
     const options = { project, key };
     const reporter = await TelemetryReporter.create(options);
@@ -137,12 +137,12 @@ describe('TelemetryReporter', () => {
   it('should cache config aggregator', async () => {
     const stub = sandbox.stub(SfdxConfigAggregator, 'create');
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     stub.resolves({ getPropertyValue: () => false } as any);
     expect(await TelemetryReporter.determineSfdxTelemetryEnabled()).to.be.true;
 
     stub.reset();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     stub.resolves({ getPropertyValue: () => true } as any);
     expect(await TelemetryReporter.determineSfdxTelemetryEnabled()).to.be.true;
   });
