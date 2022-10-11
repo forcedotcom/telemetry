@@ -47,11 +47,11 @@ describe('TelemetryReporter', () => {
     reporter.sendTelemetryException(new Error('testException'));
     expect(sendStub.calledOnce).to.be.true;
 
-    // eslint-disable-next-line no-console
-    console.log(`homedir is ${os.homedir()}`);
-    // eslint-disable-next-line no-console
-    console.log(sendStub.firstCall.args[0].exception.stack);
-    expect(sendStub.firstCall.args[0].exception.stack).to.contain(AppInsights.GDPR_HIDDEN);
+    // homedir on windows for gha is homedir is C:\Users\runneradmin
+    // but exception stack comes from D:\a\telemetry\telemetry\test\unit\telemetryReporter.test.ts:47:37)
+    if (os.platform() !== 'win32') {
+      expect(sendStub.firstCall.args[0].exception.stack).to.contain(AppInsights.GDPR_HIDDEN);
+    }
   });
 
   it('should send a telemetry trace', async () => {
