@@ -60,7 +60,7 @@ const sanitizeError = (err: Error): Error => {
   }
   if (err.stack) {
     // there might be lots of this one
-    err.stack = err.stack.replace(new RegExp(`\\b${homeDir}\\b`, 'gi'), '~');
+    err.stack = err.stack.replace(new RegExp(`\b${homeDir}\b`, 'gi'), '~');
   }
   return err;
 };
