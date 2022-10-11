@@ -12,7 +12,7 @@ import * as sinon from 'sinon';
 import { AppInsights } from '../../src/appInsights';
 import { TelemetryReporter } from '../../src/telemetryReporter';
 
-sdescribe('TelemetryReporter', () => {
+describe('TelemetryReporter', () => {
   const key = 'foo-bar-123';
   const project = 'force-com-toolbelt';
 
