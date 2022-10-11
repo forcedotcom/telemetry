@@ -4,6 +4,7 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+import * as os from 'os';
 import { SfdxConfigAggregator, Logger } from '@salesforce/core';
 import axios from 'axios';
 import { expect } from 'chai';
@@ -45,7 +46,12 @@ describe('TelemetryReporter', () => {
 
     reporter.sendTelemetryException(new Error('testException'));
     expect(sendStub.calledOnce).to.be.true;
-    expect(sendStub.firstCall.args[0].exception.stack).to.contain(AppInsights.GDPR_HIDDEN);
+
+    // homedir on windows for gha is homedir is C:\Users\runneradmin
+    // but exception stack comes from D:\a\telemetry\telemetry\test\unit\telemetryReporter.test.ts:47:37)
+    if (os.platform() !== 'win32') {
+      expect(sendStub.firstCall.args[0].exception.stack).to.contain(AppInsights.GDPR_HIDDEN);
+    }
   });
 
   it('should send a telemetry trace', async () => {
@@ -111,7 +117,7 @@ describe('TelemetryReporter', () => {
   it('should log to enable telemetry metric when disabled', async () => {
     sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('true');
     const warn = sandbox.stub();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     sandbox.stub(Logger, 'child').resolves({ warn, debug: sandbox.stub() } as any);
     const options = { project, key };
     const reporter = await TelemetryReporter.create(options);
@@ -124,7 +130,7 @@ describe('TelemetryReporter', () => {
   it('should log to disable telemetry metric when enabled', async () => {
     const warn = sandbox.stub();
     sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('false');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     sandbox.stub(Logger, 'child').resolves({ warn, debug: sandbox.stub() } as any);
     const options = { project, key };
     const reporter = await TelemetryReporter.create(options);
@@ -137,12 +143,12 @@ describe('TelemetryReporter', () => {
   it('should cache config aggregator', async () => {
     const stub = sandbox.stub(SfdxConfigAggregator, 'create');
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     stub.resolves({ getPropertyValue: () => false } as any);
     expect(await TelemetryReporter.determineSfdxTelemetryEnabled()).to.be.true;
 
     stub.reset();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     stub.resolves({ getPropertyValue: () => true } as any);
     expect(await TelemetryReporter.determineSfdxTelemetryEnabled()).to.be.true;
   });
@@ -154,10 +160,8 @@ describe('TelemetryReporter', () => {
     expect(testConnection.calledOnce).to.be.true;
   });
 
-  it('should throw an error if it cannot conenct to app insights', async () => {
-    sandbox.stub(axios, 'get').throws(() => {
-      return { code: 'TIMEOUT!' };
-    });
+  it('should throw an error if it cannot connect to app insights', async () => {
+    sandbox.stub(axios, 'get').throws(() => ({ code: 'TIMEOUT!' }));
     const options = { project, key, waitForConnection: true };
     try {
       await TelemetryReporter.create(options);

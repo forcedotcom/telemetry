@@ -60,7 +60,7 @@ const sanitizeError = (err: Error): Error => {
   }
   if (err.stack) {
     // there might be lots of this one
-    err.stack = err.stack.replace(new RegExp(`\\b${homeDir}\\b`, 'gi'), '~');
+    err.stack = err.stack.replace(new RegExp(`\b${homeDir}\b`, 'gi'), '~');
   }
   return err;
 };
@@ -69,7 +69,7 @@ function getSystemMemory(): string {
 }
 
 function isAsimovKey(key: string): boolean {
-  return !!(key && key.startsWith('AIF-'));
+  return !!key?.startsWith('AIF-');
 }
 
 export function buildPropertiesAndMeasurements(attributes: Attributes): {
@@ -111,7 +111,7 @@ export class AppInsights extends AsyncCreatable<TelemetryOptions> {
     super(options);
     this.options = options;
 
-    this.env = this.options.env || new Env();
+    this.env = this.options.env ?? new Env();
 
     if (this.options.gdprSensitiveKeys) {
       this.gdprSensitiveKeys = this.options.gdprSensitiveKeys;
@@ -176,6 +176,7 @@ export class AppInsights extends AsyncCreatable<TelemetryOptions> {
     this.appInsightsClient.trackMetric({ name: metricName, value, properties });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   public start(): void {
     // Start data collection services
     appInsights.start();
@@ -220,7 +221,7 @@ export class AppInsights extends AsyncCreatable<TelemetryOptions> {
       'common.os': os.platform(),
       'common.platformversion': getPlatformVersion(),
       'common.systemmemory': getSystemMemory(),
-      'common.usertype': this.env.getString('SFDX_USER_TYPE') || 'normal',
+      'common.usertype': this.env.getString('SFDX_USER_TYPE') ?? 'normal',
     };
     return Object.assign(baseProperties, this.options.commonProperties);
   }
