@@ -154,7 +154,7 @@ describe('TelemetryReporter', () => {
     expect(testConnection.calledOnce).to.be.true;
   });
 
-  it('should throw an error if it cannot conenct to app insights', async () => {
+  it('should throw an error if it cannot connect to app insights', async () => {
     sandbox.stub(axios, 'get').throws(() => ({ code: 'TIMEOUT!' }));
     const options = { project, key, waitForConnection: true };
     try {
