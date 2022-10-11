@@ -45,6 +45,9 @@ describe('TelemetryReporter', () => {
 
     reporter.sendTelemetryException(new Error('testException'));
     expect(sendStub.calledOnce).to.be.true;
+
+    // eslint-disable-next-line no-console
+    console.log(sendStub.firstCall.args[0].exception.stack);
     expect(sendStub.firstCall.args[0].exception.stack).to.contain(AppInsights.GDPR_HIDDEN);
   });
 
