@@ -1,3 +1,12 @@
+## [3.2.13](https://github.com/forcedotcom/telemetry/compare/3.2.12...3.2.13) (2023-01-07)
+
+
+### Bug Fixes
+
+* **deps:** bump json5 from 1.0.1 to 1.0.2 ([6b2ddb1](https://github.com/forcedotcom/telemetry/commit/6b2ddb13c3f8f0db24f97d0756b560d1b97638cb))
+
+
+
 ## [3.2.12](https://github.com/forcedotcom/telemetry/compare/3.2.11...3.2.12) (2022-12-24)
 
 
