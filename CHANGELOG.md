@@ -1,3 +1,12 @@
+## [3.2.14](https://github.com/forcedotcom/telemetry/compare/3.2.13...3.2.14) (2023-01-14)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/ts-types from 1.7.1 to 1.7.2 ([8780238](https://github.com/forcedotcom/telemetry/commit/878023871557d781d698a9937f46e20ec2a7b376))
+
+
+
 ## [3.2.13](https://github.com/forcedotcom/telemetry/compare/3.2.12...3.2.13) (2023-01-07)
 
 
