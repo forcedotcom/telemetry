@@ -34,7 +34,7 @@
   ],
   "dependencies": {
     "@salesforce/core": "^3.33.1",
-    "@salesforce/ts-types": "^1.7.2",
+    "@salesforce/ts-types": "^1.7.3",
     "applicationinsights": "^1.4.0",
     "axios": "^0.27.2"
   },
