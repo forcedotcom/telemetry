@@ -5,14 +5,12 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import * as os from 'os';
-import { Logger, SfdxConfigAggregator } from '@salesforce/core';
+import { Logger, SfdxConfigAggregator, SfConfigProperties } from '@salesforce/core';
 import { AsyncCreatable, env } from '@salesforce/kit';
 
 import axios from 'axios';
 import { AppInsights, Attributes, Properties, TelemetryOptions } from './appInsights';
 import { TelemetryClient } from './exported';
-
-const DISABLE_TELEMETRY = 'disableTelemetry';
 
 export { TelemetryOptions, Attributes, Properties, TelemetryClient } from './appInsights';
 
@@ -41,7 +39,8 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
     if (!TelemetryReporter.config) {
       TelemetryReporter.config = await SfdxConfigAggregator.create({});
     }
-    const configValue = TelemetryReporter.config.getPropertyValue(DISABLE_TELEMETRY);
+    const configValue = TelemetryReporter.config.getPropertyValue(SfConfigProperties.DISABLE_TELEMETRY);
+    // SF_DISABLE_TELEMETRY is the proper name for this env that will be cheked by config.getPropertyValue. SFDX_DISABLE_INSIGHTS is present for backwards compatibility
     const sfdxDisableInsights = configValue === 'true' || env.getBoolean('SFDX_DISABLE_INSIGHTS');
     return !sfdxDisableInsights;
   }
@@ -167,7 +166,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    * Setting the disableTelemetry config var to true will disable insights for errors and diagnostics.
    */
   public isSfdxTelemetryEnabled(): boolean {
-    const configValue = this.config.getPropertyValue(DISABLE_TELEMETRY);
+    const configValue = this.config.getPropertyValue(SfConfigProperties.DISABLE_TELEMETRY);
     const sfdxDisableInsights = configValue === 'true' || env.getBoolean('SFDX_DISABLE_INSIGHTS');
     // isEnabled = !sfdxDisableInsights
     return !sfdxDisableInsights;
@@ -177,11 +176,11 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
     const isEnabled = this.isSfdxTelemetryEnabled();
     if (isEnabled) {
       this.logger.warn(
-        `Telemetry is enabled. This can be disabled by running sfdx force:config:set ${DISABLE_TELEMETRY}=true`
+        `Telemetry is enabled. This can be disabled by running sfdx force:config:set ${SfConfigProperties.DISABLE_TELEMETRY}=true`
       );
     } else {
       this.logger.warn(
-        `Telemetry is disabled. This can be enabled by running sfdx force:config:set ${DISABLE_TELEMETRY}=false`
+        `Telemetry is disabled. This can be enabled by running sfdx force:config:set ${SfConfigProperties.DISABLE_TELEMETRY}=false`
       );
     }
   }
