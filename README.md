@@ -8,7 +8,7 @@ This package serves an interface for [Microsoft's Application Insights npm modul
 
 ## Usage
 
-### For long running process:
+### For long running process
 
 ```javascript
 import TelemetryReporter from '@salesforce/telemetry';
@@ -26,11 +26,11 @@ By default, some common properties are hidden for GDPR. This is to protect clien
 const reporter = await TelemetryReporter.create({
   project: 'my-project-name',
   key: 'my-instrumentation-key',
-  gdprSensitiveKeys: []
+  gdprSensitiveKeys: [],
 });
 ```
 
-### For short lived processes:
+### For short lived processes
 
 ```javascript
 import TelemetryReporter from '@salesforce/telemetry';
@@ -48,4 +48,4 @@ reporter.stop();
 
 ## Env Variables
 
-`SFDX_DISABLE_INSIGHTS`: Set to `true` if you want to disable telemetry.
+`SF_DISABLE_TELEMETRY`: Set to `true` if you want to disable telemetry.
