@@ -1,3 +1,12 @@
+## [3.2.25](https://github.com/forcedotcom/telemetry/compare/3.2.24...3.2.25) (2023-04-26)
+
+
+### Bug Fixes
+
+* use new config keys ([#203](https://github.com/forcedotcom/telemetry/issues/203)) ([d0d4729](https://github.com/forcedotcom/telemetry/commit/d0d47299d5631704d0a668fe19fcedcea2ee43ac))
+
+
+
 ## [3.2.24](https://github.com/forcedotcom/telemetry/compare/3.2.23...3.2.24) (2023-04-22)
 
 
