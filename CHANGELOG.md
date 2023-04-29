@@ -1,3 +1,12 @@
+## [3.2.26](https://github.com/forcedotcom/telemetry/compare/3.2.25...3.2.26) (2023-04-29)
+
+
+### Bug Fixes
+
+* **deps:** bump axios from 1.3.6 to 1.4.0 ([45ee0fd](https://github.com/forcedotcom/telemetry/commit/45ee0fdd18ee04052f68cbaf5929c89469abaa18))
+
+
+
 ## [3.2.25](https://github.com/forcedotcom/telemetry/compare/3.2.24...3.2.25) (2023-04-26)
 
 
