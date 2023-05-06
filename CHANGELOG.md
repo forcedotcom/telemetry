@@ -1,3 +1,12 @@
+## [3.2.28](https://github.com/forcedotcom/telemetry/compare/3.2.27...3.2.28) (2023-05-06)
+
+
+### Bug Fixes
+
+* **deps:** bump applicationinsights from 2.5.1 to 2.6.0 ([2d22fd3](https://github.com/forcedotcom/telemetry/commit/2d22fd326463eb4118903291cf60d966bbe332f8))
+
+
+
 ## [3.2.27](https://github.com/forcedotcom/telemetry/compare/3.2.26...3.2.27) (2023-04-30)
 
 
