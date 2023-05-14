@@ -1,3 +1,12 @@
+## [3.2.29](https://github.com/forcedotcom/telemetry/compare/3.2.28...3.2.29) (2023-05-14)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 3.36.0 to 3.36.1 ([16527d6](https://github.com/forcedotcom/telemetry/commit/16527d6a7c63c4ac7335ed2dd244fc6cbd4b7ea8))
+
+
+
 ## [3.2.28](https://github.com/forcedotcom/telemetry/compare/3.2.27...3.2.28) (2023-05-06)
 
 
