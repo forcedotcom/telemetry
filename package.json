@@ -1,6 +1,6 @@
 {
   "name": "@salesforce/telemetry",
-  "version": "3.2.29",
+  "version": "4.0.0",
   "description": "Library for application insights",
   "main": "lib/exported",
   "repository": "forcedotcom/telemetry",
@@ -14,7 +14,6 @@
     "docs": "sf-docs",
     "format": "wireit",
     "lint": "wireit",
-    "lint-fix": "yarn sfdx-lint --fix",
     "prepack": "sf-prepack",
     "prepare": "sf-install",
     "test": "wireit",
@@ -27,6 +26,9 @@
     "salesforcedx",
     "sfdx-command"
   ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "files": [
     "lib",
     "messages",
@@ -34,13 +36,13 @@
   ],
   "dependencies": {
     "@salesforce/core": "^3.36.1",
-    "@salesforce/ts-types": "^1.7.3",
+    "@salesforce/ts-types": "^2.0.2",
     "applicationinsights": "^2.6.0",
     "axios": "^1.4.0"
   },
   "devDependencies": {
-    "@salesforce/dev-config": "^3.0.1",
-    "@salesforce/dev-scripts": "^4.3.1",
+    "@salesforce/dev-config": "^4.0.1",
+    "@salesforce/dev-scripts": "^5.0.1",
     "@salesforce/prettier-config": "^0.0.3",
     "@salesforce/ts-sinon": "^1.4.6",
     "@typescript-eslint/eslint-plugin": "^5.59.6",
@@ -48,12 +50,12 @@
     "chai": "^4.3.7",
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-config-salesforce": "^1.2.0",
+    "eslint-config-salesforce": "^2.0.1",
     "eslint-config-salesforce-license": "^0.2.0",
     "eslint-config-salesforce-typescript": "^1.1.1",
     "eslint-plugin-header": "^3.0.0",
     "eslint-plugin-import": "2.27.5",
-    "eslint-plugin-jsdoc": "^40.3.0",
+    "eslint-plugin-jsdoc": "^44.2.4",
     "husky": "^8.0.3",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
