@@ -35,14 +35,14 @@
     "!lib/**/*.map"
   ],
   "dependencies": {
-    "@salesforce/core": "^3.36.2",
-    "@salesforce/ts-types": "^2.0.2",
+    "@salesforce/core": "^3.36.0",
+    "@salesforce/ts-types": "^2.0.1",
     "applicationinsights": "^2.6.0",
     "axios": "^1.4.0"
   },
   "devDependencies": {
     "@salesforce/dev-config": "^4.0.1",
-    "@salesforce/dev-scripts": "^5.0.1",
+    "@salesforce/dev-scripts": "^5.1.0",
     "@salesforce/prettier-config": "^0.0.3",
     "@salesforce/ts-sinon": "^1.4.7",
     "@typescript-eslint/eslint-plugin": "^5.59.7",
