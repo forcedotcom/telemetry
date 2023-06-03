@@ -1,3 +1,12 @@
+## [4.0.2](https://github.com/forcedotcom/telemetry/compare/4.0.1...4.0.2) (2023-06-03)
+
+
+### Bug Fixes
+
+* **deps:** bump applicationinsights from 2.6.0 to 2.7.0 ([3aa3c64](https://github.com/forcedotcom/telemetry/commit/3aa3c64a8453cf50f8aa0eaaf0aa1e2b01736c7e))
+
+
+
 ## [4.0.1](https://github.com/forcedotcom/telemetry/compare/3.2.29...4.0.1) (2023-05-28)
 
 
