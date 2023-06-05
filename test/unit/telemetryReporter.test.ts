@@ -5,7 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import * as os from 'os';
-import { SfdxConfigAggregator, Logger } from '@salesforce/core';
+import { ConfigAggregator, Logger } from '@salesforce/core';
 import axios from 'axios';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
@@ -30,7 +30,7 @@ describe('TelemetryReporter', () => {
 
   it('should send a telemetry event', async () => {
     const options = { project, key };
-    sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('false');
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackEvent').callsFake(() => {});
 
@@ -40,7 +40,7 @@ describe('TelemetryReporter', () => {
 
   it('should send a telemetry exception', async () => {
     const options = { project, key };
-    sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('false');
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackException').callsFake(() => {});
 
@@ -56,7 +56,7 @@ describe('TelemetryReporter', () => {
 
   it('should send a telemetry trace', async () => {
     const options = { project, key };
-    sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('false');
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackTrace').callsFake(() => {});
 
@@ -66,7 +66,7 @@ describe('TelemetryReporter', () => {
 
   it('should send a telemetry metric', async () => {
     const options = { project, key };
-    sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('false');
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackMetric').callsFake(() => {});
 
@@ -75,7 +75,7 @@ describe('TelemetryReporter', () => {
   });
 
   it('should not send a telemetry event when disabled', async () => {
-    sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('true');
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('true');
     const options = { project, key };
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackEvent').callsFake(() => {});
@@ -85,7 +85,7 @@ describe('TelemetryReporter', () => {
   });
 
   it('should not send a telemetry exception when disabled', async () => {
-    sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('true');
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('true');
     const options = { project, key };
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackException').callsFake(() => {});
@@ -95,7 +95,7 @@ describe('TelemetryReporter', () => {
   });
 
   it('should not send a telemetry trace when disabled', async () => {
-    sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('true');
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('true');
     const options = { project, key };
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackTrace').callsFake(() => {});
@@ -105,7 +105,7 @@ describe('TelemetryReporter', () => {
   });
 
   it('should not send a telemetry metric when disabled', async () => {
-    sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('true');
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('true');
     const options = { project, key };
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackMetric').callsFake(() => {});
@@ -115,7 +115,7 @@ describe('TelemetryReporter', () => {
   });
 
   it('should log to enable telemetry metric when disabled', async () => {
-    sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('true');
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('true');
     const warn = sandbox.stub();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     sandbox.stub(Logger, 'child').resolves({ warn, debug: sandbox.stub() } as any);
@@ -129,7 +129,7 @@ describe('TelemetryReporter', () => {
 
   it('should log to disable telemetry metric when enabled', async () => {
     const warn = sandbox.stub();
-    sandbox.stub(SfdxConfigAggregator.prototype, 'getPropertyValue').returns('false');
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     sandbox.stub(Logger, 'child').resolves({ warn, debug: sandbox.stub() } as any);
     const options = { project, key };
@@ -141,7 +141,7 @@ describe('TelemetryReporter', () => {
   });
 
   it('should cache config aggregator', async () => {
-    const stub = sandbox.stub(SfdxConfigAggregator, 'create');
+    const stub = sandbox.stub(ConfigAggregator, 'create');
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     stub.resolves({ getPropertyValue: () => false } as any);
