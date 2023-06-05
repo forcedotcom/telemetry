@@ -1,3 +1,12 @@
+## [4.0.3](https://github.com/forcedotcom/telemetry/compare/4.0.2...4.0.3) (2023-06-05)
+
+
+### Bug Fixes
+
+* **deps:** devScripts update ([#232](https://github.com/forcedotcom/telemetry/issues/232)) ([33a8fc4](https://github.com/forcedotcom/telemetry/commit/33a8fc49ca6657291e5a48a0f4fa08ae9b7a5d91))
+
+
+
 ## [4.0.2](https://github.com/forcedotcom/telemetry/compare/4.0.1...4.0.2) (2023-06-03)
 
 
