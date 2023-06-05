@@ -5,7 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import * as os from 'os';
-import { Logger, SfdxConfigAggregator, SfConfigProperties } from '@salesforce/core';
+import { Logger, ConfigAggregator, SfConfigProperties } from '@salesforce/core';
 import { AsyncCreatable, env } from '@salesforce/kit';
 
 import axios from 'axios';
@@ -19,11 +19,11 @@ export { TelemetryOptions, Attributes, Properties, TelemetryClient } from './app
  */
 export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
   // Keep a cache of config aggregator so we aren't loading it every time.
-  private static config: SfdxConfigAggregator;
+  private static config: ConfigAggregator;
 
   private options: TelemetryOptions;
   private logger!: Logger;
-  private config!: SfdxConfigAggregator;
+  private config!: ConfigAggregator;
   private reporter!: AppInsights;
 
   public constructor(options: TelemetryOptions) {
@@ -37,7 +37,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    */
   public static async determineSfdxTelemetryEnabled(): Promise<boolean> {
     if (!TelemetryReporter.config) {
-      TelemetryReporter.config = await SfdxConfigAggregator.create({});
+      TelemetryReporter.config = await ConfigAggregator.create({});
     }
     const configValue = TelemetryReporter.config.getPropertyValue(SfConfigProperties.DISABLE_TELEMETRY);
     // SF_DISABLE_TELEMETRY is the proper name for this env that will be cheked by config.getPropertyValue. SFDX_DISABLE_INSIGHTS is present for backwards compatibility
@@ -48,7 +48,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
   public async init(): Promise<void> {
     this.logger = await Logger.child('TelemetryReporter');
     if (!TelemetryReporter.config) {
-      TelemetryReporter.config = await SfdxConfigAggregator.create({});
+      TelemetryReporter.config = await ConfigAggregator.create({});
     }
     this.config = TelemetryReporter.config;
     if (this.options.waitForConnection) await this.waitForConnection();
