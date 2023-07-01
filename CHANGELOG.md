@@ -1,3 +1,12 @@
+## [4.0.7](https://github.com/forcedotcom/telemetry/compare/4.0.6...4.0.7) (2023-07-01)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 4.3.2 to 4.3.5 ([81ab03d](https://github.com/forcedotcom/telemetry/commit/81ab03da0c37f514a1cb959915d1ef19836a5d49))
+
+
+
 ## [4.0.6](https://github.com/forcedotcom/telemetry/compare/4.0.5...4.0.6) (2023-06-24)
 
 
