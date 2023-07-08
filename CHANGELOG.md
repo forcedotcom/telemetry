@@ -1,3 +1,12 @@
+## [4.0.9](https://github.com/forcedotcom/telemetry/compare/4.0.8...4.0.9) (2023-07-08)
+
+
+### Bug Fixes
+
+* **deps:** bump tough-cookie from 4.0.0 to 4.1.3 ([76afd7e](https://github.com/forcedotcom/telemetry/commit/76afd7e5adec18c9cde8af6f1348e34d27873d1e))
+
+
+
 ## [4.0.8](https://github.com/forcedotcom/telemetry/compare/4.0.7...4.0.8) (2023-07-08)
 
 
