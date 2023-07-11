@@ -1,3 +1,12 @@
+## [4.0.11](https://github.com/forcedotcom/telemetry/compare/4.0.10...4.0.11) (2023-07-11)
+
+
+### Bug Fixes
+
+* **deps:** bump semver from 5.7.1 to 5.7.2 ([9acadd2](https://github.com/forcedotcom/telemetry/commit/9acadd22d897a6e6b0c6108a37ffa7a4226f7ba9))
+
+
+
 ## [4.0.10](https://github.com/forcedotcom/telemetry/compare/4.0.9...4.0.10) (2023-07-09)
 
 
