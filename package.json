@@ -35,10 +35,11 @@
     "!lib/**/*.map"
   ],
   "dependencies": {
-    "@salesforce/core": "^4.3.11",
+    "@salesforce/core": "^5.1.4",
     "@salesforce/ts-types": "^2.0.5",
     "applicationinsights": "^2.7.0",
-    "axios": "^1.4.0"
+    "got": "^11",
+    "proxy-agent": "^6.3.0"
   },
   "devDependencies": {
     "@salesforce/dev-config": "^4.0.1",

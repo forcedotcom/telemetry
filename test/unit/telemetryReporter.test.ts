@@ -6,7 +6,7 @@
  */
 import * as os from 'os';
 import { ConfigAggregator, Logger } from '@salesforce/core';
-import axios from 'axios';
+import got from 'got';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { AppInsights } from '../../src/appInsights';
@@ -161,7 +161,7 @@ describe('TelemetryReporter', () => {
   });
 
   it('should throw an error if it cannot connect to app insights', async () => {
-    sandbox.stub(axios, 'get').throws(() => ({ code: 'TIMEOUT!' }));
+    sandbox.stub(got, 'get').throws(() => ({ code: 'TIMEOUT!' }));
     const options = { project, key, waitForConnection: true };
     try {
       await TelemetryReporter.create(options);
