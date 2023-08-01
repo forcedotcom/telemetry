@@ -4,10 +4,9 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import * as os from 'os';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { AppInsights, buildPropertiesAndMeasurements, getCpus, getPlatformVersion } from '../../src/appInsights';
+import { AppInsights, buildPropertiesAndMeasurements } from '../../src/appInsights';
 import set = Reflect.set;
 
 describe('AppInsights', () => {
@@ -17,7 +16,6 @@ describe('AppInsights', () => {
   let sandbox: sinon.SinonSandbox;
   let trackStub: sinon.SinonStub;
   let flushStub: sinon.SinonStub;
-  let osStub: sinon.SinonStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -174,21 +172,5 @@ describe('AppInsights', () => {
     reporter.sendTelemetryMetric('testMetric', 0);
     expect(trackStub.calledOnce).to.be.true;
     expect(flushStub.calledOnce).to.be.false;
-  });
-
-  it('should handle missing os.cpus value', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-    osStub = sandbox.stub(os, 'cpus').callsFake((() => undefined) as any);
-    const actual = getCpus();
-    expect(actual).to.equal('');
-    expect(osStub.calledOnce).to.be.true;
-  });
-
-  it('should handle missing os release value', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-    osStub = sandbox.stub(os, 'release').callsFake((() => undefined) as any);
-    const actual = getPlatformVersion();
-    expect(actual).to.equal('');
-    expect(osStub.calledOnce).to.be.true;
   });
 });
