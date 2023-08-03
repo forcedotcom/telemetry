@@ -8,7 +8,8 @@ import * as os from 'os';
 import { Logger, ConfigAggregator, SfConfigProperties } from '@salesforce/core';
 import { AsyncCreatable, env } from '@salesforce/kit';
 
-import axios from 'axios';
+import got from 'got';
+import { ProxyAgent } from 'proxy-agent';
 import { AppInsights, Attributes, Properties, TelemetryOptions } from './appInsights';
 import { TelemetryClient } from './exported';
 
@@ -82,32 +83,30 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
     const timeout = parseInt(env.getString('SFDX_TELEMETRY_TIMEOUT', '1000'), 10);
     this.logger.debug(`Testing connection to ${AppInsights.APP_INSIGHTS_SERVER} with timeout of ${timeout} ms`);
 
-    // set up a CancelToken to handle connection timeouts because
-    // the built in timeout functionality only handles response timeouts
-    // see here: https://github.com/axios/axios/issues/647#issuecomment-322209906
-    const cancelRequest = axios.CancelToken.source();
-    setTimeout(() => cancelRequest.cancel('connection timeout'), timeout);
-
-    let canConnect: boolean;
     try {
-      const options = {
-        timeout,
-        cancelToken: cancelRequest.token,
-        // We want any status less than 500 to be resolved (not rejected)
-        validateStatus: (status: number): boolean => status < 500,
-      };
-      await axios.get(AppInsights.APP_INSIGHTS_SERVER, options);
-      canConnect = true;
+      const resp = await got.get(AppInsights.APP_INSIGHTS_SERVER, {
+        throwHttpErrors: false,
+        agent: { https: new ProxyAgent() },
+        retry: {
+          methods: ['GET'],
+          errorCodes: ['ECONNRESET', 'EADDRINUSE', 'ECONNREFUSED', 'EPIPE'],
+        },
+        timeout: {
+          lookup: 100,
+          send: 10000,
+          response: 1000,
+        },
+      });
+      if (resp.statusCode < 500) {
+        this.logger.debug(`Successfully made a connection to ${AppInsights.APP_INSIGHTS_SERVER}`);
+        return true;
+      }
+      this.logger.error(`${AppInsights.APP_INSIGHTS_SERVER} responded with ${resp.statusCode}`);
+      throw new Error(resp.statusCode.toString());
     } catch (err) {
-      canConnect = false;
-    }
-
-    if (canConnect) {
-      this.logger.debug(`Successfully made a connection to ${AppInsights.APP_INSIGHTS_SERVER}`);
-    } else {
       this.logger.warn(`Connection to ${AppInsights.APP_INSIGHTS_SERVER} timed out after ${timeout} ms`);
+      return false;
     }
-    return canConnect;
   }
 
   /**
