@@ -1,3 +1,12 @@
+## [4.0.14](https://github.com/forcedotcom/telemetry/compare/4.0.13...4.0.14) (2023-08-03)
+
+
+### Bug Fixes
+
+* telemetry via proxy ([68a5cdd](https://github.com/forcedotcom/telemetry/commit/68a5cdd2b9fd974cf8157d1a9e5c6974e30d6ab5))
+
+
+
 ## [4.0.13](https://github.com/forcedotcom/telemetry/compare/4.0.12...4.0.13) (2023-07-22)
 
 
