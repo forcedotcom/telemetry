@@ -1,3 +1,12 @@
+## [4.0.15](https://github.com/forcedotcom/telemetry/compare/4.0.14...4.0.15) (2023-08-05)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/ts-types from 2.0.5 to 2.0.6 ([0b2eb7b](https://github.com/forcedotcom/telemetry/commit/0b2eb7b59b031029cdd4544bfd72c93a0b828fc2))
+
+
+
 ## [4.0.14](https://github.com/forcedotcom/telemetry/compare/4.0.13...4.0.14) (2023-08-03)
 
 
