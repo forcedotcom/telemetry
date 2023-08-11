@@ -5,13 +5,14 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import * as os from 'os';
-import { Logger, ConfigAggregator, SfConfigProperties } from '@salesforce/core';
+import { Logger, SfConfigProperties } from '@salesforce/core';
 import { AsyncCreatable, env } from '@salesforce/kit';
 
 import got from 'got';
 import { ProxyAgent } from 'proxy-agent';
-import { AppInsights, Attributes, Properties, TelemetryOptions } from './appInsights';
+import { AppInsights, type Attributes, type Properties, type TelemetryOptions } from './appInsights';
 import { TelemetryClient } from './exported';
+import { isEnabled } from './enabledCheck';
 
 export { TelemetryOptions, Attributes, Properties, TelemetryClient } from './appInsights';
 
@@ -19,12 +20,9 @@ export { TelemetryOptions, Attributes, Properties, TelemetryClient } from './app
  * Reports telemetry events to app insights. We do not send if the config 'disableTelemetry' is set.
  */
 export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
-  // Keep a cache of config aggregator so we aren't loading it every time.
-  private static config: ConfigAggregator;
-
+  private enabled = false;
   private options: TelemetryOptions;
   private logger!: Logger;
-  private config!: ConfigAggregator;
   private reporter!: AppInsights;
 
   public constructor(options: TelemetryOptions) {
@@ -33,25 +31,17 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
   }
 
   /**
+   * @deprecated Use the standalone function isEnabled() instead.
    * Determine if the telemetry event should be logged.
    * Setting the disableTelemetry config var to true will disable insights for errors and diagnostics.
    */
   public static async determineSfdxTelemetryEnabled(): Promise<boolean> {
-    if (!TelemetryReporter.config) {
-      TelemetryReporter.config = await ConfigAggregator.create({});
-    }
-    const configValue = TelemetryReporter.config.getPropertyValue(SfConfigProperties.DISABLE_TELEMETRY);
-    // SF_DISABLE_TELEMETRY is the proper name for this env that will be cheked by config.getPropertyValue. SFDX_DISABLE_INSIGHTS is present for backwards compatibility
-    const sfdxDisableInsights = configValue === 'true' || env.getBoolean('SFDX_DISABLE_INSIGHTS');
-    return !sfdxDisableInsights;
+    return isEnabled();
   }
 
   public async init(): Promise<void> {
+    this.enabled = await isEnabled();
     this.logger = await Logger.child('TelemetryReporter');
-    if (!TelemetryReporter.config) {
-      TelemetryReporter.config = await ConfigAggregator.create({});
-    }
-    this.config = TelemetryReporter.config;
     if (this.options.waitForConnection) await this.waitForConnection();
     this.reporter = await AppInsights.create(this.options);
   }
@@ -165,15 +155,11 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    * Setting the disableTelemetry config var to true will disable insights for errors and diagnostics.
    */
   public isSfdxTelemetryEnabled(): boolean {
-    const configValue = this.config.getPropertyValue(SfConfigProperties.DISABLE_TELEMETRY);
-    const sfdxDisableInsights = configValue === 'true' || env.getBoolean('SFDX_DISABLE_INSIGHTS');
-    // isEnabled = !sfdxDisableInsights
-    return !sfdxDisableInsights;
+    return this.enabled;
   }
 
   public logTelemetryStatus(): void {
-    const isEnabled = this.isSfdxTelemetryEnabled();
-    if (isEnabled) {
+    if (this.enabled) {
       this.logger.warn(
         `Telemetry is enabled. This can be disabled by running sfdx force:config:set ${SfConfigProperties.DISABLE_TELEMETRY}=true`
       );

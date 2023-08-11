@@ -3,6 +3,10 @@
   "version": "4.0.16",
   "description": "Library for application insights",
   "main": "lib/exported",
+  "exports": {
+    "./enabledCheck": "./lib/enabledCheck.js",
+    ".": "./lib/exported.js"
+  },
   "repository": "forcedotcom/telemetry",
   "author": "Salesforce",
   "license": "BSD-3-Clause",
