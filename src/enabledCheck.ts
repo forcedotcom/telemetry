@@ -19,7 +19,7 @@ let enabled: boolean | undefined;
  * memoized: only runs once
  *
  * */
-export const isEnabled = async (configAggregator?: ConfigAggregator) => {
+export const isEnabled = async (configAggregator?: ConfigAggregator): Promise<boolean> => {
   if (enabled === undefined) {
     const agg = configAggregator ?? (await ConfigAggregator.create({}));
     enabled = agg.getPropertyValue<string>(SfConfigProperties.DISABLE_TELEMETRY) !== 'true';
