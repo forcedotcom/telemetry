@@ -1,3 +1,16 @@
+# [4.1.0](https://github.com/forcedotcom/telemetry/compare/4.0.17-qa.0...4.1.0) (2023-08-14)
+
+
+
+## [4.0.17-qa.0](https://github.com/forcedotcom/telemetry/compare/4.0.16...4.0.17-qa.0) (2023-08-11)
+
+
+### Features
+
+* enabled as a standlone export ([7fd23b2](https://github.com/forcedotcom/telemetry/commit/7fd23b26f71608baf9408e3b2d50880d9a9dd77b))
+
+
+
 ## [4.0.16](https://github.com/forcedotcom/telemetry/compare/4.0.15...4.0.16) (2023-08-05)
 
 
