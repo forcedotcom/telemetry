@@ -11,6 +11,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { AppInsights } from '../../src/appInsights';
 import { TelemetryReporter } from '../../src/telemetryReporter';
+import * as enabledStubs from '../../src/enabledCheck';
 
 describe('TelemetryReporter', () => {
   const key = 'foo-bar-123';
@@ -75,7 +76,7 @@ describe('TelemetryReporter', () => {
   });
 
   it('should not send a telemetry event when disabled', async () => {
-    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('true');
+    sandbox.stub(enabledStubs, 'isEnabled').resolves(false);
     const options = { project, key };
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackEvent').callsFake(() => {});
@@ -85,7 +86,7 @@ describe('TelemetryReporter', () => {
   });
 
   it('should not send a telemetry exception when disabled', async () => {
-    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('true');
+    sandbox.stub(enabledStubs, 'isEnabled').resolves(false);
     const options = { project, key };
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackException').callsFake(() => {});
@@ -95,7 +96,7 @@ describe('TelemetryReporter', () => {
   });
 
   it('should not send a telemetry trace when disabled', async () => {
-    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('true');
+    sandbox.stub(enabledStubs, 'isEnabled').resolves(false);
     const options = { project, key };
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackTrace').callsFake(() => {});
@@ -105,7 +106,7 @@ describe('TelemetryReporter', () => {
   });
 
   it('should not send a telemetry metric when disabled', async () => {
-    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('true');
+    sandbox.stub(enabledStubs, 'isEnabled').resolves(false);
     const options = { project, key };
     const reporter = await TelemetryReporter.create(options);
     const sendStub = sandbox.stub(reporter.getTelemetryClient(), 'trackMetric').callsFake(() => {});
@@ -115,7 +116,7 @@ describe('TelemetryReporter', () => {
   });
 
   it('should log to enable telemetry metric when disabled', async () => {
-    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('true');
+    sandbox.stub(enabledStubs, 'isEnabled').resolves(false);
     const warn = sandbox.stub();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     sandbox.stub(Logger, 'child').resolves({ warn, debug: sandbox.stub() } as any);

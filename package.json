@@ -1,8 +1,12 @@
 {
   "name": "@salesforce/telemetry",
-  "version": "4.0.16",
+  "version": "4.0.17-qa.0",
   "description": "Library for application insights",
   "main": "lib/exported",
+  "exports": {
+    "./enabledCheck": "./lib/enabledCheck.js",
+    ".": "./lib/exported.js"
+  },
   "repository": "forcedotcom/telemetry",
   "author": "Salesforce",
   "license": "BSD-3-Clause",
