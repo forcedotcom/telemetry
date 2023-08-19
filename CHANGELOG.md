@@ -1,3 +1,12 @@
+## [4.1.1](https://github.com/forcedotcom/telemetry/compare/4.1.0...4.1.1) (2023-08-19)
+
+
+### Bug Fixes
+
+* **deps:** bump applicationinsights from 2.7.0 to 2.7.3 ([8a2f1bc](https://github.com/forcedotcom/telemetry/commit/8a2f1bcdabc6c31012b5c8ef3f1ea9ebedb81638))
+
+
+
 # [4.1.0](https://github.com/forcedotcom/telemetry/compare/4.0.17-qa.0...4.1.0) (2023-08-14)
 
 
