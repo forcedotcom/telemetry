@@ -1,3 +1,9 @@
+## [4.1.8](https://github.com/forcedotcom/telemetry/compare/4.1.7...4.1.8) (2023-09-28)
+
+### Bug Fixes
+
+- **deps:** bump get-func-name from 2.0.0 to 2.0.2 ([be6a5f4](https://github.com/forcedotcom/telemetry/commit/be6a5f43980b672f7dac953cc39181883dcbc0a7))
+
 ## [4.1.7](https://github.com/forcedotcom/telemetry/compare/4.1.6...4.1.7) (2023-09-23)
 
 ### Bug Fixes
