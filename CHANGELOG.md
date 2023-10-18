@@ -1,3 +1,9 @@
+## [4.1.15](https://github.com/forcedotcom/telemetry/compare/4.1.14...4.1.15) (2023-10-18)
+
+### Bug Fixes
+
+- **deps:** bump @babel/traverse from 7.17.10 to 7.23.2 ([6abcdec](https://github.com/forcedotcom/telemetry/commit/6abcdecad8a588bb6cce7b4db3cf5b9fb38fc5a3))
+
 ## [4.1.14](https://github.com/forcedotcom/telemetry/compare/4.1.13...4.1.14) (2023-10-14)
 
 ### Bug Fixes
