@@ -1,3 +1,12 @@
+## [4.1.21](https://github.com/forcedotcom/telemetry/compare/4.1.20...4.1.21) (2023-11-11)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 5.3.17 to 5.3.20 ([3b2be0b](https://github.com/forcedotcom/telemetry/commit/3b2be0be6db9efdbfa5d68805306de26743533e1))
+
+
+
 ## [4.1.20](https://github.com/forcedotcom/telemetry/compare/4.1.19...4.1.20) (2023-11-11)
 
 
