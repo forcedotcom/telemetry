@@ -1,3 +1,16 @@
+# [5.0.0](https://github.com/forcedotcom/telemetry/compare/4.1.21...5.0.0) (2023-11-15)
+
+
+* feat!: require node 18+, use core v6 ([c89cf78](https://github.com/forcedotcom/telemetry/commit/c89cf781ec4928eaa97df87d0e6bc5d37e9d9c1f))
+
+
+### BREAKING CHANGES
+
+* fix(deps)!: use sfdx-core v6
+* feat!: require node 18+
+
+
+
 ## [4.1.21](https://github.com/forcedotcom/telemetry/compare/4.1.20...4.1.21) (2023-11-11)
 
 
