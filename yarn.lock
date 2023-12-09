@@ -648,10 +648,10 @@
   resolved "https://registry.yarnpkg.com/@opentelemetry/semantic-conventions/-/semantic-conventions-1.15.2.tgz#3bafb5de3e20e841dff6cb3c66f4d6e9694c4241"
   integrity sha512-CjbOKwk2s+3xPIMcd5UNYQzsf+v94RczbdNix9/kQh38WiQkM90sUOi3if8eyHFgiBjBjhwXrA7W3ydiSQP9mw==
 
-"@salesforce/core@^6.2.2":
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-6.2.2.tgz#c390c7c407e8916ad85a3e300d9d9e4fecfba207"
-  integrity sha512-R2ptk/+KSWDJOqdInxfzPTLF3V//vFtD4vQcjWIK9NaGCCq4ZwiF2gMpkBcKgDQneLUmva2NcmnzF3c51zQp5A==
+"@salesforce/core@^6.4.0":
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-6.4.0.tgz#09e856194c8dad5bd0d86e271e84c3c47304f508"
+  integrity sha512-zbUuOll6RnaOyO6vHGjaO6mv2SBimu2JzInubBrbx+bgw5KFVT0y+OrN0gEhBPS94VoC9/N6ZRKve+vQ82zmmA==
   dependencies:
     "@salesforce/kit" "^3.0.15"
     "@salesforce/schemas" "^1.6.1"
