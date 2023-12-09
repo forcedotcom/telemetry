@@ -1,3 +1,12 @@
+## [5.0.4](https://github.com/forcedotcom/telemetry/compare/5.0.3...5.0.4) (2023-12-09)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 6.2.2 to 6.4.0 ([3df617c](https://github.com/forcedotcom/telemetry/commit/3df617cd7fae95c8508673fbb678b4f3e8574671))
+
+
+
 ## [5.0.3](https://github.com/forcedotcom/telemetry/compare/5.0.2...5.0.3) (2023-12-02)
 
 
