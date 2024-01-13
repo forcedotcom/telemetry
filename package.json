@@ -42,7 +42,7 @@
   "dependencies": {
     "@salesforce/core": "^6.4.4",
     "@salesforce/ts-types": "^2.0.9",
-    "applicationinsights": "^2.9.1",
+    "applicationinsights": "^2.9.2",
     "got": "^11",
     "proxy-agent": "^6.3.1"
   },
