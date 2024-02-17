@@ -1,3 +1,12 @@
+## [5.0.13](https://github.com/forcedotcom/telemetry/compare/5.0.12...5.0.13) (2024-02-17)
+
+
+### Bug Fixes
+
+* **deps:** bump proxy-agent from 6.3.1 to 6.4.0 ([128c4b5](https://github.com/forcedotcom/telemetry/commit/128c4b5a6538102183d3ea2bfaec9d152402d00a))
+
+
+
 ## [5.0.12](https://github.com/forcedotcom/telemetry/compare/5.0.11...5.0.12) (2024-02-17)
 
 
