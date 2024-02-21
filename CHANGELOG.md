@@ -1,3 +1,12 @@
+## [5.0.14](https://github.com/forcedotcom/telemetry/compare/5.0.13...5.0.14) (2024-02-21)
+
+
+### Bug Fixes
+
+* **deps:** bump ip from 1.1.8 to 1.1.9 ([9a5ea65](https://github.com/forcedotcom/telemetry/commit/9a5ea655c591a9a6e93930386c34eee41075aeeb))
+
+
+
 ## [5.0.13](https://github.com/forcedotcom/telemetry/compare/5.0.12...5.0.13) (2024-02-17)
 
 
