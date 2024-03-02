@@ -1152,10 +1152,10 @@ append-transform@^2.0.0:
   dependencies:
     default-require-extensions "^3.0.0"
 
-applicationinsights@^2.9.4:
-  version "2.9.4"
-  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-2.9.4.tgz#c61527357645dbc4c5b134aae854e5620c95a993"
-  integrity sha512-mMWW/E+1wy3oreeH1xJd2N5WIwIz4xj3JKneHOi7gHFqPjxgFV68mdKMEeM3YhLK1nC6k+M6Ekhf7e9WhQCSSw==
+applicationinsights@^2.9.5:
+  version "2.9.5"
+  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-2.9.5.tgz#34bcf71ad596721c520987a252e40d7495aa3503"
+  integrity sha512-APQ8IWyYDHFvKbitFKpsmZXxkzQh0yYTFacQqoVW7HwlPo3eeLprwnq5RFNmmG6iqLmvQ+xRJSDLEQCgqPh+bw==
   dependencies:
     "@azure/core-auth" "^1.5.0"
     "@azure/core-rest-pipeline" "1.10.1"
