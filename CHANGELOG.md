@@ -1,3 +1,12 @@
+## [5.0.16](https://github.com/forcedotcom/telemetry/compare/5.0.15...5.0.16) (2024-03-02)
+
+
+### Bug Fixes
+
+* **deps:** bump applicationinsights from 2.9.4 to 2.9.5 ([7f74b10](https://github.com/forcedotcom/telemetry/commit/7f74b104a289f1fbd3ebd3ec4adf52484523bc56))
+
+
+
 ## [5.0.15](https://github.com/forcedotcom/telemetry/compare/5.0.14...5.0.15) (2024-02-24)
 
 
