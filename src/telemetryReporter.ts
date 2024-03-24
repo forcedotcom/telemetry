@@ -83,7 +83,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
         },
         timeout: {
           lookup: 100,
-          send: 10000,
+          send: 10_000,
           response: 1000,
         },
       });
