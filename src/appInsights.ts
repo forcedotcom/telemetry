@@ -7,7 +7,6 @@
 import * as os from 'node:os';
 import { Logger } from '@salesforce/core';
 import { AsyncCreatable, Env } from '@salesforce/kit';
-import { isBoolean, isNumber, isString, JsonPrimitive } from '@salesforce/ts-types';
 import * as appInsights from 'applicationinsights';
 
 export { TelemetryClient } from 'applicationinsights';
@@ -21,7 +20,7 @@ export type Measurements = {
 };
 
 export type Attributes = {
-  [key: string]: JsonPrimitive | undefined;
+  [key: string]: string | number | boolean | null | undefined;
 };
 
 export interface TelemetryOptions {
@@ -80,11 +79,11 @@ export function buildPropertiesAndMeasurements(attributes: Attributes): {
   const measurements: Measurements = {};
   Object.keys(attributes).forEach((key) => {
     const value = attributes[key];
-    if (isString(value)) {
+    if (typeof value === 'string') {
       properties[key] = value.replace(homeDir, '~');
-    } else if (isNumber(value)) {
+    } else if (typeof value === 'number') {
       measurements[key] = value;
-    } else if (isBoolean(value)) {
+    } else if (typeof value === 'boolean') {
       properties[key] = value.toString();
     }
   });

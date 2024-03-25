@@ -15,7 +15,6 @@
     "clean": "sf-clean",
     "clean-all": "sf-clean all",
     "compile": "wireit",
-    "docs": "sf-docs",
     "format": "wireit",
     "link-check": "wireit",
     "lint": "wireit",
@@ -41,13 +40,13 @@
   ],
   "dependencies": {
     "@salesforce/core": "^6.7.3",
-    "@salesforce/ts-types": "^2.0.9",
+    "@salesforce/kit": "^3.0.15",
     "applicationinsights": "^2.9.5",
     "got": "^11",
     "proxy-agent": "^6.4.0"
   },
   "devDependencies": {
-    "@salesforce/dev-scripts": "^8.4.1",
+    "@salesforce/dev-scripts": "^8.4.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
   },

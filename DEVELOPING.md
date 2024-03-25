@@ -19,7 +19,7 @@ You would only do this once after you cloned the repository.
 
 1. Clone this repository from git.
 1. `cd` into `command`.
-1. We develop using feature brances off `main` and release from the `main` branch. At
+1. We develop using feature branches off `main` and release from the `main` branch. At
    this point, it should be set to `main` by default. If not, run `git checkout -t origin/main`.
 1. `yarn` to bring in all the top-level dependencies.
 1. Open the project in your editor of choice.
@@ -42,10 +42,6 @@ This cleans all generated files and directories. Run `yarn clean-all` to also cl
 ### `yarn test`
 
 This tests the typescript using ts-node.
-
-### `yarn docs`
-
-This generates documentation into [docs](docs).
 
 ### `yarn lint`
 
