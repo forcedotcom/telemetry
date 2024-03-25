@@ -15,7 +15,6 @@
     "clean": "sf-clean",
     "clean-all": "sf-clean all",
     "compile": "wireit",
-    "docs": "sf-docs",
     "format": "wireit",
     "link-check": "wireit",
     "lint": "wireit",
