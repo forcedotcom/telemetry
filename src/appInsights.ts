@@ -23,7 +23,7 @@ export type Attributes = {
   [key: string]: string | number | boolean | null | undefined;
 };
 
-export interface TelemetryOptions {
+export type TelemetryOptions = {
   project: string;
   key: string;
   commonProperties?: Properties;
