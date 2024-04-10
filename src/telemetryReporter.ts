@@ -11,7 +11,7 @@ import { AsyncCreatable, env } from '@salesforce/kit';
 import got from 'got';
 import { ProxyAgent } from 'proxy-agent';
 import { AppInsights, type Attributes, type Properties, type TelemetryOptions } from './appInsights';
-import { TelemetryClient } from './exported';
+import { TelemetryClient } from './appInsights';
 import { isEnabled } from './enabledCheck';
 
 export { TelemetryOptions, Attributes, Properties, TelemetryClient } from './appInsights';
