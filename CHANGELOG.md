@@ -1,3 +1,15 @@
+# [6.0.0](https://github.com/forcedotcom/telemetry/compare/5.0.21...6.0.0) (2024-04-10)
+
+
+* feat!: core7, node17 modules (#363) ([ed3569c](https://github.com/forcedotcom/telemetry/commit/ed3569ccbafa2fb58daa7706a682c271eb5b8a4d)), closes [#363](https://github.com/forcedotcom/telemetry/issues/363)
+
+
+### BREAKING CHANGES
+
+* core imports from top-level, core7
+
+
+
 ## [5.0.21](https://github.com/forcedotcom/telemetry/compare/5.0.20...5.0.21) (2024-04-06)
 
 
