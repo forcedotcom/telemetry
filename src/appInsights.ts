@@ -5,7 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import * as os from 'node:os';
-import { Logger } from '@salesforce/core';
+import { Logger } from '@salesforce/core/logger';
 import { AsyncCreatable, Env } from '@salesforce/kit';
 import * as appInsights from 'applicationinsights';
 
@@ -33,7 +33,7 @@ export type TelemetryOptions = {
   userId?: string;
   sessionId?: string;
   waitForConnection?: boolean;
-}
+};
 
 export function getPlatformVersion(): string {
   return (os.release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3');

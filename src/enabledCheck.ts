@@ -6,8 +6,8 @@
  */
 
 // deep imports to avoid requiring the ENTIRE package (which will also pull in jsforce) until we get ESM done
-import { ConfigAggregator } from '@salesforce/core/lib/config/configAggregator';
-import { SfConfigProperties } from '@salesforce/core/lib/config/config';
+import { ConfigAggregator } from '@salesforce/core/configAggregator';
+import { SfConfigProperties } from '@salesforce/core/config';
 
 // store the result to reduce checks
 let enabled: boolean | undefined;

@@ -3,6 +3,8 @@
   "include": ["unit/**/*.ts", "../node_modules/@types/**/*.d.ts"],
   "compilerOptions": {
     "noEmit": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "moduleResolution": "Node16",
+    "module": "Node16"
   }
 }
