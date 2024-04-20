@@ -1,3 +1,12 @@
+## [6.0.2](https://github.com/forcedotcom/telemetry/compare/6.0.1...6.0.2) (2024-04-20)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/kit from 3.1.0 to 3.1.1 ([ce54635](https://github.com/forcedotcom/telemetry/commit/ce546356c8a745f347c37794916da029bcdd76e1))
+
+
+
 ## [6.0.1](https://github.com/forcedotcom/telemetry/compare/6.0.0...6.0.1) (2024-04-13)
 
 
