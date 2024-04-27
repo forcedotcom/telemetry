@@ -1,3 +1,12 @@
+## [6.0.4](https://github.com/forcedotcom/telemetry/compare/6.0.3...6.0.4) (2024-04-27)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 7.3.0 to 7.3.1 ([339f285](https://github.com/forcedotcom/telemetry/commit/339f285c229fccb6cda368e1556e8e104c218793))
+
+
+
 ## [6.0.3](https://github.com/forcedotcom/telemetry/compare/6.0.2...6.0.3) (2024-04-20)
 
 
