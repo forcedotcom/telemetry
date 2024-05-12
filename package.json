@@ -47,7 +47,7 @@
     "proxy-agent": "^6.4.0"
   },
   "devDependencies": {
-    "@salesforce/dev-scripts": "^9.0.0",
+    "@salesforce/dev-scripts": "^9.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
