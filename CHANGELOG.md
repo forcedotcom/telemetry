@@ -1,3 +1,12 @@
+## [6.0.11](https://github.com/forcedotcom/telemetry/compare/6.0.10...6.0.11) (2024-06-13)
+
+
+### Bug Fixes
+
+* **deps:** bump braces from 3.0.2 to 3.0.3 ([c5f3a6b](https://github.com/forcedotcom/telemetry/commit/c5f3a6bb739de3590da9bd52c357b1bff8f4f86f))
+
+
+
 ## [6.0.10](https://github.com/forcedotcom/telemetry/compare/6.0.9...6.0.10) (2024-06-08)
 
 
