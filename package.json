@@ -40,14 +40,14 @@
     "!lib/**/*.map"
   ],
   "dependencies": {
-    "@salesforce/core": "^7.4.1",
-    "@salesforce/kit": "^3.1.4",
+    "@salesforce/core": "^8.0.1",
+    "@salesforce/kit": "^3.1.6",
     "applicationinsights": "^2.9.5",
     "got": "^11",
     "proxy-agent": "^6.4.0"
   },
   "devDependencies": {
-    "@salesforce/dev-scripts": "^10.1.0",
+    "@salesforce/dev-scripts": "^10.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
