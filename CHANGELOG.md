@@ -1,3 +1,7 @@
+## [6.0.14](https://github.com/forcedotcom/telemetry/compare/6.0.13...6.0.14) (2024-06-19)
+
+
+
 ## [6.0.13](https://github.com/forcedotcom/telemetry/compare/6.0.12...6.0.13) (2024-06-15)
 
 
