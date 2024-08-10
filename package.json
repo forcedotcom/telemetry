@@ -40,7 +40,7 @@
     "!lib/**/*.map"
   ],
   "dependencies": {
-    "@salesforce/core": "^8.2.8",
+    "@salesforce/core": "^8.3.0",
     "@salesforce/kit": "^3.2.1",
     "applicationinsights": "^2.9.5",
     "got": "^11",
