@@ -1,3 +1,12 @@
+## [6.0.24](https://github.com/forcedotcom/telemetry/compare/6.0.23...6.0.24) (2024-08-17)
+
+
+### Bug Fixes
+
+* **deps:** bump applicationinsights from 2.9.5 to 2.9.6 ([7ac72b5](https://github.com/forcedotcom/telemetry/commit/7ac72b502875e888130f77ff8de9bf2454c750f5))
+
+
+
 ## [6.0.23](https://github.com/forcedotcom/telemetry/compare/6.0.22...6.0.23) (2024-08-10)
 
 
