@@ -1,6 +1,6 @@
 {
   "name": "@salesforce/telemetry",
-  "version": "6.0.26",
+  "version": "6.0.27",
   "description": "Library for application insights",
   "main": "lib/exported",
   "exports": {

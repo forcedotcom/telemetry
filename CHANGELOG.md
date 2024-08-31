@@ -1,3 +1,12 @@
+## [6.0.27](https://github.com/forcedotcom/telemetry/compare/6.0.26...6.0.27) (2024-08-31)
+
+
+### Bug Fixes
+
+* **deps:** bump micromatch from 4.0.5 to 4.0.8 ([4c03e97](https://github.com/forcedotcom/telemetry/commit/4c03e97bd1288c61e5b129db4ff6412e8b8f5bf4))
+
+
+
 ## [6.0.26](https://github.com/forcedotcom/telemetry/compare/6.0.25...6.0.26) (2024-08-31)
 
 
