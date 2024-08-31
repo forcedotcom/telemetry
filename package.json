@@ -41,7 +41,7 @@
   ],
   "dependencies": {
     "@salesforce/core": "^8.4.0",
-    "@salesforce/kit": "^3.2.1",
+    "@salesforce/kit": "^3.2.2",
     "applicationinsights": "^2.9.6",
     "got": "^11",
     "proxy-agent": "^6.4.0"
