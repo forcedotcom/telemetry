@@ -1,3 +1,12 @@
+## [6.0.30](https://github.com/forcedotcom/telemetry/compare/6.0.29...6.0.30) (2024-09-12)
+
+
+### Bug Fixes
+
+* **deps:** bump path-to-regexp from 1.8.0 to 1.9.0 ([75d9e6a](https://github.com/forcedotcom/telemetry/commit/75d9e6a81cadb4309e8bd0c7c8df546caba75e36))
+
+
+
 ## [6.0.29](https://github.com/forcedotcom/telemetry/compare/6.0.28...6.0.29) (2024-09-07)
 
 
