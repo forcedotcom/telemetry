@@ -1,3 +1,12 @@
+## [6.0.38](https://github.com/forcedotcom/telemetry/compare/6.0.37...6.0.38) (2024-11-16)
+
+
+### Bug Fixes
+
+* **deps:** bump cross-spawn from 7.0.3 to 7.0.5 ([65cd053](https://github.com/forcedotcom/telemetry/commit/65cd053fb43ca7054ebab640ddd32cfa0af4dc4f))
+
+
+
 ## [6.0.37](https://github.com/forcedotcom/telemetry/compare/6.0.36...6.0.37) (2024-11-16)
 
 
