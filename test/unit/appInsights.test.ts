@@ -102,8 +102,8 @@ describe('AppInsights', () => {
   });
 
   it('should separate string attributes from numeric attributes', () => {
-    const attributes = { foo: 'testValue', baz: 5, key: true };
-    const expectedProperties = { foo: 'testValue', key: 'true' };
+    const attributes = { foo: 'xyz123', baz: 5, key: true };
+    const expectedProperties = { foo: 'xyz123', key: 'true' };
     const expectedMeasurements = { baz: 5 };
     const { properties, measurements } = buildPropertiesAndMeasurements(attributes);
     expect(properties).to.deep.equal(expectedProperties);
