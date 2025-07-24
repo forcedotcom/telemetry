@@ -4,17 +4,22 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+import * as os from 'node:os';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { O11yReporter } from '../../src/o11yReporter';
 import { O11yService } from '@salesforce/o11y-reporter';
+import { O11yReporter } from '../../src/o11yReporter';
 
 describe('O11yReporter', () => {
   const extensionName = 'test-extension';
   const uploadEndpoint = 'https://test-o11y-endpoint.com/upload';
 
   let sandbox: sinon.SinonSandbox;
-  let mockO11yService: any;
+  let mockO11yService: {
+    initialize: sinon.SinonStub;
+    logEvent: sinon.SinonStub;
+    upload: sinon.SinonStub;
+  };
   let reporter: O11yReporter;
 
   beforeEach(() => {
@@ -28,7 +33,7 @@ describe('O11yReporter', () => {
     };
 
     // Stub the O11yService.getInstance method
-    sandbox.stub(O11yService, 'getInstance').returns(mockO11yService);
+    sandbox.stub(O11yService, 'getInstance').returns(mockO11yService as unknown as O11yService);
   });
 
   afterEach(() => {
@@ -111,7 +116,7 @@ describe('O11yReporter', () => {
     });
 
     it('should sanitize home directory in error information', async () => {
-      const homeDir = require('os').homedir();
+      const homeDir = os.homedir();
       const error = new Error(`Error in ${homeDir}/test/file.js`);
       error.stack = `Error: Test\n    at ${homeDir}/test/file.js:1:1`;
       
