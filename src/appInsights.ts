@@ -8,32 +8,9 @@ import * as os from 'node:os';
 import { Logger } from '@salesforce/core/logger';
 import { AsyncCreatable, Env } from '@salesforce/kit';
 import * as appInsights from 'applicationinsights';
+import { Properties, Attributes, buildPropertiesAndMeasurements, TelemetryOptions } from './types';
 
 export { TelemetryClient } from 'applicationinsights';
-
-export type Properties = {
-  [key: string]: string;
-};
-
-export type Measurements = {
-  [key: string]: number;
-};
-
-export type Attributes = {
-  [key: string]: string | number | boolean | null | undefined;
-};
-
-export type TelemetryOptions = {
-  project: string;
-  key: string;
-  commonProperties?: Properties;
-  contextTags?: Properties;
-  env?: Env;
-  gdprSensitiveKeys?: string[];
-  userId?: string;
-  sessionId?: string;
-  waitForConnection?: boolean;
-};
 
 export function getPlatformVersion(): string {
   return (os.release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3');
@@ -69,25 +46,6 @@ function getSystemMemory(): string {
 
 function isAsimovKey(key: string): boolean {
   return !!key?.startsWith('AIF-');
-}
-
-export function buildPropertiesAndMeasurements(attributes: Attributes): {
-  properties: Properties;
-  measurements: Measurements;
-} {
-  const properties: Properties = {};
-  const measurements: Measurements = {};
-  Object.keys(attributes).forEach((key) => {
-    const value = attributes[key];
-    if (typeof value === 'string') {
-      properties[key] = value.replace(homeDir, '~');
-    } else if (typeof value === 'number') {
-      measurements[key] = value;
-    } else if (typeof value === 'boolean') {
-      properties[key] = value.toString();
-    }
-  });
-  return { properties, measurements };
 }
 
 /**

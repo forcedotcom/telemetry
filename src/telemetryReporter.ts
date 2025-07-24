@@ -10,24 +10,27 @@ import { AsyncCreatable, env } from '@salesforce/kit';
 
 import got from 'got';
 import { ProxyAgent } from 'proxy-agent';
-import { AppInsights, type Attributes, type Properties, type TelemetryOptions } from './appInsights';
-import { TelemetryClient } from './appInsights';
+import { AppInsights, TelemetryClient } from './appInsights';
 import { isEnabled } from './enabledCheck';
-
-export { TelemetryOptions, Attributes, Properties, TelemetryClient } from './appInsights';
+import { O11yReporter } from './o11yReporter';
+import { Attributes, Properties, TelemetryOptions } from './types';
 
 /**
- * Reports telemetry events to app insights. We do not send if the config 'disableTelemetry' is set.
+ * This is the main telemetry reporter that should be used by consumers.
+ * It will check if telemetry is disabled and do GDPR checks.
  */
 export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
-  private enabled = false;
+  private enabled = true;
   private options: TelemetryOptions;
   private logger!: Logger;
   private reporter!: AppInsights;
+  private enableO11y: boolean;
+  private o11yReporter?: O11yReporter;
 
   public constructor(options: TelemetryOptions) {
     super(options);
     this.options = options;
+    this.enableO11y = options.enableO11y ?? false; // default to false for backward compatibility
   }
 
   /**
@@ -42,8 +45,27 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
   public async init(): Promise<void> {
     this.enabled = await isEnabled();
     this.logger = await Logger.child('TelemetryReporter');
+
     if (this.options.waitForConnection) await this.waitForConnection();
     this.reporter = await AppInsights.create(this.options);
+
+    // Only initialize O11yReporter if enableO11y is true AND o11yUploadEndpoint is provided
+    if (this.enableO11y) {
+      if (this.options.o11yUploadEndpoint) {
+        try {
+          this.o11yReporter = new O11yReporter({
+            extensionName: this.options.project,
+            uploadEndpoint: this.options.o11yUploadEndpoint,
+          });
+          this.logger.debug('O11y reporter initialized successfully');
+        } catch (error) {
+          this.logger.warn('Failed to initialize O11y reporter:', error);
+          this.o11yReporter = undefined;
+        }
+      } else {
+        this.logger.warn('O11y reporter not initialized: o11yUploadEndpoint is missing.');
+      }
+    }
   }
 
   /**
@@ -60,6 +82,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    */
   public stop(): void {
     this.reporter.stop();
+    void this.o11yReporter?.flush();
   }
 
   public async waitForConnection(): Promise<void> {
@@ -100,53 +123,91 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
   }
 
   /**
-   * Sends message to child process.
+   * Sends message to both AppInsights and O11y (if enabled).
    *
    * @param eventName {string} - name of the event you want published.
    * @param attributes {Attributes} - map of properties to publish alongside the event.
    */
   public sendTelemetryEvent(eventName: string, attributes: Attributes = {}): void {
+    // Send to AppInsights only if SFDX telemetry is enabled
     if (this.isSfdxTelemetryEnabled()) {
       this.reporter.sendTelemetryEvent(eventName, attributes);
     }
-  }
 
-  /**
-   * Sends exception to child process.
-   *
-   * @param exception {Error} - exception you want published.
-   * @param attributes {Attributes} - map of measurements to publish alongside the event.
-   */
-  public sendTelemetryException(exception: Error, attributes: Attributes = {}): void {
-    if (this.isSfdxTelemetryEnabled()) {
-      // Scrub stack for GDPR
-      exception.stack = exception.stack?.replace(new RegExp(os.homedir(), 'g'), AppInsights.GDPR_HIDDEN);
-      this.reporter.sendTelemetryException(exception, attributes);
+    // Send to O11y if enabled (independent of SFDX telemetry setting)
+    if (this.enableO11y && this.o11yReporter) {
+      void this.o11yReporter.sendTelemetryEvent(eventName, attributes).catch((error) => {
+        this.logger.debug('Failed to send event to O11y:', error);
+      });
     }
   }
 
   /**
-   * Publishes diagnostic information to app insights dashboard
+   * Sends exception to both AppInsights and O11y (if enabled).
    *
-   * @param traceMessage {string} - trace message to sen to app insights.
+   * @param exception {Error} - exception you want published.
+   * @param attributes {Attributes} - map of measurements to publish alongside the exception.
+   */
+  public sendTelemetryException(exception: Error, attributes: Attributes = {}): void {
+    // Send to AppInsights only if SFDX telemetry is enabled
+    if (this.isSfdxTelemetryEnabled()) {
+      // Scrub stack for GDPR
+      const sanitizedException = new Error(exception.message);
+      sanitizedException.name = exception.name;
+      sanitizedException.stack = exception.stack?.replace(new RegExp(os.homedir(), 'g'), AppInsights.GDPR_HIDDEN);
+
+      // Send to AppInsights
+      this.reporter.sendTelemetryException(sanitizedException, attributes);
+    }
+
+    // Send to O11y if enabled (independent of SFDX telemetry setting)
+    if (this.enableO11y && this.o11yReporter) {
+      void this.o11yReporter.sendTelemetryException(exception, attributes).catch((error) => {
+        this.logger.debug('Failed to send exception to O11y:', error);
+      });
+    }
+  }
+
+  /**
+   * Publishes diagnostic information to both AppInsights and O11y (if enabled).
+   *
+   * @param traceMessage {string} - trace message to send to app insights.
    * @param properties {Properties} - map of properties to publish alongside the event.
    */
   public sendTelemetryTrace(traceMessage: string, properties?: Properties): void {
+    // Send to AppInsights only if SFDX telemetry is enabled
     if (this.isSfdxTelemetryEnabled()) {
+      // Send to AppInsights
       this.reporter.sendTelemetryTrace(traceMessage, properties);
+    }
+
+    // Send to O11y if enabled (independent of SFDX telemetry setting)
+    if (this.enableO11y && this.o11yReporter) {
+      void this.o11yReporter.sendTelemetryTrace(traceMessage, properties).catch((error) => {
+        this.logger.debug('Failed to send trace to O11y:', error);
+      });
     }
   }
 
   /**
-   * Publishes metric to app insights dashboard
+   * Publishes metric to both AppInsights and O11y (if enabled).
    *
    * @param metricName {string} - name of the metric you want published
    * @param value {number} - value of the metric
    * @param properties {Properties} - map of properties to publish alongside the event.
    */
   public sendTelemetryMetric(metricName: string, value: number, properties?: Properties): void {
+    // Send to AppInsights only if SFDX telemetry is enabled
     if (this.isSfdxTelemetryEnabled()) {
+      // Send to AppInsights
       this.reporter.sendTelemetryMetric(metricName, value, properties);
+    }
+
+    // Send to O11y if enabled (independent of SFDX telemetry setting)
+    if (this.enableO11y && this.o11yReporter) {
+      void this.o11yReporter.sendTelemetryMetric(metricName, value, properties).catch((error) => {
+        this.logger.debug('Failed to send metric to O11y:', error);
+      });
     }
   }
 
