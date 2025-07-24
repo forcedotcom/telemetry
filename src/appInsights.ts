@@ -11,6 +11,7 @@ import * as appInsights from 'applicationinsights';
 import { Properties, Attributes, buildPropertiesAndMeasurements, TelemetryOptions } from './types';
 
 export { TelemetryClient } from 'applicationinsights';
+export { buildPropertiesAndMeasurements } from './types';
 
 export function getPlatformVersion(): string {
   return (os.release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3');
