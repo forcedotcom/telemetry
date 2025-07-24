@@ -20,7 +20,7 @@ import { Attributes, Properties, TelemetryOptions } from './types';
  * It will check if telemetry is disabled and do GDPR checks.
  */
 export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
-  private enabled = true;
+  private enabled = false;
   private options: TelemetryOptions;
   private logger!: Logger;
   private reporter!: AppInsights;
