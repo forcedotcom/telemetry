@@ -6,7 +6,8 @@
  */
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { AppInsights, buildPropertiesAndMeasurements } from '../../src/appInsights';
+import { AppInsights } from '../../src/appInsights';
+import { buildPropertiesAndMeasurements } from '../../src/utils';
 import set = Reflect.set;
 
 describe('AppInsights', () => {

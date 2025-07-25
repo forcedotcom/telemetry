@@ -12,7 +12,9 @@ import { O11yReporter } from '../../src/o11yReporter';
 
 describe('O11yReporter', () => {
   const extensionName = 'test-extension';
-  const uploadEndpoint = 'https://test-o11y-endpoint.com/upload';
+  const o11yUploadEndpoint = 'https://test-o11y-endpoint.com/upload';
+  const project = 'test-project';
+  const key = 'test-key';
 
   let sandbox: sinon.SinonSandbox;
   let mockO11yService: {
@@ -42,14 +44,14 @@ describe('O11yReporter', () => {
 
   describe('constructor', () => {
     it('should initialize with basic options', () => {
-      reporter = new O11yReporter({ extensionName, uploadEndpoint });
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint });
       
       expect(mockO11yService.initialize.called).to.be.true;
     });
 
     it('should initialize with common properties', () => {
       const commonProperties = { testProp: 'testValue' };
-      reporter = new O11yReporter({ extensionName, uploadEndpoint, commonProperties });
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint, commonProperties });
       
       expect(mockO11yService.initialize.called).to.be.true;
     });
@@ -57,7 +59,7 @@ describe('O11yReporter', () => {
 
   describe('sendTelemetryEvent', () => {
     beforeEach(() => {
-      reporter = new O11yReporter({ extensionName, uploadEndpoint });
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint });
     });
 
     it('should send telemetry event with basic event name', async () => {
@@ -95,7 +97,7 @@ describe('O11yReporter', () => {
 
   describe('sendTelemetryException', () => {
     beforeEach(() => {
-      reporter = new O11yReporter({ extensionName, uploadEndpoint });
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint });
     });
 
     it('should send telemetry exception with sanitized error', async () => {
@@ -134,7 +136,7 @@ describe('O11yReporter', () => {
 
   describe('sendTelemetryTrace', () => {
     beforeEach(() => {
-      reporter = new O11yReporter({ extensionName, uploadEndpoint });
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint });
     });
 
     it('should send telemetry trace with message', async () => {
@@ -153,7 +155,7 @@ describe('O11yReporter', () => {
 
   describe('sendTelemetryMetric', () => {
     beforeEach(() => {
-      reporter = new O11yReporter({ extensionName, uploadEndpoint });
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint });
     });
 
     it('should send telemetry metric with name and value', async () => {
@@ -174,7 +176,7 @@ describe('O11yReporter', () => {
 
   describe('flush', () => {
     beforeEach(() => {
-      reporter = new O11yReporter({ extensionName, uploadEndpoint });
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint });
     });
 
     it('should call upload on the service', async () => {

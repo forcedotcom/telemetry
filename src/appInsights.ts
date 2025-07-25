@@ -4,46 +4,16 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import * as os from 'node:os';
 import { Logger } from '@salesforce/core/logger';
-import { AsyncCreatable, Env } from '@salesforce/kit';
+import { Env } from '@salesforce/kit';
 import * as appInsights from 'applicationinsights';
-import { Properties, Attributes, buildPropertiesAndMeasurements, TelemetryOptions } from './types';
+import { Properties, Attributes, TelemetryOptions } from './types';
+import { buildPropertiesAndMeasurements } from './utils';
+import { BaseReporter } from './baseReporter';
 
 export { TelemetryClient } from 'applicationinsights';
-export { buildPropertiesAndMeasurements } from './types';
 
-export function getPlatformVersion(): string {
-  return (os.release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3');
-}
 
-export function getCpus(): string {
-  const cpus = os.cpus();
-  if (cpus && cpus.length > 0) {
-    return `${cpus[0].model}(${cpus.length} x ${cpus[0].speed})`;
-  } else {
-    return '';
-  }
-}
-
-const homeDir = os.homedir();
-
-const sanitizeError = (err: Error): Error => {
-  if (err.name) {
-    err.name = err.name.replace(homeDir, '~');
-  }
-  if (err.message) {
-    err.message = err.message.replace(homeDir, '~');
-  }
-  if (err.stack) {
-    // there might be lots of this one
-    err.stack = err.stack.replace(new RegExp(`\b${homeDir}\b`, 'gi'), '~');
-  }
-  return err;
-};
-function getSystemMemory(): string {
-  return `${(os.totalmem() / (1024 * 1024 * 1024)).toFixed(2)} GB`;
-}
 
 function isAsimovKey(key: string): boolean {
   return !!key?.startsWith('AIF-');
@@ -55,7 +25,7 @@ function isAsimovKey(key: string): boolean {
  * NOTE: THis should not be used directly. Use TelemetryReporter which
  * will check if telemetry is disabled and do GDPR checks.
  */
-export class AppInsights extends AsyncCreatable<TelemetryOptions> {
+export class AppInsights extends BaseReporter {
   public static GDPR_HIDDEN = '<GDPR_HIDDEN>';
   public static APP_INSIGHTS_SERVER = 'https://dc.services.visualstudio.com';
   private static ASIMOV_ENDPOINT = 'https://vortex.data.microsoft.com/collect/v1';
@@ -105,7 +75,7 @@ export class AppInsights extends AsyncCreatable<TelemetryOptions> {
    * @param attributes {Attributes} - map of measurements to publish alongside the exception.
    */
   public sendTelemetryException(exception: Error, attributes: Attributes = {}): void {
-    const cleanException = sanitizeError(exception);
+    const cleanException = this.sanitizeError(exception);
     this.logger.debug(`Sending telemetry exception: ${cleanException.message}`);
     const { properties, measurements } = buildPropertiesAndMeasurements(attributes);
     this.appInsightsClient.trackException({ exception: cleanException, properties, measurements });
@@ -154,7 +124,7 @@ export class AppInsights extends AsyncCreatable<TelemetryOptions> {
     appInsights.setup(this.options.key);
 
     this.appInsightsClient = appInsights.defaultClient;
-    this.appInsightsClient.commonProperties = this.buildCommonProperties();
+    this.appInsightsClient.commonProperties = this.buildAppInsightsCommonProperties();
     this.appInsightsClient.context.tags = this.buildContextTags();
 
     if (isAsimovKey(this.options.key)) {
@@ -173,14 +143,9 @@ export class AppInsights extends AsyncCreatable<TelemetryOptions> {
    *
    * @return {Properties} map of base properties and properties provided when class was created
    */
-  private buildCommonProperties(): Properties {
-    const baseProperties: Properties = {
-      'common.cpus': getCpus(),
-      'common.os': os.platform(),
-      'common.platformversion': getPlatformVersion(),
-      'common.systemmemory': getSystemMemory(),
-      'common.usertype': this.env.getString('SFDX_USER_TYPE') ?? 'normal',
-    };
+  private buildAppInsightsCommonProperties(): Properties {
+    const baseProperties = this.buildCommonProperties();
+    baseProperties['common.usertype'] = this.env.getString('SFDX_USER_TYPE') ?? 'normal';
     return Object.assign(baseProperties, this.options.commonProperties);
   }
 

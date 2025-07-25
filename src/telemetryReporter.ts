@@ -49,14 +49,11 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
     if (this.options.waitForConnection) await this.waitForConnection();
     this.reporter = await AppInsights.create(this.options);
 
-    // Only initialize O11yReporter if enableO11y is true AND o11yUploadEndpoint is provided
-    if (this.enableO11y) {
+    // Only initialize O11yReporter if telemetry is enabled, enableO11y is true AND o11yUploadEndpoint is provided
+    if (this.isSfdxTelemetryEnabled() && this.enableO11y) {
       if (this.options.o11yUploadEndpoint) {
         try {
-          this.o11yReporter = new O11yReporter({
-            extensionName: this.options.project,
-            uploadEndpoint: this.options.o11yUploadEndpoint,
-          });
+          this.o11yReporter = new O11yReporter(this.options);
           this.logger.debug('O11y reporter initialized successfully');
         } catch (error) {
           this.logger.warn('Failed to initialize O11y reporter:', error);
@@ -134,8 +131,8 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
       this.reporter.sendTelemetryEvent(eventName, attributes);
     }
 
-    // Send to O11y if enabled (independent of SFDX telemetry setting)
-    if (this.enableO11y && this.o11yReporter) {
+    // Send to O11y if telemetry is enabled and O11y is enabled
+    if (this.isSfdxTelemetryEnabled() && this.enableO11y && this.o11yReporter) {
       void this.o11yReporter.sendTelemetryEvent(eventName, attributes).catch((error) => {
         this.logger.debug('Failed to send event to O11y:', error);
       });
@@ -160,8 +157,8 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
       this.reporter.sendTelemetryException(sanitizedException, attributes);
     }
 
-    // Send to O11y if enabled (independent of SFDX telemetry setting)
-    if (this.enableO11y && this.o11yReporter) {
+    // Send to O11y if telemetry is enabled and O11y is enabled
+    if (this.isSfdxTelemetryEnabled() && this.enableO11y && this.o11yReporter) {
       void this.o11yReporter.sendTelemetryException(exception, attributes).catch((error) => {
         this.logger.debug('Failed to send exception to O11y:', error);
       });
@@ -181,8 +178,8 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
       this.reporter.sendTelemetryTrace(traceMessage, properties);
     }
 
-    // Send to O11y if enabled (independent of SFDX telemetry setting)
-    if (this.enableO11y && this.o11yReporter) {
+    // Send to O11y if telemetry is enabled and O11y is enabled
+    if (this.isSfdxTelemetryEnabled() && this.enableO11y && this.o11yReporter) {
       void this.o11yReporter.sendTelemetryTrace(traceMessage, properties).catch((error) => {
         this.logger.debug('Failed to send trace to O11y:', error);
       });
@@ -203,8 +200,8 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
       this.reporter.sendTelemetryMetric(metricName, value, properties);
     }
 
-    // Send to O11y if enabled (independent of SFDX telemetry setting)
-    if (this.enableO11y && this.o11yReporter) {
+    // Send to O11y if telemetry is enabled and O11y is enabled
+    if (this.isSfdxTelemetryEnabled() && this.enableO11y && this.o11yReporter) {
       void this.o11yReporter.sendTelemetryMetric(metricName, value, properties).catch((error) => {
         this.logger.debug('Failed to send metric to O11y:', error);
       });
