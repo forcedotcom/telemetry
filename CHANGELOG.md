@@ -1,3 +1,20 @@
+# [6.1.0](https://github.com/forcedotcom/telemetry/compare/6.0.39...6.1.0) (2025-07-25)
+
+
+### Bug Fixes
+
+* @W-19094657 - fix failing test in appInsights.test.ts ([b27241c](https://github.com/forcedotcom/telemetry/commit/b27241ccdd5ca976034f863c84dcfb34500acf5e))
+* @W-19094657 - make appInsights test cross-platform compatible ([7bbaa17](https://github.com/forcedotcom/telemetry/commit/7bbaa17c5c222d12dd3f4e34752aa3bafaacac24))
+* @W-19094657 - resolve lint issues in o11yReporter.test.ts ([3affd36](https://github.com/forcedotcom/telemetry/commit/3affd365244da81bffa559bc2cd257a8f9556ed2))
+* @W-19094657 - use non-conflicting test value in appInsights test ([c7363c9](https://github.com/forcedotcom/telemetry/commit/c7363c921b19c07e0bc2fc7f6b26ded4014f28a9))
+
+
+### Features
+
+* @W-19094657 - enhance telemetry to add support to report to o11y ([4b9448c](https://github.com/forcedotcom/telemetry/commit/4b9448c42db6e37b79acbf1e8fcf223f1d543dec))
+
+
+
 ## [6.0.39](https://github.com/forcedotcom/telemetry/compare/6.0.38...6.0.39) (2024-12-07)
 
 
