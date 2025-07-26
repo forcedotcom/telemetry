@@ -710,9 +710,9 @@
   integrity sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==
 
 "@salesforce/core@^8.8.0":
-  version "8.18.4"
-  resolved "https://registry.npmjs.org/@salesforce/core/-/core-8.18.4.tgz#c10ae86d91d5ec25603eb2e38e9627acd762edfb"
-  integrity sha512-mh5cf/0aJpADBrKh6i6LGXR6zn7b1Z1aYmwrHYvSMAUJbaPgyRqOyF35HiNgyoGU7yJ4pP6wsd1sLaL1L4+n7A==
+  version "8.18.5"
+  resolved "https://registry.npmjs.org/@salesforce/core/-/core-8.18.5.tgz#8205f3b1ee9ef63740128bef81cc32213a76296a"
+  integrity sha512-zQSIjo0L0ddcZbj3Oxxig2J6aYL5H5FY45TpXAXpjGe0UPWNxXkU2mrcDfs9OSn0MhM3uMj4fUIM1a158/3Lug==
   dependencies:
     "@jsforce/jsforce-node" "^3.9.1"
     "@salesforce/kit" "^3.2.2"
@@ -777,13 +777,13 @@
   dependencies:
     "@salesforce/ts-types" "^2.0.12"
 
-"@salesforce/o11y-reporter@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/@salesforce/o11y-reporter/-/o11y-reporter-1.1.1.tgz#9f54de3400bc9b97ec52309705e8b8dcb400c831"
-  integrity sha512-YWMdtCKycxe/yZN2G/84TMyQKmJ/9iudp4VS/XCpO0fF0Qyx5nzz5kxC4TBSBwpSQowLGLx4+kVy8HYC2p0L6w==
+"@salesforce/o11y-reporter@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/@salesforce/o11y-reporter/-/o11y-reporter-1.1.2.tgz#69964035ea84ac66592b3155d672debf5fd465c2"
+  integrity sha512-dsnDKOSiTFPQO+L1j20MfZTlBL7Te0l7QwzPJXJixEIbVl+iZjz5KAThv5EuPJ024AR7WP9fOuC3z/gQwH+GXQ==
   dependencies:
-    o11y "254.7.0"
-    o11y_schema "254.77.0"
+    o11y "^258.7.0"
+    o11y_schema "256.154.0"
 
 "@salesforce/prettier-config@^0.0.3":
   version "0.0.3"
@@ -2204,9 +2204,9 @@ ecdsa-sig-formatter@1.0.11:
     safe-buffer "^5.0.1"
 
 electron-to-chromium@^1.5.173:
-  version "1.5.190"
-  resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.190.tgz#f0ac8be182291a45e8154dbb12f18d2b2318e4ac"
-  integrity sha512-k4McmnB2091YIsdCgkS0fMVMPOJgxl93ltFzaryXqwip1AaxeDqKCGLxkXODDA5Ab/D+tV5EL5+aTx76RvLRxw==
+  version "1.5.191"
+  resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.191.tgz#8ae49a471447b1ceaf1d4d183a9000082f52363c"
+  integrity sha512-xcwe9ELcuxYLUFqZZxL19Z6HVKcvNkIwhbHUz7L3us6u12yR+7uY89dSl570f/IqNthx8dAw3tojG7i4Ni4tDA==
 
 emitter-listener@^1.0.1, emitter-listener@^1.1.1:
   version "1.1.2"
@@ -4468,24 +4468,24 @@ nyc@^17.0.0:
     test-exclude "^6.0.0"
     yargs "^15.0.2"
 
-o11y@254.7.0:
-  version "254.7.0"
-  resolved "https://registry.npmjs.org/o11y/-/o11y-254.7.0.tgz#80797643d6e6e788f675377febef4c4bc135dd83"
-  integrity sha512-f14UcSUQW9+H9syMjcVTyVMTFszcxConVQcgV4d1izkjhT96R0t6cyolFT+S7DGyY8OfGsttxqSr8KnVZHel/g==
+o11y@^258.7.0:
+  version "258.7.0"
+  resolved "https://registry.npmjs.org/o11y/-/o11y-258.7.0.tgz#307a7cb39661790f19d9de62698c9117b9ad4fc3"
+  integrity sha512-tcE4H3ytUKQXP5Y0Ta3rfPgYokYGSLVQpJW9KZGYGmcD/jRITWOa7siw3Uo/WcMXzEmwwi/fW3uft8Aon7ef2w==
   dependencies:
     o11y_schema "254.44.0"
-    protobufjs "7.2.4"
-    web-vitals "3.5.2"
+    protobufjs "7.2.6"
+    web-vitals "^4.2.4"
 
 o11y_schema@254.44.0:
   version "254.44.0"
   resolved "https://registry.npmjs.org/o11y_schema/-/o11y_schema-254.44.0.tgz#6b283912cca23589a2be78c064672c02ba1f4f65"
   integrity sha512-qcwaZsTyl/NFRoyjXk5ZObfjb773wYM5wxDbHSJNkQDBxX96RjUS/Df0M1rSbsmJWPOuYiV4EkvIOEPMm8V86g==
 
-o11y_schema@254.77.0:
-  version "254.77.0"
-  resolved "https://registry.npmjs.org/o11y_schema/-/o11y_schema-254.77.0.tgz#78ac23913f404ea952ac7849477944ff9c7382d1"
-  integrity sha512-HKog5WTKl6hDX3+e6ACBnGbVetTqif++irQMj/AmqbBuNs9NzDhTUgnVqevif6LDKpq4gxw6hr7AC0iP9dyVDw==
+o11y_schema@256.154.0:
+  version "256.154.0"
+  resolved "https://registry.npmjs.org/o11y_schema/-/o11y_schema-256.154.0.tgz#1f2f94f1e42d07e62a3e18e09b026345b057dc0c"
+  integrity sha512-czvU/9cibyZptbr0gLJSM70U7zLlhWC2D2L5e9nOG84Wnqmn4F5YzVjrH1ZQzAzDbBbtbeU6WTS3F/SHqtMQ5g==
 
 object-inspect@^1.13.3, object-inspect@^1.13.4:
   version "1.13.4"
@@ -4908,10 +4908,10 @@ property-information@^7.0.0:
   resolved "https://registry.npmjs.org/property-information/-/property-information-7.1.0.tgz#b622e8646e02b580205415586b40804d3e8bfd5d"
   integrity sha512-TwEZ+X+yCJmYfL7TPUOcvBZ4QfoT5YenQiJuX//0th53DE6w0xxLEtfK3iyryQFddXuvkIk51EEgrJQ0WJkOmQ==
 
-protobufjs@7.2.4:
-  version "7.2.4"
-  resolved "https://registry.npmjs.org/protobufjs/-/protobufjs-7.2.4.tgz#3fc1ec0cdc89dd91aef9ba6037ba07408485c3ae"
-  integrity sha512-AT+RJgD2sH8phPmCf7OUZR8xGdcJRga4+1cOaXJ64hvcSkVhNcRHOwIxUatPH15+nj59WAGTDv3LSGZPEQbJaQ==
+protobufjs@7.2.6:
+  version "7.2.6"
+  resolved "https://registry.npmjs.org/protobufjs/-/protobufjs-7.2.6.tgz#4a0ccd79eb292717aacf07530a07e0ed20278215"
+  integrity sha512-dgJaEDDL6x8ASUZ1YqWciTRrdOuYNzoOf27oHNfdyvKqHr5i0FV7FSLU+aIeFjyFgVxrpTOtQUi0BLLBymZaBw==
   dependencies:
     "@protobufjs/aspromise" "^1.1.2"
     "@protobufjs/base64" "^1.1.2"
@@ -6123,10 +6123,10 @@ vfile@^6.0.0:
     "@types/unist" "^3.0.0"
     vfile-message "^4.0.0"
 
-web-vitals@3.5.2:
-  version "3.5.2"
-  resolved "https://registry.npmjs.org/web-vitals/-/web-vitals-3.5.2.tgz#5bb58461bbc173c3f00c2ddff8bfe6e680999ca9"
-  integrity sha512-c0rhqNcHXRkY/ogGDJQxZ9Im9D19hDihbzSQJrsioex+KnFgmMzBiy57Z1EjkhX/+OjyBpclDCzz2ITtjokFmg==
+web-vitals@^4.2.4:
+  version "4.2.4"
+  resolved "https://registry.npmjs.org/web-vitals/-/web-vitals-4.2.4.tgz#1d20bc8590a37769bd0902b289550936069184b7"
+  integrity sha512-r4DIlprAGwJ7YM11VZp4R884m0Vmgr6EAKe3P+kO0PPj3Unqyvv59rczf6UiGcb9Z8QxZVcqKNwv/g0WNdWwsw==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
