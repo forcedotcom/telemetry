@@ -1,3 +1,12 @@
+## [6.1.1](https://github.com/forcedotcom/telemetry/compare/6.1.0...6.1.1) (2025-07-28)
+
+
+### Bug Fixes
+
+* trigger release ([0018fb3](https://github.com/forcedotcom/telemetry/commit/0018fb3d29dda900f92c3034a73875596f0096cf))
+
+
+
 # [6.1.0](https://github.com/forcedotcom/telemetry/compare/6.0.39...6.1.0) (2025-07-25)
 
 
