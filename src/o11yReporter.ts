@@ -9,10 +9,6 @@ import { Attributes, Properties, TelemetryOptions } from './types';
 import { buildPropertiesAndMeasurements } from './utils';
 import { BaseReporter } from './baseReporter';
 
-
-
-
-
 export class O11yReporter extends BaseReporter {
   private service: O11yService;
   private initialized: Promise<void>;
@@ -32,6 +28,9 @@ export class O11yReporter extends BaseReporter {
   }
 
   public async sendTelemetryEvent(eventName: string, attributes: Attributes = {}): Promise<void> {
+    // Wait for initialization to complete before using the service
+    await this.initialized;
+    
     const merged = { ...this.commonProperties, ...attributes };
     
     this.service.logEvent({ eventName: `${this.extensionName}/${eventName}`, ...merged });
@@ -39,6 +38,8 @@ export class O11yReporter extends BaseReporter {
   }
 
   public async flush(): Promise<void> {
+    // Wait for initialization to complete before using the service
+    await this.initialized;
     await this.service.upload();
   }
 
@@ -49,6 +50,9 @@ export class O11yReporter extends BaseReporter {
    * @param attributes {Attributes} - map of measurements to publish alongside the exception.
    */
   public async sendTelemetryException(exception: Error, attributes: Attributes = {}): Promise<void> {
+    // Wait for initialization to complete before using the service
+    await this.initialized;
+    
     const cleanException = this.sanitizeError(exception);
     const { properties, measurements } = buildPropertiesAndMeasurements(attributes);
     
@@ -73,6 +77,9 @@ export class O11yReporter extends BaseReporter {
    * @param properties {Properties} - map of properties to publish alongside the event.
    */
   public async sendTelemetryTrace(traceMessage: string, properties?: Properties): Promise<void> {
+    // Wait for initialization to complete before using the service
+    await this.initialized;
+    
     const traceEvent = {
       eventName: 'trace',
       message: traceMessage,
@@ -91,6 +98,9 @@ export class O11yReporter extends BaseReporter {
    * @param properties {Properties} - map of properties to publish alongside the event.
    */
   public async sendTelemetryMetric(metricName: string, value: number, properties?: Properties): Promise<void> {
+    // Wait for initialization to complete before using the service
+    await this.initialized;
+    
     const metricEvent = {
       eventName: 'metric',
       metricName,
