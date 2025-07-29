@@ -46,6 +46,12 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
     this.enabled = await isEnabled();
     this.logger = await Logger.child('TelemetryReporter');
 
+    // Provide a default invalid key for backward compatibility when key is empty or undefined
+    // This allows O11y-only telemetry to work without requiring consumers to provide a valid AppInsights key
+    if (!this.options.key || this.options.key.trim() === '') {
+      this.options.key = 'InstrumentationKey=invalid-key-for-o11y-only-mode'; // Default invalid connection string
+    }
+
     if (this.options.waitForConnection) await this.waitForConnection();
     this.reporter = await AppInsights.create(this.options);
 
