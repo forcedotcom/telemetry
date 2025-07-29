@@ -134,8 +134,8 @@ describe('AppInsights', () => {
     const options = { project, key };
     const reporter = await AppInsights.create(options);
     flushStub = sandbox.stub(reporter.appInsightsClient, 'flush').callsFake(() => {
-      const error = new Error();
-      (error as any).code = 'ExtraTerrestrialBiologicalEntityFromZetaReticuli';
+      const error = new Error() as Error & { code?: string };
+      error.code = 'ExtraTerrestrialBiologicalEntityFromZetaReticuli';
       throw error;
     });
 
