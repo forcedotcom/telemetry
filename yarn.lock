@@ -777,10 +777,10 @@
   dependencies:
     "@salesforce/ts-types" "^2.0.12"
 
-"@salesforce/o11y-reporter@1.1.2":
-  version "1.1.2"
-  resolved "https://registry.npmjs.org/@salesforce/o11y-reporter/-/o11y-reporter-1.1.2.tgz#69964035ea84ac66592b3155d672debf5fd465c2"
-  integrity sha512-dsnDKOSiTFPQO+L1j20MfZTlBL7Te0l7QwzPJXJixEIbVl+iZjz5KAThv5EuPJ024AR7WP9fOuC3z/gQwH+GXQ==
+"@salesforce/o11y-reporter@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/@salesforce/o11y-reporter/-/o11y-reporter-1.2.0.tgz#49d54064cc865089b70bbe36a8088256b9887d04"
+  integrity sha512-Otgj1Wrxl6NaiRwl+bXDJjRZknk5rYDaex0NpFAchcNMjTXjzMkRSgDEKyZfi5SE7TxBTcpsiK6RFozfd7lE7g==
   dependencies:
     o11y "^258.7.0"
     o11y_schema "256.154.0"
