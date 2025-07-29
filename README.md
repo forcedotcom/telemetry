@@ -62,12 +62,13 @@ const reporter = await TelemetryReporter.create({
 
 #### O11y-Only Mode
 
-For O11y-only telemetry (without Application Insights), you can omit the `key` parameter entirely:
+For O11y-only telemetry (without Application Insights), you can disable AppInsights explicitly:
 
 ```javascript
 const reporter = await TelemetryReporter.create({
   project: 'my-project-name',
   enableO11y: true,
+  enableAppInsights: false, // Disable AppInsights
   o11yUploadEndpoint: 'https://your-o11y-endpoint.com/upload',
   extensionName: 'my-extension' // Optional, defaults to project name
 });
