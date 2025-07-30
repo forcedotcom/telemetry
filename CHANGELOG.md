@@ -1,3 +1,22 @@
+# [6.2.0](https://github.com/forcedotcom/telemetry/compare/6.1.1...6.2.0) (2025-07-30)
+
+
+### Bug Fixes
+
+* bump the version of o11y-reporter to 1.3.0 to support node version 24 in telemetry ([490609d](https://github.com/forcedotcom/telemetry/commit/490609ded727476e0ace37e409675807ba821c66))
+* resolve TypeScript linting error in appInsights test ([dd7c2f3](https://github.com/forcedotcom/telemetry/commit/dd7c2f3213c2363ce0032017faa80f17549fbb54))
+* resolve TypeScript syntax error in appInsights test ([06aaf65](https://github.com/forcedotcom/telemetry/commit/06aaf651d812c579d3d1329a61718f16f3871427))
+* trigger Pull Request CI pipeline ([04271a8](https://github.com/forcedotcom/telemetry/commit/04271a87b507f4ea18e239172008976adc91dbaf))
+* update o11y-reporter to version 1.2.0 ([a087e24](https://github.com/forcedotcom/telemetry/commit/a087e242216d238995a5a7ab1fa17020c4dc0593))
+
+
+### Features
+
+* add auto-default invalid key for O11y-only telemetry and update README ([bda9324](https://github.com/forcedotcom/telemetry/commit/bda932406522c77fe174b194e4f315139bad2001))
+* improve O11y-only telemetry with cleaner AppInsights handling ([b5207e5](https://github.com/forcedotcom/telemetry/commit/b5207e53e8b59461ed8b780666a7db625a4be89a))
+
+
+
 ## [6.1.1](https://github.com/forcedotcom/telemetry/compare/6.1.0...6.1.1) (2025-07-28)
 
 
