@@ -23,14 +23,16 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
   private enabled = false;
   private options: TelemetryOptions;
   private logger!: Logger;
-  private reporter!: AppInsights;
+  private reporter?: AppInsights;
   private enableO11y: boolean;
+  private enableAppInsights: boolean;
   private o11yReporter?: O11yReporter;
 
   public constructor(options: TelemetryOptions) {
     super(options);
     this.options = options;
     this.enableO11y = options.enableO11y ?? false; // default to false for backward compatibility
+    this.enableAppInsights = options.enableAppInsights ?? true; // default to true for backward compatibility
   }
 
   /**
@@ -46,8 +48,15 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
     this.enabled = await isEnabled();
     this.logger = await Logger.child('TelemetryReporter');
 
-    if (this.options.waitForConnection) await this.waitForConnection();
-    this.reporter = await AppInsights.create(this.options);
+    // Initialize AppInsights only if enabled and we have a valid key
+    if (this.enableAppInsights && this.options.key && this.options.key.trim() !== '') {
+      if (this.options.waitForConnection) await this.waitForConnection();
+      this.reporter = await AppInsights.create(this.options);
+    } else if (this.enableAppInsights && (!this.options.key || this.options.key.trim() === '')) {
+      // If AppInsights is enabled but no key provided, log a warning and skip initialization
+      this.logger.warn('AppInsights is enabled but no valid key provided. Skipping AppInsights initialization.');
+    }
+    // If AppInsights is disabled, this.reporter remains undefined
 
     // Only initialize O11yReporter if telemetry is enabled, enableO11y is true AND o11yUploadEndpoint is provided
     if (this.isSfdxTelemetryEnabled() && this.enableO11y) {
@@ -70,7 +79,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    * processes can call send*Event directly then finish it by TelemetryReporter.stop().
    */
   public start(): void {
-    this.reporter.start();
+    this.reporter?.start();
   }
 
   /**
@@ -78,7 +87,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    * not counting timeouts.
    */
   public stop(): void {
-    this.reporter.stop();
+    this.reporter?.stop();
     void this.o11yReporter?.flush();
   }
 
@@ -126,8 +135,8 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    * @param attributes {Attributes} - map of properties to publish alongside the event.
    */
   public sendTelemetryEvent(eventName: string, attributes: Attributes = {}): void {
-    // Send to AppInsights only if SFDX telemetry is enabled
-    if (this.isSfdxTelemetryEnabled()) {
+    // Send to AppInsights only if SFDX telemetry is enabled and AppInsights is enabled
+    if (this.isSfdxTelemetryEnabled() && this.enableAppInsights && this.reporter) {
       this.reporter.sendTelemetryEvent(eventName, attributes);
     }
 
@@ -147,14 +156,14 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    */
   public sendTelemetryException(exception: Error, attributes: Attributes = {}): void {
     // Send to AppInsights only if SFDX telemetry is enabled
-    if (this.isSfdxTelemetryEnabled()) {
+    if (this.isSfdxTelemetryEnabled() && this.enableAppInsights && this.reporter) {
       // Scrub stack for GDPR
       const sanitizedException = new Error(exception.message);
       sanitizedException.name = exception.name;
       sanitizedException.stack = exception.stack?.replace(new RegExp(os.homedir(), 'g'), AppInsights.GDPR_HIDDEN);
 
       // Send to AppInsights
-      this.reporter.sendTelemetryException(sanitizedException, attributes);
+      this.reporter?.sendTelemetryException(sanitizedException, attributes);
     }
 
     // Send to O11y if telemetry is enabled and O11y is enabled
@@ -173,7 +182,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    */
   public sendTelemetryTrace(traceMessage: string, properties?: Properties): void {
     // Send to AppInsights only if SFDX telemetry is enabled
-    if (this.isSfdxTelemetryEnabled()) {
+    if (this.isSfdxTelemetryEnabled() && this.enableAppInsights && this.reporter) {
       // Send to AppInsights
       this.reporter.sendTelemetryTrace(traceMessage, properties);
     }
@@ -195,7 +204,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    */
   public sendTelemetryMetric(metricName: string, value: number, properties?: Properties): void {
     // Send to AppInsights only if SFDX telemetry is enabled
-    if (this.isSfdxTelemetryEnabled()) {
+    if (this.isSfdxTelemetryEnabled() && this.enableAppInsights && this.reporter) {
       // Send to AppInsights
       this.reporter.sendTelemetryMetric(metricName, value, properties);
     }
@@ -234,6 +243,9 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    * NOT be used to send events as it will by pass disabled checks.
    */
   public getTelemetryClient(): TelemetryClient {
+    if (!this.reporter) {
+      throw new Error('AppInsights is not initialized. Check if enableAppInsights is true and a valid key is provided.');
+    }
     return this.reporter.appInsightsClient;
   }
 }

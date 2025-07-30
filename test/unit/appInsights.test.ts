@@ -8,7 +8,6 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { AppInsights } from '../../src/appInsights';
 import { buildPropertiesAndMeasurements } from '../../src/utils';
-import set = Reflect.set;
 
 describe('AppInsights', () => {
   const key = 'foo-bar-123';
@@ -135,8 +134,8 @@ describe('AppInsights', () => {
     const options = { project, key };
     const reporter = await AppInsights.create(options);
     flushStub = sandbox.stub(reporter.appInsightsClient, 'flush').callsFake(() => {
-      const error = new Error();
-      set(error, 'code', 'ExtraTerrestrialBiologicalEntityFromZetaReticuli');
+      const error = new Error() as Error & { code?: string };
+      error.code = 'ExtraTerrestrialBiologicalEntityFromZetaReticuli';
       throw error;
     });
 
