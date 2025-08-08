@@ -155,20 +155,19 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    * @param attributes {Attributes} - map of measurements to publish alongside the exception.
    */
   public sendTelemetryException(exception: Error, attributes: Attributes = {}): void {
+    // Sanitize the exception for GDPR compliance (scrub home directory)
+    const sanitizedException = new Error(exception.message);
+    sanitizedException.name = exception.name;
+    sanitizedException.stack = exception.stack?.replace(new RegExp(os.homedir(), 'g'), AppInsights.GDPR_HIDDEN);
+
     // Send to AppInsights only if SFDX telemetry is enabled
     if (this.isSfdxTelemetryEnabled() && this.enableAppInsights && this.reporter) {
-      // Scrub stack for GDPR
-      const sanitizedException = new Error(exception.message);
-      sanitizedException.name = exception.name;
-      sanitizedException.stack = exception.stack?.replace(new RegExp(os.homedir(), 'g'), AppInsights.GDPR_HIDDEN);
-
-      // Send to AppInsights
       this.reporter?.sendTelemetryException(sanitizedException, attributes);
     }
 
     // Send to O11y if telemetry is enabled and O11y is enabled
     if (this.isSfdxTelemetryEnabled() && this.enableO11y && this.o11yReporter) {
-      void this.o11yReporter.sendTelemetryException(exception, attributes).catch((error) => {
+      void this.o11yReporter.sendTelemetryException(sanitizedException, attributes).catch((error) => {
         this.logger.debug('Failed to send exception to O11y:', error);
       });
     }
