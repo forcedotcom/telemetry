@@ -752,10 +752,10 @@
   resolved "https://registry.npmjs.org/@rtsao/scc/-/scc-1.1.0.tgz#927dd2fae9bc3361403ac2c7a00c32ddce9ad7e8"
   integrity sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==
 
-"@salesforce/core@^8.19.1":
-  version "8.19.1"
-  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-8.19.1.tgz#300b37db32e29a7b1055091cc13d04a6ccc4d8c1"
-  integrity sha512-HPJxus0W4S1aoT4Qn6mG2s9Ik/mZ59rXNUFc2c+BgEAs28khbZOLR2uiZYexNpXIIZnCrSbb+v1t8IW/idIyCA==
+"@salesforce/core@^8.21.2":
+  version "8.21.2"
+  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-8.21.2.tgz#92538bbcdf2a185ca9f3b58760da60da0b933d07"
+  integrity sha512-DUoArD9jf8slp78JmJI+c3DLpZ79VyQ4ftyYzL8qe/hww9Nf5/L4shezo1IoI3FvnVuXwwRQ6oUnwxdcVJqbKQ==
   dependencies:
     "@jsforce/jsforce-node" "^3.10.1"
     "@salesforce/kit" "^3.2.2"
@@ -764,7 +764,7 @@
     ajv "^8.17.1"
     change-case "^4.1.2"
     fast-levenshtein "^3.0.0"
-    faye "^1.4.0"
+    faye "^1.4.1"
     form-data "^4.0.4"
     js2xmlparser "^4.0.1"
     jsonwebtoken "9.0.2"
@@ -2763,7 +2763,7 @@ faye-websocket@>=0.9.1:
   dependencies:
     websocket-driver ">=0.5.1"
 
-faye@^1.4.0:
+faye@^1.4.0, faye@^1.4.1:
   version "1.4.1"
   resolved "https://registry.npmjs.org/faye/-/faye-1.4.1.tgz#fd2f84e21d62b1cced1bd34968925b466d44a381"
   integrity sha512-Cg/khikhqlvumHO3efwx2tps2ZgQRjUMrO24G0quz7MMzRYYaEjU224YFXOeuPIvanRegIchVxj6pmHK1W0ikA==
