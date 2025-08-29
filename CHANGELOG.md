@@ -1,3 +1,12 @@
+## [6.2.5](https://github.com/forcedotcom/telemetry/compare/6.2.4...6.2.5) (2025-08-29)
+
+
+### Bug Fixes
+
+* oss compliance ([b459dd2](https://github.com/forcedotcom/telemetry/commit/b459dd2e81b10cd16d03af7fad8238159893bbca))
+
+
+
 ## [6.2.4](https://github.com/forcedotcom/telemetry/compare/6.2.3...6.2.4) (2025-08-23)
 
 
