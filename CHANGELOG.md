@@ -1,3 +1,12 @@
+## [6.2.9](https://github.com/forcedotcom/telemetry/compare/6.2.8...6.2.9) (2025-09-12)
+
+
+### Bug Fixes
+
+* bump @salesforce/o11y-reporter to 1.3.3 ([#450](https://github.com/forcedotcom/telemetry/issues/450)) ([407ec81](https://github.com/forcedotcom/telemetry/commit/407ec819a85664467c6c1d2f15e6356d10e02b95))
+
+
+
 ## [6.2.8](https://github.com/forcedotcom/telemetry/compare/6.2.7...6.2.8) (2025-09-06)
 
 
