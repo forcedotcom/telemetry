@@ -1,3 +1,12 @@
+## [6.2.10](https://github.com/forcedotcom/telemetry/compare/6.2.9...6.2.10) (2025-10-11)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 8.23.1 to 8.23.2 ([a72294a](https://github.com/forcedotcom/telemetry/commit/a72294aec8d8db8511e5b96ee32c13b9cb839d4e))
+
+
+
 ## [6.2.9](https://github.com/forcedotcom/telemetry/compare/6.2.8...6.2.9) (2025-09-12)
 
 
