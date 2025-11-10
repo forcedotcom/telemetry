@@ -45,5 +45,3 @@ export type TelemetryOptions = {
   // Consumer-provided schema support
   o11ySchema?: unknown; // Schema object loaded by consumer (e.g., commerceInstrumentationSchema)
 };
-
- 

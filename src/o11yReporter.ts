@@ -29,10 +29,10 @@ export class O11yReporter extends BaseReporter {
     super(options);
     this.extensionName = options.extensionName ?? options.project;
     this.service = O11yService.getInstance(this.extensionName);
-    
+
     // Store the schema object provided by consumer (if any)
     this.customSchema = options.o11ySchema ?? null;
-    
+
     this.initialized = this.service.initialize(this.extensionName, options.o11yUploadEndpoint!);
     this.commonProperties = this.buildO11yCommonProperties(options.commonProperties);
   }
@@ -44,22 +44,22 @@ export class O11yReporter extends BaseReporter {
   public async sendTelemetryEvent(eventName: string, attributes: Attributes = {}): Promise<void> {
     // Wait for initialization to complete before using the service
     await this.initialized;
-    
+
     const merged = { ...this.commonProperties, ...attributes };
-    
+
     // Create event data
-    const eventData: { [key: string]: unknown } = { 
-      eventName: `${this.extensionName}/${eventName}`, 
-      ...merged 
+    const eventData: { [key: string]: unknown } = {
+      eventName: `${this.extensionName}/${eventName}`,
+      ...merged,
     };
-    
+
     // Use logEventWithSchema if custom schema is loaded, otherwise use default logEvent
     if (this.customSchema) {
       this.service.logEventWithSchema(eventData, this.customSchema);
     } else {
       this.service.logEvent(eventData);
     }
-    
+
     await this.service.upload();
   }
 
@@ -78,10 +78,10 @@ export class O11yReporter extends BaseReporter {
   public async sendTelemetryException(exception: Error, attributes: Attributes = {}): Promise<void> {
     // Wait for initialization to complete before using the service
     await this.initialized;
-    
+
     const cleanException = this.sanitizeError(exception);
     const { properties, measurements } = buildPropertiesAndMeasurements(attributes);
-    
+
     // Create exception event with sanitized error information
     const exceptionEvent = {
       eventName: `${this.extensionName}/exception`,
@@ -91,14 +91,14 @@ export class O11yReporter extends BaseReporter {
       ...properties,
       ...measurements,
     };
-    
+
     // Use custom schema if available
     if (this.customSchema) {
       this.service.logEventWithSchema(exceptionEvent, this.customSchema);
     } else {
       this.service.logEvent(exceptionEvent);
     }
-    
+
     await this.service.upload();
   }
 
@@ -111,19 +111,19 @@ export class O11yReporter extends BaseReporter {
   public async sendTelemetryTrace(traceMessage: string, properties: Properties = {}): Promise<void> {
     await this.initialized;
     const merged = { ...this.commonProperties, ...properties };
-    
+
     const eventData = {
       eventName: `${this.extensionName}/trace`,
       message: traceMessage,
-      ...merged
+      ...merged,
     };
-    
+
     if (this.customSchema) {
       this.service.logEventWithSchema(eventData, this.customSchema);
     } else {
       this.service.logEvent(eventData);
     }
-    
+
     await this.service.upload();
   }
 
@@ -137,20 +137,20 @@ export class O11yReporter extends BaseReporter {
   public async sendTelemetryMetric(metricName: string, value: number, properties: Properties = {}): Promise<void> {
     await this.initialized;
     const merged = { ...this.commonProperties, ...properties };
-    
+
     const eventData = {
       eventName: `${this.extensionName}/metric`,
       metricName,
       value,
-      ...merged
+      ...merged,
     };
-    
+
     if (this.customSchema) {
       this.service.logEventWithSchema(eventData, this.customSchema);
     } else {
       this.service.logEvent(eventData);
     }
-    
+
     await this.service.upload();
   }
 
