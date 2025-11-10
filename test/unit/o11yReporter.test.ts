@@ -157,7 +157,7 @@ describe('O11yReporter', () => {
       expect(mockO11yService.upload.called).to.be.true;
 
       const callArgs = mockO11yService.logEvent.firstCall.args[0];
-      expect(callArgs.eventName).to.equal('exception');
+      expect(callArgs.eventName).to.equal(`${extensionName}/exception`);
       expect(callArgs.exceptionName).to.equal('TestError');
       expect(callArgs.exceptionMessage).to.equal('Test error message');
       expect(callArgs.exceptionStack).to.be.a('string');
