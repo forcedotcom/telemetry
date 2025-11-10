@@ -29,6 +29,7 @@ describe('O11yReporter', () => {
   let mockO11yService: {
     initialize: sinon.SinonStub;
     logEvent: sinon.SinonStub;
+    logEventWithSchema: sinon.SinonStub;
     upload: sinon.SinonStub;
   };
   let reporter: O11yReporter;
@@ -40,6 +41,7 @@ describe('O11yReporter', () => {
     mockO11yService = {
       initialize: sandbox.stub().resolves(),
       logEvent: sandbox.stub(),
+      logEventWithSchema: sandbox.stub(),
       upload: sandbox.stub().resolves(),
     };
 
@@ -102,6 +104,41 @@ describe('O11yReporter', () => {
       expect(callArgs.userId).to.equal('123');
       expect(callArgs.action).to.equal('click');
     });
+
+    it('should use logEventWithSchema when customSchema is provided', async () => {
+      const customSchema = { name: 'custom-schema', version: '1.0' };
+      const eventName = 'testEvent';
+      
+      reporter = new O11yReporter({ 
+        project, 
+        key, 
+        extensionName, 
+        o11yUploadEndpoint,
+        o11ySchema: customSchema
+      });
+      
+      await reporter.sendTelemetryEvent(eventName);
+      
+      expect(mockO11yService.logEventWithSchema.called).to.be.true;
+      expect(mockO11yService.logEvent.called).to.be.false;
+      expect(mockO11yService.upload.called).to.be.true;
+      
+      const callArgs = mockO11yService.logEventWithSchema.firstCall.args;
+      expect(callArgs[0].eventName).to.equal(`${extensionName}/${eventName}`);
+      expect(callArgs[1]).to.equal(customSchema);
+    });
+
+    it('should use logEvent when customSchema is not provided', async () => {
+      const eventName = 'testEvent';
+      
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint });
+      
+      await reporter.sendTelemetryEvent(eventName);
+      
+      expect(mockO11yService.logEvent.called).to.be.true;
+      expect(mockO11yService.logEventWithSchema.called).to.be.false;
+      expect(mockO11yService.upload.called).to.be.true;
+    });
   });
 
   describe('sendTelemetryException', () => {
@@ -141,6 +178,25 @@ describe('O11yReporter', () => {
       // Just verify that the exception was processed
       expect(callArgs.exceptionStack).to.be.a('string');
     });
+
+    it('should use logEventWithSchema for exception when customSchema is provided', async () => {
+      const customSchema = { name: 'custom-schema', version: '1.0' };
+      const error = new Error('Test error');
+      
+      reporter = new O11yReporter({ 
+        project, 
+        key, 
+        extensionName, 
+        o11yUploadEndpoint,
+        o11ySchema: customSchema
+      });
+      
+      await reporter.sendTelemetryException(error);
+      
+      expect(mockO11yService.logEventWithSchema.called).to.be.true;
+      expect(mockO11yService.logEvent.called).to.be.false;
+    });
+
   });
 
   describe('sendTelemetryTrace', () => {
@@ -157,8 +213,26 @@ describe('O11yReporter', () => {
       expect(mockO11yService.upload.called).to.be.true;
       
       const callArgs = mockO11yService.logEvent.firstCall.args[0];
-      expect(callArgs.eventName).to.equal('trace');
+      expect(callArgs.eventName).to.equal(`${extensionName}/trace`);
       expect(callArgs.message).to.equal(traceMessage);
+    });
+
+    it('should use logEventWithSchema for trace when customSchema is provided', async () => {
+      const customSchema = { name: 'custom-schema', version: '1.0' };
+      const traceMessage = 'Debug trace message';
+      
+      reporter = new O11yReporter({ 
+        project, 
+        key, 
+        extensionName, 
+        o11yUploadEndpoint,
+        o11ySchema: customSchema
+      });
+      
+      await reporter.sendTelemetryTrace(traceMessage);
+      
+      expect(mockO11yService.logEventWithSchema.called).to.be.true;
+      expect(mockO11yService.logEvent.called).to.be.false;
     });
   });
 
@@ -177,9 +251,28 @@ describe('O11yReporter', () => {
       expect(mockO11yService.upload.called).to.be.true;
       
       const callArgs = mockO11yService.logEvent.firstCall.args[0];
-      expect(callArgs.eventName).to.equal('metric');
+      expect(callArgs.eventName).to.equal(`${extensionName}/metric`);
       expect(callArgs.metricName).to.equal(metricName);
       expect(callArgs.value).to.equal(value);
+    });
+
+    it('should use logEventWithSchema for metric when customSchema is provided', async () => {
+      const customSchema = { name: 'custom-schema', version: '1.0' };
+      const metricName = 'response_time';
+      const value = 150;
+      
+      reporter = new O11yReporter({ 
+        project, 
+        key, 
+        extensionName, 
+        o11yUploadEndpoint,
+        o11ySchema: customSchema
+      });
+      
+      await reporter.sendTelemetryMetric(metricName, value);
+      
+      expect(mockO11yService.logEventWithSchema.called).to.be.true;
+      expect(mockO11yService.logEvent.called).to.be.false;
     });
   });
 
@@ -192,6 +285,30 @@ describe('O11yReporter', () => {
       await reporter.flush();
       
       expect(mockO11yService.upload.called).to.be.true;
+    });
+  });
+
+  describe('customSchema functionality', () => {
+    it('should store customSchema when provided', () => {
+      const customSchema = { name: 'custom-schema', version: '1.0' };
+      
+      reporter = new O11yReporter({ 
+        project, 
+        key, 
+        extensionName, 
+        o11yUploadEndpoint,
+        o11ySchema: customSchema
+      });
+      
+      expect(reporter.getCurrentSchema()).to.equal(customSchema);
+      expect(reporter.hasCustomSchema()).to.be.true;
+    });
+
+    it('should return null when customSchema is not provided', () => {
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint });
+      
+      expect(reporter.getCurrentSchema()).to.be.null;
+      expect(reporter.hasCustomSchema()).to.be.false;
     });
   });
 }); 
