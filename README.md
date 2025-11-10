@@ -76,6 +76,43 @@ const reporter = await TelemetryReporter.create({
 
 **Note:** O11y telemetry respects the same telemetry enablement settings as Application Insights. If telemetry is disabled via `SF_DISABLE_TELEMETRY` or other configuration, O11y events will not be sent.
 
+#### Custom Schema Support
+
+The telemetry reporter supports consumer-provided O11y schemas. This allows consumers to use custom schemas from the `o11y_schema` package instead of the default `sf_a4dInstrumentation` schema.
+
+**Step 1: Add `o11y_schema` to your `package.json`:**
+
+```json
+{
+  "dependencies": {
+    "o11y_schema": "^256.154.0"
+  }
+}
+```
+
+**Step 2: Import and pass the schema to the telemetry reporter:**
+
+```javascript
+import TelemetryReporter from '@salesforce/telemetry';
+// Import the schema object from o11y_schema
+import { a4dInstrumentationSchema } from 'o11y_schema/sf_a4dInstrumentation';
+
+const reporter = await TelemetryReporter.create({
+  project: 'my-project-name',
+  enableO11y: true,
+  o11yUploadEndpoint: 'https://your-o11y-endpoint.com/upload',
+  o11ySchema: a4dInstrumentationSchema, // Pass the schema object
+  extensionName: 'my-extension'
+});
+
+reporter.start();
+reporter.sendTelemetryEvent('event-name', { foo: 'bar' });
+```
+
+**Note:** When `o11ySchema` is provided, the reporter will use `logEventWithSchema()` to log events with your custom schema. If `o11ySchema` is not provided, it falls back to the default `sf_a4dInstrumentation` schema.
+
+**Note:** The `o11y_schema` package doesn't provide TypeScript declarations. If your TypeScript configuration doesn't include `skipLibCheck: true`, you may need to add type declarations or use `@ts-expect-error` comments. However, with proper TypeScript configuration, the import should work without additional annotations.
+
 ## Env Variables
 
 `SF_DISABLE_TELEMETRY`: Set to `true` if you want to disable telemetry.
