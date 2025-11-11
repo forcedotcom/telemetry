@@ -1,3 +1,18 @@
+# [6.3.0](https://github.com/forcedotcom/telemetry/compare/6.2.13...6.3.0) (2025-11-11)
+
+
+### Bug Fixes
+
+* @W-19967974 Enforce basic structure for O11ySchema type as Record<string, unknown> ([47c91a7](https://github.com/forcedotcom/telemetry/commit/47c91a730d76b7f94697cb25972088679cc81a9e))
+* @W-19967974 fix event name expectation in sendTelemetryException test ([dc86f18](https://github.com/forcedotcom/telemetry/commit/dc86f186b3c8fc3501a137c355287952a2d15cf4))
+
+
+### Features
+
+* @W-19967974 add consumer-provided schema support for o11y-reporter ([318138d](https://github.com/forcedotcom/telemetry/commit/318138d54e557a87a225930e5e96e2440cebb2bd))
+
+
+
 ## [6.2.13](https://github.com/forcedotcom/telemetry/compare/6.2.12...6.2.13) (2025-11-01)
 
 
