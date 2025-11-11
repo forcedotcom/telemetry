@@ -27,6 +27,14 @@ export type Attributes = {
   [key: string]: string | number | boolean | null | undefined;
 };
 
+/**
+ * Basic type for O11y schema objects.
+ * Schemas from o11y_schema package are objects that define the structure
+ * for telemetry events. This type enforces that a schema must be an object
+ * (not a primitive, null, or undefined).
+ */
+export type O11ySchema = Record<string, unknown>;
+
 export type TelemetryOptions = {
   project: string;
   key: string;
@@ -43,5 +51,5 @@ export type TelemetryOptions = {
   // O11y-specific options
   extensionName?: string; // For O11yReporter, defaults to project if not provided
   // Consumer-provided schema support
-  o11ySchema?: unknown; // Schema object loaded by consumer (e.g., commerceInstrumentationSchema)
+  o11ySchema?: O11ySchema; // Schema object loaded by consumer (e.g., commerceInstrumentationSchema)
 };

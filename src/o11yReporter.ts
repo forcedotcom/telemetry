@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { O11yService } from '@salesforce/o11y-reporter';
-import { Attributes, Properties, TelemetryOptions } from './types';
+import { Attributes, O11ySchema, Properties, TelemetryOptions } from './types';
 import { BaseReporter } from './baseReporter';
 import { buildPropertiesAndMeasurements } from './utils';
 
@@ -23,7 +23,7 @@ export class O11yReporter extends BaseReporter {
   private initialized: Promise<void>;
   private commonProperties: Properties;
   private extensionName = '';
-  private customSchema: unknown = null; // Schema object provided by consumer
+  private customSchema: O11ySchema | null = null; // Schema object provided by consumer
 
   public constructor(options: TelemetryOptions) {
     super(options);
@@ -157,7 +157,7 @@ export class O11yReporter extends BaseReporter {
   /**
    * Gets the currently loaded schema object
    */
-  public getCurrentSchema(): unknown {
+  public getCurrentSchema(): O11ySchema | null {
     return this.customSchema;
   }
 
