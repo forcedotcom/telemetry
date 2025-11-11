@@ -22,8 +22,6 @@ import { BaseReporter } from './baseReporter';
 
 export { TelemetryClient } from 'applicationinsights';
 
-
-
 function isAsimovKey(key: string): boolean {
   return !!key?.startsWith('AIF-');
 }

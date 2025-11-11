@@ -65,4 +65,4 @@ export abstract class BaseReporter extends AsyncCreatable<TelemetryOptions> {
     };
     return Object.assign(baseProperties, extra);
   }
-} 
+}
