@@ -20,6 +20,8 @@
     "format": "wireit",
     "link-check": "wireit",
     "lint": "wireit",
+    "prepack": "sf-prepack",
+    "prepare": "sf-install",
     "test": "wireit",
     "test:only": "wireit"
   },

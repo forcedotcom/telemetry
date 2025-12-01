@@ -32,4 +32,4 @@ export function buildPropertiesAndMeasurements(attributes: Attributes): {
     }
   });
   return { properties, measurements };
-} 
+}

@@ -113,14 +113,14 @@ describe('AppInsights', () => {
   it('should separate string attributes from numeric attributes', () => {
     const attributes = { foo: 'xyz123', baz: 5, key: true };
     const { properties, measurements } = buildPropertiesAndMeasurements(attributes);
-    
+
     // Check that string and boolean values go to properties
     expect(properties.foo).to.be.a('string');
     expect(properties.key).to.equal('true');
-    
+
     // Check that numeric values go to measurements
     expect(measurements.baz).to.equal(5);
-    
+
     // Verify the structure is correct (without checking exact string values due to home dir sanitization)
     expect(Object.keys(properties)).to.include('foo');
     expect(Object.keys(properties)).to.include('key');
