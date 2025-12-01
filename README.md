@@ -76,6 +76,51 @@ const reporter = await TelemetryReporter.create({
 
 **Note:** O11y telemetry respects the same telemetry enablement settings as Application Insights. If telemetry is disabled via `SF_DISABLE_TELEMETRY` or other configuration, O11y events will not be sent.
 
+#### O11y Telemetry Batching
+
+O11y telemetry supports automatic batching of events to improve performance and reduce network overhead. By default, batching is enabled with a 30-second flush interval. Events are automatically uploaded when:
+- The buffer reaches 50KB in size, or
+- The flush interval (default: 30 seconds) elapses, or
+- The process exits (via shutdown hooks)
+
+You can configure batching options during initialization:
+
+```javascript
+const reporter = await TelemetryReporter.create({
+  project: 'my-project-name',
+  enableO11y: true,
+  o11yUploadEndpoint: 'https://your-o11y-endpoint.com/upload',
+  o11yBatching: {
+    enableAutoBatching: true, // Default: true
+    flushInterval: 60_000, // 60 seconds (default: 30_000)
+    enableShutdownHook: true, // Default: true
+    enableBeforeExitHook: true // Default: true (may not fire for STDIO servers)
+  }
+});
+```
+
+To disable batching and upload events immediately after each event:
+
+```javascript
+const reporter = await TelemetryReporter.create({
+  project: 'my-project-name',
+  enableO11y: true,
+  o11yUploadEndpoint: 'https://your-o11y-endpoint.com/upload',
+  o11yBatching: {
+    enableAutoBatching: false // Events will be uploaded immediately
+  }
+});
+```
+
+You can also manually flush buffered events when needed (e.g., before critical operations or shutdown):
+
+```javascript
+// Manually flush buffered events
+await reporter.flush();
+```
+
+**Note:** When batching is disabled, events are uploaded immediately after each `sendTelemetryEvent()`, `sendTelemetryException()`, `sendTelemetryTrace()`, or `sendTelemetryMetric()` call for backward compatibility.
+
 ## Env Variables
 
 `SF_DISABLE_TELEMETRY`: Set to `true` if you want to disable telemetry.

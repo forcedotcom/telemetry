@@ -13,16 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { O11yService } from '@salesforce/o11y-reporter';
+import { O11yService, type BatchingOptions } from '@salesforce/o11y-reporter';
 import { Attributes, Properties, TelemetryOptions } from './types';
-import { buildPropertiesAndMeasurements } from './utils';
 import { BaseReporter } from './baseReporter';
+import { buildPropertiesAndMeasurements } from './utils';
 
 export class O11yReporter extends BaseReporter {
   private service: O11yService;
   private initialized: Promise<void>;
   private commonProperties: Properties;
   private extensionName = '';
+  private _batchingCleanup: (() => void) | null = null; // Cleanup function for auto-batching
+  private _batchingEnabled: boolean = false; // Track if batching is enabled
 
   public constructor(options: TelemetryOptions) {
     super(options);
@@ -36,6 +38,38 @@ export class O11yReporter extends BaseReporter {
     await this.initialized;
   }
 
+  /**
+   * Enable automatic batching with periodic flush and shutdown hooks
+   * 
+   * Consumers can call this method to enable batching with custom options.
+   * If batching is not enabled, events will be buffered but not automatically uploaded.
+   * Use flush() to manually upload events when batching is disabled.
+   * 
+   * @param options - Batching configuration options
+   * @returns Cleanup function to stop batching and remove hooks
+   * 
+   * @example
+   * ```typescript
+   * await reporter.init();
+   * const cleanup = reporter.enableAutoBatching({
+   *   flushInterval: 30_000, // 30 seconds
+   *   enableShutdownHook: true,
+   * });
+   * ```
+   */
+  public enableAutoBatching(options?: BatchingOptions): () => void {
+    this._batchingEnabled = true;
+    this._batchingCleanup = this.service.enableAutoBatching(options);
+    return this._batchingCleanup;
+  }
+
+  /**
+   * Check if auto-batching is currently enabled
+   */
+  public isBatchingEnabled(): boolean {
+    return this._batchingEnabled;
+  }
+
   public async sendTelemetryEvent(eventName: string, attributes: Attributes = {}): Promise<void> {
     // Wait for initialization to complete before using the service
     await this.initialized;
@@ -43,13 +77,20 @@ export class O11yReporter extends BaseReporter {
     const merged = { ...this.commonProperties, ...attributes };
     
     this.service.logEvent({ eventName: `${this.extensionName}/${eventName}`, ...merged });
-    await this.service.upload();
+
+    // If batching is not enabled, upload immediately for backward compatibility
+    if (!this._batchingEnabled) {
+      await this.service.forceFlush();
+    }
+    // If batching is enabled, events will be automatically uploaded based on
+    // threshold (50KB) or periodic flush interval.
   }
 
   public async flush(): Promise<void> {
     // Wait for initialization to complete before using the service
     await this.initialized;
-    await this.service.upload();
+    // Use forceFlush for explicit manual flush
+    await this.service.forceFlush();
   }
 
   /**
@@ -67,7 +108,7 @@ export class O11yReporter extends BaseReporter {
     
     // Create exception event with sanitized error information
     const exceptionEvent = {
-      eventName: 'exception',
+      eventName: `${this.extensionName}/exception`,
       exceptionName: cleanException.name,
       exceptionMessage: cleanException.message,
       exceptionStack: cleanException.stack,
@@ -76,7 +117,10 @@ export class O11yReporter extends BaseReporter {
     };
     
     this.service.logEvent(exceptionEvent);
-    await this.service.upload();
+
+    // Events are buffered. If batching is enabled via enableAutoBatching(), they will be
+    // automatically uploaded based on threshold (50KB) or periodic flush interval.
+    // If batching is not enabled, use flush() to manually upload events.
   }
 
   /**
@@ -85,18 +129,22 @@ export class O11yReporter extends BaseReporter {
    * @param traceMessage {string} - trace message to send to O11y.
    * @param properties {Properties} - map of properties to publish alongside the event.
    */
-  public async sendTelemetryTrace(traceMessage: string, properties?: Properties): Promise<void> {
-    // Wait for initialization to complete before using the service
+  public async sendTelemetryTrace(traceMessage: string, properties: Properties = {}): Promise<void> {
     await this.initialized;
-    
+    const merged = { ...this.commonProperties, ...properties };
+
     const traceEvent = {
-      eventName: 'trace',
+      eventName: `${this.extensionName}/trace`,
       message: traceMessage,
-      ...properties,
+      ...merged,
     };
-    
+
     this.service.logEvent(traceEvent);
-    await this.service.upload();
+
+    // If batching is not enabled, upload immediately for backward compatibility
+    if (!this._batchingEnabled) {
+      await this.service.forceFlush();
+    }
   }
 
   /**
@@ -106,19 +154,23 @@ export class O11yReporter extends BaseReporter {
    * @param value {number} - value of the metric
    * @param properties {Properties} - map of properties to publish alongside the event.
    */
-  public async sendTelemetryMetric(metricName: string, value: number, properties?: Properties): Promise<void> {
-    // Wait for initialization to complete before using the service
+  public async sendTelemetryMetric(metricName: string, value: number, properties: Properties = {}): Promise<void> {
     await this.initialized;
-    
+    const merged = { ...this.commonProperties, ...properties };
+
     const metricEvent = {
-      eventName: 'metric',
+      eventName: `${this.extensionName}/metric`,
       metricName,
       value,
-      ...properties,
+      ...merged,
     };
-    
+
     this.service.logEvent(metricEvent);
-    await this.service.upload();
+
+    // If batching is not enabled, upload immediately for backward compatibility
+    if (!this._batchingEnabled) {
+      await this.service.forceFlush();
+    }
   }
 
   private buildO11yCommonProperties(extra?: Properties): Properties {
@@ -126,4 +178,4 @@ export class O11yReporter extends BaseReporter {
     baseProperties['common.extensionName'] = this.extensionName;
     return baseProperties;
   }
-} 
+}
