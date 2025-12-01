@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { O11yService, type BatchingOptions } from '@salesforce/o11y-reporter';
-import { Attributes, Properties, TelemetryOptions } from './types';
+import { Attributes, O11ySchema, Properties, TelemetryOptions } from './types';
 import { BaseReporter } from './baseReporter';
 import { buildPropertiesAndMeasurements } from './utils';
 
@@ -23,6 +23,7 @@ export class O11yReporter extends BaseReporter {
   private initialized: Promise<void>;
   private commonProperties: Properties;
   private extensionName = '';
+  private customSchema: O11ySchema | null = null; // Schema object provided by consumer
   private _batchingCleanup: (() => void) | null = null; // Cleanup function for auto-batching
   private _batchingEnabled: boolean = false; // Track if batching is enabled
 
@@ -30,6 +31,10 @@ export class O11yReporter extends BaseReporter {
     super(options);
     this.extensionName = options.extensionName ?? options.project;
     this.service = O11yService.getInstance(this.extensionName);
+
+    // Store the schema object provided by consumer (if any)
+    this.customSchema = options.o11ySchema ?? null;
+
     this.initialized = this.service.initialize(this.extensionName, options.o11yUploadEndpoint!);
     this.commonProperties = this.buildO11yCommonProperties(options.commonProperties);
   }
@@ -73,10 +78,21 @@ export class O11yReporter extends BaseReporter {
   public async sendTelemetryEvent(eventName: string, attributes: Attributes = {}): Promise<void> {
     // Wait for initialization to complete before using the service
     await this.initialized;
-    
+
     const merged = { ...this.commonProperties, ...attributes };
-    
-    this.service.logEvent({ eventName: `${this.extensionName}/${eventName}`, ...merged });
+
+    // Create event data
+    const eventData: { [key: string]: unknown } = {
+      eventName: `${this.extensionName}/${eventName}`,
+      ...merged,
+    };
+
+    // Use logEventWithSchema if custom schema is loaded, otherwise use default logEvent
+    if (this.customSchema) {
+      this.service.logEventWithSchema(eventData, this.customSchema);
+    } else {
+      this.service.logEvent(eventData);
+    }
 
     // If batching is not enabled, upload immediately for backward compatibility
     if (!this._batchingEnabled) {
@@ -102,10 +118,10 @@ export class O11yReporter extends BaseReporter {
   public async sendTelemetryException(exception: Error, attributes: Attributes = {}): Promise<void> {
     // Wait for initialization to complete before using the service
     await this.initialized;
-    
+
     const cleanException = this.sanitizeError(exception);
     const { properties, measurements } = buildPropertiesAndMeasurements(attributes);
-    
+
     // Create exception event with sanitized error information
     const exceptionEvent = {
       eventName: `${this.extensionName}/exception`,
@@ -115,12 +131,20 @@ export class O11yReporter extends BaseReporter {
       ...properties,
       ...measurements,
     };
-    
-    this.service.logEvent(exceptionEvent);
 
-    // Events are buffered. If batching is enabled via enableAutoBatching(), they will be
-    // automatically uploaded based on threshold (50KB) or periodic flush interval.
-    // If batching is not enabled, use flush() to manually upload events.
+    // Use custom schema if available
+    if (this.customSchema) {
+      this.service.logEventWithSchema(exceptionEvent, this.customSchema);
+    } else {
+      this.service.logEvent(exceptionEvent);
+    }
+
+    // If batching is not enabled, upload immediately for backward compatibility
+    if (!this._batchingEnabled) {
+      await this.service.forceFlush();
+    }
+    // If batching is enabled, events will be automatically uploaded based on
+    // threshold (50KB) or periodic flush interval.
   }
 
   /**
@@ -139,7 +163,11 @@ export class O11yReporter extends BaseReporter {
       ...merged,
     };
 
-    this.service.logEvent(traceEvent);
+    if (this.customSchema) {
+      this.service.logEventWithSchema(traceEvent, this.customSchema);
+    } else {
+      this.service.logEvent(traceEvent);
+    }
 
     // If batching is not enabled, upload immediately for backward compatibility
     if (!this._batchingEnabled) {
@@ -165,12 +193,30 @@ export class O11yReporter extends BaseReporter {
       ...merged,
     };
 
-    this.service.logEvent(metricEvent);
+    if (this.customSchema) {
+      this.service.logEventWithSchema(metricEvent, this.customSchema);
+    } else {
+      this.service.logEvent(metricEvent);
+    }
 
     // If batching is not enabled, upload immediately for backward compatibility
     if (!this._batchingEnabled) {
       await this.service.forceFlush();
     }
+  }
+
+  /**
+   * Gets the currently loaded schema object
+   */
+  public getCurrentSchema(): O11ySchema | null {
+    return this.customSchema;
+  }
+
+  /**
+   * Checks if a custom schema is being used
+   */
+  public hasCustomSchema(): boolean {
+    return this.customSchema !== null;
   }
 
   private buildO11yCommonProperties(extra?: Properties): Properties {

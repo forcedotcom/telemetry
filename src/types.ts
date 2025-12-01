@@ -28,6 +28,14 @@ export type Attributes = {
 };
 
 /**
+ * Basic type for O11y schema objects.
+ * Schemas from o11y_schema package are objects that define the structure
+ * for telemetry events. This type enforces that a schema must be an object
+ * (not a primitive, null, or undefined).
+ */
+export type O11ySchema = Record<string, unknown>;
+
+/**
  * Batching configuration for O11y telemetry
  * 
  * Batching is enabled by default. Set enableAutoBatching to false to disable batching
@@ -69,6 +77,8 @@ export type TelemetryOptions = {
   enableAppInsights?: boolean;
   // O11y-specific options
   extensionName?: string; // For O11yReporter, defaults to project if not provided
+  // Consumer-provided schema support
+  o11ySchema?: O11ySchema; // Schema object loaded by consumer (e.g., commerceInstrumentationSchema)
   /**
    * Batching configuration for O11y telemetry
    * Batching is enabled by default. Set o11yBatching.enableAutoBatching to false to disable batching
@@ -76,5 +86,3 @@ export type TelemetryOptions = {
    */
   o11yBatching?: O11yBatchingConfig;
 };
-
- 

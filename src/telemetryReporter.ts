@@ -273,7 +273,9 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    */
   public getTelemetryClient(): TelemetryClient {
     if (!this.reporter) {
-      throw new Error('AppInsights is not initialized. Check if enableAppInsights is true and a valid key is provided.');
+      throw new Error(
+        'AppInsights is not initialized. Check if enableAppInsights is true and a valid key is provided.'
+      );
     }
     return this.reporter.appInsightsClient;
   }
