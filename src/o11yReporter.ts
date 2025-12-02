@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { O11yService } from '@salesforce/o11y-reporter';
+import { O11yService, type BatchingOptions } from '@salesforce/o11y-reporter';
 import { Attributes, O11ySchema, Properties, TelemetryOptions } from './types';
 import { BaseReporter } from './baseReporter';
 import { buildPropertiesAndMeasurements } from './utils';
@@ -24,6 +24,8 @@ export class O11yReporter extends BaseReporter {
   private commonProperties: Properties;
   private extensionName = '';
   private customSchema: O11ySchema | null = null; // Schema object provided by consumer
+  private _batchingCleanup: (() => void) | null = null; // Cleanup function for auto-batching
+  private _batchingEnabled: boolean = false; // Track if batching is enabled
 
   public constructor(options: TelemetryOptions) {
     super(options);
@@ -39,6 +41,38 @@ export class O11yReporter extends BaseReporter {
 
   public async init(): Promise<void> {
     await this.initialized;
+  }
+
+  /**
+   * Enable automatic batching with periodic flush and shutdown hooks
+   * 
+   * Consumers can call this method to enable batching with custom options.
+   * If batching is not enabled, events will be buffered but not automatically uploaded.
+   * Use flush() to manually upload events when batching is disabled.
+   * 
+   * @param options - Batching configuration options
+   * @returns Cleanup function to stop batching and remove hooks
+   * 
+   * @example
+   * ```typescript
+   * await reporter.init();
+   * const cleanup = reporter.enableAutoBatching({
+   *   flushInterval: 30_000, // 30 seconds
+   *   enableShutdownHook: true,
+   * });
+   * ```
+   */
+  public enableAutoBatching(options?: BatchingOptions): () => void {
+    this._batchingEnabled = true;
+    this._batchingCleanup = this.service.enableAutoBatching(options);
+    return this._batchingCleanup;
+  }
+
+  /**
+   * Check if auto-batching is currently enabled
+   */
+  public isBatchingEnabled(): boolean {
+    return this._batchingEnabled;
   }
 
   public async sendTelemetryEvent(eventName: string, attributes: Attributes = {}): Promise<void> {
@@ -60,13 +94,19 @@ export class O11yReporter extends BaseReporter {
       this.service.logEvent(eventData);
     }
 
-    await this.service.upload();
+    // If batching is not enabled, upload immediately for backward compatibility
+    if (!this._batchingEnabled) {
+      await this.service.forceFlush();
+    }
+    // If batching is enabled, events will be automatically uploaded based on
+    // threshold (50KB) or periodic flush interval.
   }
 
   public async flush(): Promise<void> {
     // Wait for initialization to complete before using the service
     await this.initialized;
-    await this.service.upload();
+    // Use forceFlush for explicit manual flush
+    await this.service.forceFlush();
   }
 
   /**
@@ -99,7 +139,12 @@ export class O11yReporter extends BaseReporter {
       this.service.logEvent(exceptionEvent);
     }
 
-    await this.service.upload();
+    // If batching is not enabled, upload immediately for backward compatibility
+    if (!this._batchingEnabled) {
+      await this.service.forceFlush();
+    }
+    // If batching is enabled, events will be automatically uploaded based on
+    // threshold (50KB) or periodic flush interval.
   }
 
   /**
@@ -112,19 +157,22 @@ export class O11yReporter extends BaseReporter {
     await this.initialized;
     const merged = { ...this.commonProperties, ...properties };
 
-    const eventData = {
+    const traceEvent = {
       eventName: `${this.extensionName}/trace`,
       message: traceMessage,
       ...merged,
     };
 
     if (this.customSchema) {
-      this.service.logEventWithSchema(eventData, this.customSchema);
+      this.service.logEventWithSchema(traceEvent, this.customSchema);
     } else {
-      this.service.logEvent(eventData);
+      this.service.logEvent(traceEvent);
     }
 
-    await this.service.upload();
+    // If batching is not enabled, upload immediately for backward compatibility
+    if (!this._batchingEnabled) {
+      await this.service.forceFlush();
+    }
   }
 
   /**
@@ -138,7 +186,7 @@ export class O11yReporter extends BaseReporter {
     await this.initialized;
     const merged = { ...this.commonProperties, ...properties };
 
-    const eventData = {
+    const metricEvent = {
       eventName: `${this.extensionName}/metric`,
       metricName,
       value,
@@ -146,12 +194,15 @@ export class O11yReporter extends BaseReporter {
     };
 
     if (this.customSchema) {
-      this.service.logEventWithSchema(eventData, this.customSchema);
+      this.service.logEventWithSchema(metricEvent, this.customSchema);
     } else {
-      this.service.logEvent(eventData);
+      this.service.logEvent(metricEvent);
     }
 
-    await this.service.upload();
+    // If batching is not enabled, upload immediately for backward compatibility
+    if (!this._batchingEnabled) {
+      await this.service.forceFlush();
+    }
   }
 
   /**

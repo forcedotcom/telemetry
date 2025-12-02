@@ -35,6 +35,33 @@ export type Attributes = {
  */
 export type O11ySchema = Record<string, unknown>;
 
+/**
+ * Batching configuration for O11y telemetry
+ * 
+ * Batching is enabled by default. Set enableAutoBatching to false to disable batching
+ * and upload events immediately after each event.
+ */
+export type O11yBatchingConfig = {
+  /**
+   * Enable automatic batching of events (default: true)
+   * Set to false to disable batching and upload events immediately after each event.
+   * If not specified, batching is enabled by default.
+   */
+  enableAutoBatching?: boolean;
+  /**
+   * Periodic flush interval in milliseconds (default: 30000)
+   */
+  flushInterval?: number;
+  /**
+   * Enable shutdown hooks (default: true)
+   */
+  enableShutdownHook?: boolean;
+  /**
+   * Enable beforeExit hook (default: true). Note: beforeExit won't fire for STDIO servers where stdin stays open
+   */
+  enableBeforeExitHook?: boolean;
+};
+
 export type TelemetryOptions = {
   project: string;
   key: string;
@@ -52,4 +79,10 @@ export type TelemetryOptions = {
   extensionName?: string; // For O11yReporter, defaults to project if not provided
   // Consumer-provided schema support
   o11ySchema?: O11ySchema; // Schema object loaded by consumer (e.g., commerceInstrumentationSchema)
+  /**
+   * Batching configuration for O11y telemetry
+   * Batching is enabled by default. Set o11yBatching.enableAutoBatching to false to disable batching
+   * and upload events immediately after each event.
+   */
+  o11yBatching?: O11yBatchingConfig;
 };

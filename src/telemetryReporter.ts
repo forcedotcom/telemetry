@@ -17,6 +17,7 @@ import * as os from 'node:os';
 import { Logger, SfConfigProperties } from '@salesforce/core';
 import { AsyncCreatable, env } from '@salesforce/kit';
 
+import type { BatchingOptions } from '@salesforce/o11y-reporter';
 import got from 'got';
 import { ProxyAgent } from 'proxy-agent';
 import { AppInsights, TelemetryClient } from './appInsights';
@@ -72,7 +73,26 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
       if (this.options.o11yUploadEndpoint) {
         try {
           this.o11yReporter = new O11yReporter(this.options);
-          this.logger.debug('O11y reporter initialized successfully');
+          await this.o11yReporter.init();
+          
+          // Configure batching - enabled by default unless explicitly disabled
+          const batchingConfig = this.options.o11yBatching;
+          // Batching is enabled by default. Only disable if explicitly set to false
+          const enableAutoBatching = batchingConfig?.enableAutoBatching !== false;
+          
+          if (enableAutoBatching) {
+            // Enable auto-batching with provided options or defaults
+            const batchingOptions = {
+              flushInterval: batchingConfig?.flushInterval ?? 30_000, // 30 seconds default
+              enableShutdownHook: batchingConfig?.enableShutdownHook ?? true,
+              enableBeforeExitHook: batchingConfig?.enableBeforeExitHook,
+            } as BatchingOptions;
+            this.o11yReporter.enableAutoBatching(batchingOptions);
+            this.logger.debug('O11y reporter initialized with auto-batching enabled (default)');
+          } else {
+            // Batching explicitly disabled - events will be uploaded immediately after each event
+            this.logger.debug('O11y reporter initialized with auto-batching disabled (immediate uploads)');
+          }
         } catch (error) {
           this.logger.warn('Failed to initialize O11y reporter:', error);
           this.o11yReporter = undefined;
@@ -258,5 +278,57 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
       );
     }
     return this.reporter.appInsightsClient;
+  }
+
+  /**
+   * Enable automatic batching for O11y telemetry events.
+   * 
+   * This method allows consumers to configure batching options for O11y telemetry.
+   * If batching is not enabled, events will be buffered but not automatically uploaded.
+   * Use flush() to manually upload events when batching is disabled.
+   * 
+   * Note: Auto-batching is enabled by default with 30-second flush interval during init().
+   * Calling this method will override the default batching configuration.
+   * 
+   * @param options - Batching configuration options
+   * @returns Cleanup function to stop batching and remove hooks, or undefined if O11y is not enabled
+   * 
+   * @example
+   * ```typescript
+   * const cleanup = reporter.enableAutoBatching({
+   *   flushInterval: 60_000, // 60 seconds
+   *   enableShutdownHook: true,
+   * });
+   * ```
+   */
+  public enableAutoBatching(options?: BatchingOptions): (() => void) | undefined {
+    if (!this.o11yReporter) {
+      this.logger.debug('O11y reporter is not initialized. enableAutoBatching() has no effect.');
+      return undefined;
+    }
+    return this.o11yReporter.enableAutoBatching(options);
+  }
+
+  /**
+   * Force an immediate flush of buffered O11y telemetry events.
+   * 
+   * This method triggers an immediate upload of all currently buffered telemetry events.
+   * It's useful for ensuring critical events are sent immediately, or for
+   * flushing remaining events before an application exits.
+   * 
+   * @returns Promise that resolves when the upload completes, or undefined if O11y is not enabled
+   * 
+   * @example
+   * ```typescript
+   * // Flush events before critical operation
+   * await reporter.flush();
+   * ```
+   */
+  public async flush(): Promise<void> {
+    if (!this.o11yReporter) {
+      this.logger.debug('O11y reporter is not initialized. flush() has no effect.');
+      return;
+    }
+    await this.o11yReporter.flush();
   }
 }

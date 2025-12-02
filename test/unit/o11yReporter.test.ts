@@ -30,7 +30,8 @@ describe('O11yReporter', () => {
     initialize: sinon.SinonStub;
     logEvent: sinon.SinonStub;
     logEventWithSchema: sinon.SinonStub;
-    upload: sinon.SinonStub;
+    forceFlush: sinon.SinonStub;
+    enableAutoBatching: sinon.SinonStub;
   };
   let reporter: O11yReporter;
 
@@ -42,7 +43,8 @@ describe('O11yReporter', () => {
       initialize: sandbox.stub().resolves(),
       logEvent: sandbox.stub(),
       logEventWithSchema: sandbox.stub(),
-      upload: sandbox.stub().resolves(),
+      forceFlush: sandbox.stub().resolves(),
+      enableAutoBatching: sandbox.stub().returns(() => {}),
     };
 
     // Stub the O11yService.getInstance method
@@ -79,7 +81,7 @@ describe('O11yReporter', () => {
       await reporter.sendTelemetryEvent(eventName);
 
       expect(mockO11yService.logEvent.called).to.be.true;
-      expect(mockO11yService.upload.called).to.be.true;
+      expect(mockO11yService.forceFlush.called).to.be.true;
 
       const callArgs = mockO11yService.logEvent.firstCall.args[0];
       expect(callArgs.eventName).to.equal(`${extensionName}/${eventName}`);
@@ -97,7 +99,7 @@ describe('O11yReporter', () => {
       await reporter.sendTelemetryEvent(eventName, attributes);
 
       expect(mockO11yService.logEvent.called).to.be.true;
-      expect(mockO11yService.upload.called).to.be.true;
+      expect(mockO11yService.forceFlush.called).to.be.true;
 
       const callArgs = mockO11yService.logEvent.firstCall.args[0];
       expect(callArgs.eventName).to.equal(`${extensionName}/${eventName}`);
@@ -121,7 +123,7 @@ describe('O11yReporter', () => {
 
       expect(mockO11yService.logEventWithSchema.called).to.be.true;
       expect(mockO11yService.logEvent.called).to.be.false;
-      expect(mockO11yService.upload.called).to.be.true;
+      expect(mockO11yService.forceFlush.called).to.be.true;
 
       const callArgs = mockO11yService.logEventWithSchema.firstCall.args;
       expect(callArgs[0].eventName).to.equal(`${extensionName}/${eventName}`);
@@ -137,7 +139,7 @@ describe('O11yReporter', () => {
 
       expect(mockO11yService.logEvent.called).to.be.true;
       expect(mockO11yService.logEventWithSchema.called).to.be.false;
-      expect(mockO11yService.upload.called).to.be.true;
+      expect(mockO11yService.forceFlush.called).to.be.true;
     });
   });
 
@@ -154,7 +156,7 @@ describe('O11yReporter', () => {
       await reporter.sendTelemetryException(error);
 
       expect(mockO11yService.logEvent.called).to.be.true;
-      expect(mockO11yService.upload.called).to.be.true;
+      expect(mockO11yService.forceFlush.called).to.be.true;
 
       const callArgs = mockO11yService.logEvent.firstCall.args[0];
       expect(callArgs.eventName).to.equal(`${extensionName}/exception`);
@@ -209,7 +211,7 @@ describe('O11yReporter', () => {
       await reporter.sendTelemetryTrace(traceMessage);
 
       expect(mockO11yService.logEvent.called).to.be.true;
-      expect(mockO11yService.upload.called).to.be.true;
+      expect(mockO11yService.forceFlush.called).to.be.true;
 
       const callArgs = mockO11yService.logEvent.firstCall.args[0];
       expect(callArgs.eventName).to.equal(`${extensionName}/trace`);
@@ -247,7 +249,7 @@ describe('O11yReporter', () => {
       await reporter.sendTelemetryMetric(metricName, value);
 
       expect(mockO11yService.logEvent.called).to.be.true;
-      expect(mockO11yService.upload.called).to.be.true;
+      expect(mockO11yService.forceFlush.called).to.be.true;
 
       const callArgs = mockO11yService.logEvent.firstCall.args[0];
       expect(callArgs.eventName).to.equal(`${extensionName}/metric`);
@@ -280,10 +282,10 @@ describe('O11yReporter', () => {
       reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint });
     });
 
-    it('should call upload on the service', async () => {
+    it('should call forceFlush on the service', async () => {
       await reporter.flush();
 
-      expect(mockO11yService.upload.called).to.be.true;
+      expect(mockO11yService.forceFlush.called).to.be.true;
     });
   });
 
