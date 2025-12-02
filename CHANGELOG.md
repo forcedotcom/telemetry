@@ -1,3 +1,18 @@
+# [6.4.0](https://github.com/forcedotcom/telemetry/compare/6.3.1...6.4.0) (2025-12-02)
+
+
+### Bug Fixes
+
+* restore package.json scripts and remove formatting-only file changes ([437cf7e](https://github.com/forcedotcom/telemetry/commit/437cf7e8d4d86e66e29700a96672fc736facab4e))
+* update o11yReporter tests to use forceFlush instead of upload ([5b6b9d5](https://github.com/forcedotcom/telemetry/commit/5b6b9d5c7ec79b0971b4f5dd35367038415be6d8))
+
+
+### Features
+
+* @W-20318377 add telemetry batching and flush mechanism ([9446251](https://github.com/forcedotcom/telemetry/commit/94462517281fafccd539382ba52396ffcb9f2043))
+
+
+
 ## [6.3.1](https://github.com/forcedotcom/telemetry/compare/6.3.0...6.3.1) (2025-11-29)
 
 
