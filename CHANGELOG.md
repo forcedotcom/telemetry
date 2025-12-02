@@ -1,3 +1,12 @@
+## [6.4.1](https://github.com/forcedotcom/telemetry/compare/6.4.0...6.4.1) (2025-12-02)
+
+
+### Bug Fixes
+
+* **deps:** bump mdast-util-to-hast from 13.2.0 to 13.2.1 ([537863c](https://github.com/forcedotcom/telemetry/commit/537863c4dcc7c432b1b09b7f0b674fa1afd1a62e))
+
+
+
 # [6.4.0](https://github.com/forcedotcom/telemetry/compare/6.3.1...6.4.0) (2025-12-02)
 
 
