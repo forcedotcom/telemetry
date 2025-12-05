@@ -1,3 +1,12 @@
+## [6.4.2](https://github.com/forcedotcom/telemetry/compare/6.4.1...6.4.2) (2025-12-05)
+
+
+### Bug Fixes
+
+* **deps:** bump jws from 3.2.2 to 3.2.3 ([4b51dab](https://github.com/forcedotcom/telemetry/commit/4b51dab370fbada710b86282bc04845565a2fff2))
+
+
+
 ## [6.4.1](https://github.com/forcedotcom/telemetry/compare/6.4.0...6.4.1) (2025-12-02)
 
 
