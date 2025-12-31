@@ -74,16 +74,18 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
         try {
           this.o11yReporter = new O11yReporter(this.options);
           await this.o11yReporter.init();
-          
+
           // Configure batching - enabled by default unless explicitly disabled
           const batchingConfig = this.options.o11yBatching;
           // Batching is enabled by default. Only disable if explicitly set to false
           const enableAutoBatching = batchingConfig?.enableAutoBatching !== false;
-          
+
           if (enableAutoBatching) {
             // Enable auto-batching with provided options or defaults
             const batchingOptions = {
               flushInterval: batchingConfig?.flushInterval ?? 30_000, // 30 seconds default
+              thresholdBytes: batchingConfig?.thresholdBytes,
+              checkInterval: batchingConfig?.checkInterval,
               enableShutdownHook: batchingConfig?.enableShutdownHook ?? true,
               enableBeforeExitHook: batchingConfig?.enableBeforeExitHook,
             } as BatchingOptions;
@@ -282,17 +284,17 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
 
   /**
    * Enable automatic batching for O11y telemetry events.
-   * 
+   *
    * This method allows consumers to configure batching options for O11y telemetry.
    * If batching is not enabled, events will be buffered but not automatically uploaded.
    * Use flush() to manually upload events when batching is disabled.
-   * 
+   *
    * Note: Auto-batching is enabled by default with 30-second flush interval during init().
    * Calling this method will override the default batching configuration.
-   * 
+   *
    * @param options - Batching configuration options
    * @returns Cleanup function to stop batching and remove hooks, or undefined if O11y is not enabled
-   * 
+   *
    * @example
    * ```typescript
    * const cleanup = reporter.enableAutoBatching({
@@ -311,13 +313,13 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
 
   /**
    * Force an immediate flush of buffered O11y telemetry events.
-   * 
+   *
    * This method triggers an immediate upload of all currently buffered telemetry events.
    * It's useful for ensuring critical events are sent immediately, or for
    * flushing remaining events before an application exits.
-   * 
+   *
    * @returns Promise that resolves when the upload completes, or undefined if O11y is not enabled
-   * 
+   *
    * @example
    * ```typescript
    * // Flush events before critical operation

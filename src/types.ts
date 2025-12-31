@@ -37,7 +37,7 @@ export type O11ySchema = Record<string, unknown>;
 
 /**
  * Batching configuration for O11y telemetry
- * 
+ *
  * Batching is enabled by default. Set enableAutoBatching to false to disable batching
  * and upload events immediately after each event.
  */
@@ -52,6 +52,14 @@ export type O11yBatchingConfig = {
    * Periodic flush interval in milliseconds (default: 30000)
    */
   flushInterval?: number;
+  /**
+   * Buffer size threshold in bytes before triggering upload (default: 50000 = 50KB)
+   */
+  thresholdBytes?: number;
+  /**
+   * Threshold check interval in milliseconds (default: 2000 = 2s). Lower values catch threshold violations faster but use more CPU
+   */
+  checkInterval?: number;
   /**
    * Enable shutdown hooks (default: true)
    */
