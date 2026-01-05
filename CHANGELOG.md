@@ -1,3 +1,12 @@
+## [6.4.4](https://github.com/forcedotcom/telemetry/compare/6.4.3...6.4.4) (2026-01-05)
+
+
+### Bug Fixes
+
+* @W-20729503 - update o11y-reporter to 1.7.0 ([#462](https://github.com/forcedotcom/telemetry/issues/462)) ([e639d68](https://github.com/forcedotcom/telemetry/commit/e639d68a0d607544fd472a3a7cffa59b0c4abb16))
+
+
+
 ## [6.4.3](https://github.com/forcedotcom/telemetry/compare/6.4.2...6.4.3) (2025-12-06)
 
 
