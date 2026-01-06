@@ -1,3 +1,12 @@
+## [6.4.5](https://github.com/forcedotcom/telemetry/compare/6.4.4...6.4.5) (2026-01-06)
+
+
+### Bug Fixes
+
+* @W-20729503 - correct file headers to pass lint checks ([#464](https://github.com/forcedotcom/telemetry/issues/464)) ([63cdaa7](https://github.com/forcedotcom/telemetry/commit/63cdaa741fc42494d0bf6d1b2e26885e6df60368))
+
+
+
 ## [6.4.4](https://github.com/forcedotcom/telemetry/compare/6.4.3...6.4.4) (2026-01-05)
 
 
