@@ -1,3 +1,12 @@
+## [6.4.7](https://github.com/forcedotcom/telemetry/compare/6.4.6...6.4.7) (2026-01-22)
+
+
+### Bug Fixes
+
+* **deps:** bump lodash from 4.17.21 to 4.17.23 ([579fdd3](https://github.com/forcedotcom/telemetry/commit/579fdd3399472b8ef8cc6242dea0a9e0d218a9e5))
+
+
+
 ## [6.4.6](https://github.com/forcedotcom/telemetry/compare/6.4.5...6.4.6) (2026-01-17)
 
 
