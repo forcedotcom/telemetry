@@ -1,3 +1,12 @@
+# [6.5.0](https://github.com/forcedotcom/telemetry/compare/6.4.8...6.5.0) (2026-01-29)
+
+
+### Features
+
+* @W-21083864 - Add sendTelemetryEventWithSchema, remove o11ySchema from config ([a73dcd4](https://github.com/forcedotcom/telemetry/commit/a73dcd4099cfed5f3d1b9634ba6dfb67e1023050))
+
+
+
 ## [6.4.8](https://github.com/forcedotcom/telemetry/compare/6.4.7...6.4.8) (2026-01-24)
 
 
