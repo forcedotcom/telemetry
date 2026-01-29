@@ -56,7 +56,7 @@ const reporter = await TelemetryReporter.create({
   key: 'my-instrumentation-key', // Required for Application Insights
   enableO11y: true,
   o11yUploadEndpoint: 'https://your-o11y-endpoint.com/upload',
-  extensionName: 'my-extension' // Optional, defaults to project name
+  extensionName: 'my-extension', // Optional, defaults to project name
 });
 ```
 
@@ -70,15 +70,15 @@ const reporter = await TelemetryReporter.create({
   enableO11y: true,
   enableAppInsights: false, // Disable AppInsights
   o11yUploadEndpoint: 'https://your-o11y-endpoint.com/upload',
-  extensionName: 'my-extension' // Optional, defaults to project name
+  extensionName: 'my-extension', // Optional, defaults to project name
 });
 ```
 
 **Note:** O11y telemetry respects the same telemetry enablement settings as Application Insights. If telemetry is disabled via `SF_DISABLE_TELEMETRY` or other configuration, O11y events will not be sent.
 
-#### Custom Schema Support
+#### Custom Schema Support (sendTelemetryEventWithSchema)
 
-The telemetry reporter supports consumer-provided O11y schemas. This allows consumers to use custom schemas from the `o11y_schema` package instead of the default `sf_a4dInstrumentation` schema.
+To send events that conform to a specific O11y schema (e.g. PFT/pdpEventSchema), use `sendTelemetryEventWithSchema` instead of passing a schema in config. This keeps default events on the default schema and restricts schema-specific events (e.g. PFT) to the method that accepts a schema per call.
 
 **Step 1: Add `o11y_schema` to your `package.json`:**
 
@@ -90,32 +90,35 @@ The telemetry reporter supports consumer-provided O11y schemas. This allows cons
 }
 ```
 
-**Step 2: Import and pass the schema to the telemetry reporter:**
+**Step 2: Send events with a schema only when needed:**
 
 ```javascript
 import TelemetryReporter from '@salesforce/telemetry';
-// Import the schema object from o11y_schema
-import { a4dInstrumentationSchema } from 'o11y_schema/sf_a4dInstrumentation';
+// Import the schema object from o11y_schema (e.g. for PFT events)
+import { pdpEventSchema } from 'o11y_schema/sf_pdpEvent';
 
 const reporter = await TelemetryReporter.create({
   project: 'my-project-name',
   enableO11y: true,
   o11yUploadEndpoint: 'https://your-o11y-endpoint.com/upload',
-  o11ySchema: a4dInstrumentationSchema, // Pass the schema object
-  extensionName: 'my-extension'
+  extensionName: 'my-extension',
 });
 
 reporter.start();
+// Default events use the default schema
 reporter.sendTelemetryEvent('event-name', { foo: 'bar' });
+// PFT or other schema-specific events: pass schema per call
+reporter.sendTelemetryEventWithSchema('pftEventName', { userId: 'user-1', action: 'view' }, pdpEventSchema);
 ```
 
-**Note:** When `o11ySchema` is provided, the reporter will use `logEventWithSchema()` to log events with your custom schema. If `o11ySchema` is not provided, it falls back to the default `sf_a4dInstrumentation` schema.
+**Note:** `sendTelemetryEventWithSchema` sends only to O11y (not AppInsights). Use it for events that must conform to a given schema; use `sendTelemetryEvent` for all other events.
 
-**Note:** The `o11y_schema` package doesn't provide TypeScript declarations. If your TypeScript configuration doesn't include `skipLibCheck: true`, you may need to add type declarations or use `@ts-expect-error` comments. However, with proper TypeScript configuration, the import should work without additional annotations.
+**Note:** The `o11y_schema` package may not provide TypeScript declarations. If your TypeScript configuration doesn't include `skipLibCheck: true`, you may need type declarations or `@ts-expect-error` for schema imports.
 
 #### O11y Telemetry Batching
 
 O11y telemetry supports automatic batching of events to improve performance and reduce network overhead. By default, batching is enabled with a 30-second flush interval. Events are automatically uploaded when:
+
 - The buffer reaches 50KB in size, or
 - The flush interval (default: 30 seconds) elapses, or
 - The process exits (via shutdown hooks)
@@ -131,8 +134,8 @@ const reporter = await TelemetryReporter.create({
     enableAutoBatching: true, // Default: true
     flushInterval: 60_000, // 60 seconds (default: 30_000)
     enableShutdownHook: true, // Default: true
-    enableBeforeExitHook: true // Default: true (may not fire for STDIO servers)
-  }
+    enableBeforeExitHook: true, // Default: true (may not fire for STDIO servers)
+  },
 });
 ```
 
@@ -144,8 +147,8 @@ const reporter = await TelemetryReporter.create({
   enableO11y: true,
   o11yUploadEndpoint: 'https://your-o11y-endpoint.com/upload',
   o11yBatching: {
-    enableAutoBatching: false // Events will be uploaded immediately
-  }
+    enableAutoBatching: false, // Events will be uploaded immediately
+  },
 });
 ```
 

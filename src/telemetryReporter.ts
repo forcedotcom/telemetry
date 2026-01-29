@@ -23,7 +23,7 @@ import { ProxyAgent } from 'proxy-agent';
 import { AppInsights, TelemetryClient } from './appInsights';
 import { isEnabled } from './enabledCheck';
 import { O11yReporter } from './o11yReporter';
-import { Attributes, Properties, TelemetryOptions } from './types';
+import { Attributes, O11ySchema, Properties, TelemetryOptions } from './types';
 
 /**
  * This is the main telemetry reporter that should be used by consumers.
@@ -156,6 +156,23 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
     } catch (err) {
       this.logger.warn(`Connection to ${AppInsights.APP_INSIGHTS_SERVER} timed out after ${timeout} ms`);
       return false;
+    }
+  }
+
+  /**
+   * Sends a telemetry event to O11y only with a specific schema.
+   * Use this for events that must conform to a given schema (e.g. PFT/pdpEventSchema).
+   * Does not send to AppInsights. Only sends when O11y is enabled and reporter is initialized.
+   *
+   * @param eventName - Name of the event
+   * @param attributes - Properties and measurements to publish alongside the event
+   * @param schema - O11y schema object (e.g. from o11y_schema package)
+   */
+  public sendTelemetryEventWithSchema(eventName: string, attributes: Attributes, schema: O11ySchema): void {
+    if (this.isSfdxTelemetryEnabled() && this.enableO11y && this.o11yReporter) {
+      void this.o11yReporter.sendTelemetryEventWithSchema(eventName, attributes, schema).catch((error) => {
+        this.logger.debug('Failed to send event with schema to O11y:', error);
+      });
     }
   }
 
