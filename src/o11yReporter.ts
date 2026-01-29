@@ -23,7 +23,6 @@ export class O11yReporter extends BaseReporter {
   private initialized: Promise<void>;
   private commonProperties: Properties;
   private extensionName = '';
-  private customSchema: O11ySchema | null = null; // Schema object provided by consumer
   private _batchingCleanup: (() => void) | null = null; // Cleanup function for auto-batching
   private _batchingEnabled: boolean = false; // Track if batching is enabled
 
@@ -31,9 +30,6 @@ export class O11yReporter extends BaseReporter {
     super(options);
     this.extensionName = options.extensionName ?? options.project;
     this.service = O11yService.getInstance(this.extensionName);
-
-    // Store the schema object provided by consumer (if any)
-    this.customSchema = options.o11ySchema ?? null;
 
     this.initialized = this.service.initialize(this.extensionName, options.o11yUploadEndpoint!);
     this.commonProperties = this.buildO11yCommonProperties(options.commonProperties);
@@ -45,14 +41,14 @@ export class O11yReporter extends BaseReporter {
 
   /**
    * Enable automatic batching with periodic flush and shutdown hooks
-   * 
+   *
    * Consumers can call this method to enable batching with custom options.
    * If batching is not enabled, events will be buffered but not automatically uploaded.
    * Use flush() to manually upload events when batching is disabled.
-   * 
+   *
    * @param options - Batching configuration options
    * @returns Cleanup function to stop batching and remove hooks
-   * 
+   *
    * @example
    * ```typescript
    * await reporter.init();
@@ -87,12 +83,7 @@ export class O11yReporter extends BaseReporter {
       ...merged,
     };
 
-    // Use logEventWithSchema if custom schema is loaded, otherwise use default logEvent
-    if (this.customSchema) {
-      this.service.logEventWithSchema(eventData, this.customSchema);
-    } else {
-      this.service.logEvent(eventData);
-    }
+    this.service.logEvent(eventData);
 
     // If batching is not enabled, upload immediately for backward compatibility
     if (!this._batchingEnabled) {
@@ -100,6 +91,37 @@ export class O11yReporter extends BaseReporter {
     }
     // If batching is enabled, events will be automatically uploaded based on
     // threshold (50KB) or periodic flush interval.
+  }
+
+  /**
+   * Sends a telemetry event with a specific O11y schema.
+   * Use this method when you need to send events that conform to a particular schema
+   * (e.g. PFT/pdpEventSchema). Only the events you send via this method use the given schema;
+   * all other events use the default schema via sendTelemetryEvent.
+   *
+   * @param eventName - Name of the event
+   * @param attributes - Properties and measurements to publish alongside the event
+   * @param schema - O11y schema object (e.g. from o11y_schema package)
+   */
+  public async sendTelemetryEventWithSchema(
+    eventName: string,
+    attributes: Attributes,
+    schema: O11ySchema
+  ): Promise<void> {
+    await this.initialized;
+
+    const merged = { ...this.commonProperties, ...attributes };
+
+    const eventData: { [key: string]: unknown } = {
+      eventName: `${this.extensionName}/${eventName}`,
+      ...merged,
+    };
+
+    this.service.logEventWithSchema(eventData, schema);
+
+    if (!this._batchingEnabled) {
+      await this.service.forceFlush();
+    }
   }
 
   public async flush(): Promise<void> {
@@ -132,12 +154,7 @@ export class O11yReporter extends BaseReporter {
       ...measurements,
     };
 
-    // Use custom schema if available
-    if (this.customSchema) {
-      this.service.logEventWithSchema(exceptionEvent, this.customSchema);
-    } else {
-      this.service.logEvent(exceptionEvent);
-    }
+    this.service.logEvent(exceptionEvent);
 
     // If batching is not enabled, upload immediately for backward compatibility
     if (!this._batchingEnabled) {
@@ -163,11 +180,7 @@ export class O11yReporter extends BaseReporter {
       ...merged,
     };
 
-    if (this.customSchema) {
-      this.service.logEventWithSchema(traceEvent, this.customSchema);
-    } else {
-      this.service.logEvent(traceEvent);
-    }
+    this.service.logEvent(traceEvent);
 
     // If batching is not enabled, upload immediately for backward compatibility
     if (!this._batchingEnabled) {
@@ -193,30 +206,12 @@ export class O11yReporter extends BaseReporter {
       ...merged,
     };
 
-    if (this.customSchema) {
-      this.service.logEventWithSchema(metricEvent, this.customSchema);
-    } else {
-      this.service.logEvent(metricEvent);
-    }
+    this.service.logEvent(metricEvent);
 
     // If batching is not enabled, upload immediately for backward compatibility
     if (!this._batchingEnabled) {
       await this.service.forceFlush();
     }
-  }
-
-  /**
-   * Gets the currently loaded schema object
-   */
-  public getCurrentSchema(): O11ySchema | null {
-    return this.customSchema;
-  }
-
-  /**
-   * Checks if a custom schema is being used
-   */
-  public hasCustomSchema(): boolean {
-    return this.customSchema !== null;
   }
 
   private buildO11yCommonProperties(extra?: Properties): Properties {

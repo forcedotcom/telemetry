@@ -85,8 +85,6 @@ export type TelemetryOptions = {
   enableAppInsights?: boolean;
   // O11y-specific options
   extensionName?: string; // For O11yReporter, defaults to project if not provided
-  // Consumer-provided schema support
-  o11ySchema?: O11ySchema; // Schema object loaded by consumer (e.g., commerceInstrumentationSchema)
   /**
    * Batching configuration for O11y telemetry
    * Batching is enabled by default. Set o11yBatching.enableAutoBatching to false to disable batching
