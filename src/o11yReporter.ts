@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 import { O11yService, type BatchingOptions } from '@salesforce/o11y-reporter';
-import { Attributes, O11ySchema, Properties, TelemetryOptions } from './types';
+import { pdpEventSchema } from 'o11y_schema/sf_pdp';
+import { Attributes, O11ySchema, PdpEvent, Properties, TelemetryOptions } from './types';
 import { BaseReporter } from './baseReporter';
 import { buildPropertiesAndMeasurements } from './utils';
 
@@ -118,6 +119,21 @@ export class O11yReporter extends BaseReporter {
     };
 
     this.service.logEventWithSchema(eventData, schema);
+
+    if (!this._batchingEnabled) {
+      await this.service.forceFlush();
+    }
+  }
+
+  /**
+   * Sends a PDP event via O11y service.
+   *
+   * @param event - PDP event to send.
+   */
+  public async sendPdpEvent(event: PdpEvent): Promise<void> {
+    await this.initialized;
+
+    this.service.logEventWithSchema(event, pdpEventSchema);
 
     if (!this._batchingEnabled) {
       await this.service.forceFlush();
