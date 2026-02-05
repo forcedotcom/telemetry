@@ -50,7 +50,7 @@ export type PdpEvent = {
    * action = Action the user takes in past tense. This should only be ONE word, in lower case
    *          Examples: processed, selected, sent, saved
    */
-  eventName: string;
+  eventName: `${string}.${string}`;
   /**
    * Product Feature ID from GUS.
    *
@@ -58,10 +58,10 @@ export type PdpEvent = {
    *   Salesforce CLI = aJCEE0000000mHP4AY
    *   Salesforce Extensions for VS Code = aJCEE0000000mLm4AI
    */
-  productFeatureId: string;
+  productFeatureId: `aJC${string}`;
   /**
    * Populate this if there is a unique component with your Event for which a distinct count would be a relevant metric
-   * E.g., campaignID → count the number of campaigns that were interacted with.
+   * E.g., CLI plugin command name (<pluginName.commandName>) or ext command name.
    */
   componentId?: string;
   /**
