@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 import { O11yService, type BatchingOptions } from '@salesforce/o11y-reporter';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore o11y_schema/sf_pdp.d.ts is not a valid module
 import { pdpEventSchema } from 'o11y_schema/sf_pdp';
 import { Attributes, O11ySchema, PdpEvent, Properties, TelemetryOptions } from './types';
 import { BaseReporter } from './baseReporter';
