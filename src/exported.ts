@@ -18,4 +18,4 @@ import { TelemetryReporter } from './telemetryReporter';
 export * from './telemetryReporter';
 export { isEnabled } from './enabledCheck';
 export default TelemetryReporter;
-export type { Attributes, O11ySchema, O11yBatchingConfig } from './types';
+export type { Attributes, O11ySchema, O11yBatchingConfig, PdpEvent } from './types';
