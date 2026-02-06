@@ -822,10 +822,10 @@
   dependencies:
     "@salesforce/ts-types" "^2.0.12"
 
-"@salesforce/o11y-reporter@1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@salesforce/o11y-reporter/-/o11y-reporter-1.7.0.tgz#9ad4877ab4df18a80e904be564a2063b4563bbe2"
-  integrity sha512-K4kY3yf2RD2T/RYIID3Ucrlbi9cdR57Lak58o1KLhl4gO+LHMatuk5FJbYpEIuaOqE83G5/pIJ1dOps0BVBcVA==
+"@salesforce/o11y-reporter@1.7.3":
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/@salesforce/o11y-reporter/-/o11y-reporter-1.7.3.tgz#14e58bc511fa3529077eff7e6712182574c52a1c"
+  integrity sha512-Krd2EgHYrTW1j1Wo5q+4kya6F7WjGvJsD4oUKzefLRw92Pb5b7aMorLFsKMEvLTZSGmTZZClLmQMap0gLOV6qw==
   dependencies:
     o11y "^258.7.0"
     o11y_schema "256.154.0"
@@ -4541,10 +4541,10 @@ o11y_schema@256.154.0:
   resolved "https://registry.npmjs.org/o11y_schema/-/o11y_schema-256.154.0.tgz#1f2f94f1e42d07e62a3e18e09b026345b057dc0c"
   integrity sha512-czvU/9cibyZptbr0gLJSM70U7zLlhWC2D2L5e9nOG84Wnqmn4F5YzVjrH1ZQzAzDbBbtbeU6WTS3F/SHqtMQ5g==
 
-o11y_schema@^260.40.0:
-  version "260.40.0"
-  resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-260.40.0.tgz#63478a5022a7715864b2f3fbba425f88c72dec52"
-  integrity sha512-H9QYuouUs7/Tx9nCbDJ6BGJOkn+dopUG9OWf2jmcSGR0mSANzi3kkpjOo7MajYrWl5K99hDDOQLPs4vPHqwPoA==
+o11y_schema@^260.41.0:
+  version "260.41.0"
+  resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-260.41.0.tgz#a93c73ad0e8ed57bf3880a2b0bd0d02846ee4c13"
+  integrity sha512-BJfIvf8Y2rMsz14srDhqSytNe8VG6ljxJOJEB2/ga91RmN0INFZyxQU5Z6E+E62okKUxipXFwI4wkDXt3b2tnA==
 
 object-inspect@^1.13.3, object-inspect@^1.13.4:
   version "1.13.4"

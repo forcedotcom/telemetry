@@ -43,10 +43,10 @@
   "dependencies": {
     "@salesforce/core": "^8.25.0",
     "@salesforce/kit": "^3.2.4",
-    "@salesforce/o11y-reporter": "1.7.0",
+    "@salesforce/o11y-reporter": "1.7.3",
     "applicationinsights": "^2.9.8",
     "got": "^11",
-    "o11y_schema": "^260.40.0",
+    "o11y_schema": "^260.41.0",
     "proxy-agent": "^6.5.0"
   },
   "devDependencies": {
