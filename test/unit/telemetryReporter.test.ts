@@ -15,11 +15,14 @@
  */
 import * as os from 'node:os';
 import { ConfigAggregator, Logger } from '@salesforce/core';
+import { O11yService } from '@salesforce/o11y-reporter';
 import got from 'got';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { AppInsights } from '../../src/appInsights';
+import { O11yReporter } from '../../src/o11yReporter';
 import { TelemetryReporter } from '../../src/telemetryReporter';
+import type { PdpEvent } from '../../src/types';
 import * as enabledStubs from '../../src/enabledCheck';
 
 describe('TelemetryReporter', () => {
@@ -46,6 +49,43 @@ describe('TelemetryReporter', () => {
 
     reporter.sendTelemetryEvent('testName');
     expect(sendStub.calledOnce).to.be.true;
+  });
+
+  it('should send PDPEvent', async () => {
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
+
+    const mockO11yService = {
+      initialize: sandbox.stub().resolves(),
+      logEvent: sandbox.stub(),
+      logEventWithSchema: sandbox.stub(),
+      forceFlush: sandbox.stub().resolves(),
+      enableAutoBatching: sandbox.stub().returns(() => {}),
+    };
+    sandbox.stub(O11yService, 'getInstance').returns(mockO11yService as unknown as O11yService);
+
+    const sendPdpEventStub = sandbox.stub(O11yReporter.prototype, 'sendPdpEvent').resolves();
+
+    const reporter = await TelemetryReporter.create({
+      project: 'salesforce-cli',
+      key: 'not-used',
+      userId: 'test-user-id-for-pft-testing',
+      waitForConnection: true,
+      enableO11y: true,
+      enableAppInsights: false,
+      o11yUploadEndpoint: 'https://794testsite.my.site.com/byolwr/webruntime/log/metrics',
+    });
+
+    const pdpEvent: PdpEvent = {
+      eventName: 'salesforceCli.executed',
+      productFeatureId: 'aJCEE0000000mHP4AY',
+      componentId: '@salesforce/plugin-auth.org:web:login',
+      contextName: 'orgId::devhubId',
+      contextValue: '00Ded000000VsTxEAK::00D460000019MkyEAE',
+    };
+    reporter.sendPdpEvent(pdpEvent);
+
+    expect(sendPdpEventStub.calledOnce).to.be.true;
+    expect(sendPdpEventStub.firstCall.args[0]).to.deep.equal(pdpEvent);
   });
 
   it('should send a telemetry exception', async () => {
