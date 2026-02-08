@@ -1,3 +1,17 @@
+# [6.6.0](https://github.com/forcedotcom/telemetry/compare/6.5.2...6.6.0) (2026-02-08)
+
+
+### Bug Fixes
+
+* export PdpEvent ([29a20a6](https://github.com/forcedotcom/telemetry/commit/29a20a6a58924b0f433c01fc532c380b62ab0bd0))
+
+
+### Features
+
+* updates for sending pdpEvents ([6ed1a2f](https://github.com/forcedotcom/telemetry/commit/6ed1a2f8d945a05fb2745bf903c862d556c45e98))
+
+
+
 ## [6.5.2](https://github.com/forcedotcom/telemetry/compare/6.5.1...6.5.2) (2026-02-07)
 
 
