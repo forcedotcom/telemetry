@@ -36,6 +36,50 @@ export type Attributes = {
 export type O11ySchema = Record<string, unknown>;
 
 /**
+ * PDP Product Feature Taxonomy (PFT) event sent via O11y.
+ */
+export type PdpEvent = {
+  /**
+   * Unique identifier for the event. Follows this naming convention:
+   *     <object>.<action>
+   *
+   * object = Specific object within the Product Feature that give us context around the action in lowerCamelCase format.
+   *          Note: The object name can include context around the Product Feature (eg. slackforceMessage).
+   *          Examples: calculatedInsightsRecord,checkoutPaymentmethod, slackforceMessage, promptBuilderTemplate
+   *
+   * action = Action the user takes in past tense. This should only be ONE word, in lower case
+   *          Examples: processed, selected, sent, saved
+   */
+  eventName: `${string}.${string}`;
+  /**
+   * Product Feature ID from GUS.
+   *
+   * Examples:
+   *   Salesforce CLI = aJCEE0000000mHP4AY
+   *   Salesforce Extensions for VS Code = aJCEE0000000mLm4AI
+   */
+  productFeatureId: `aJC${string}`;
+  /**
+   * Populate this if there is a unique component with your Event for which a distinct count would be a relevant metric
+   * E.g., CLI plugin command name (<pluginName.commandName>) or ext command name.
+   */
+  componentId?: string;
+  /**
+   * Populate this if there is a unique quantity with your Event for which a sum would be a relevant metric for your
+   * Product Feature. E.g., rowsProcessed → total Rows processed for Data Streams.
+   */
+  eventVolume?: number;
+  /**
+   * Use this field to specify the name of your flexible attribute (eg. experimentId, buttonColor).
+   */
+  contextName?: string;
+  /**
+   * Use this field to specify the value of your flexible attribute (eg. exp_123, green).
+   */
+  contextValue?: string;
+};
+
+/**
  * Batching configuration for O11y telemetry
  *
  * Batching is enabled by default. Set enableAutoBatching to false to disable batching

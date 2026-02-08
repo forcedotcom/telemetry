@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TelemetryReporter } from './telemetryReporter';
-
-export * from './telemetryReporter';
-export { isEnabled } from './enabledCheck';
-export default TelemetryReporter;
-export type { Attributes, O11ySchema, O11yBatchingConfig, PdpEvent } from './types';
+declare module 'o11y_schema/sf_pdp' {
+  const pdpEventSchema: Record<string, unknown>;
+  export { pdpEventSchema };
+}

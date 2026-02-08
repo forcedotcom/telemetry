@@ -23,7 +23,7 @@ import { ProxyAgent } from 'proxy-agent';
 import { AppInsights, TelemetryClient } from './appInsights';
 import { isEnabled } from './enabledCheck';
 import { O11yReporter } from './o11yReporter';
-import { Attributes, O11ySchema, Properties, TelemetryOptions } from './types';
+import { Attributes, O11ySchema, PdpEvent, Properties, TelemetryOptions } from './types';
 
 /**
  * This is the main telemetry reporter that should be used by consumers.
@@ -172,6 +172,19 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
     if (this.isSfdxTelemetryEnabled() && this.enableO11y && this.o11yReporter) {
       void this.o11yReporter.sendTelemetryEventWithSchema(eventName, attributes, schema).catch((error) => {
         this.logger.debug('Failed to send event with schema to O11y:', error);
+      });
+    }
+  }
+
+  /**
+   * Sends a PDP event via O11y.
+   *
+   * @param event - PDP event data to send.
+   */
+  public sendPdpEvent(event: PdpEvent): void {
+    if (this.isSfdxTelemetryEnabled() && this.enableO11y && this.o11yReporter) {
+      void this.o11yReporter.sendPdpEvent(event).catch((error) => {
+        this.logger.debug('Failed to send PDP event to O11y:', error);
       });
     }
   }

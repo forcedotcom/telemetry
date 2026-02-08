@@ -4541,6 +4541,11 @@ o11y_schema@256.154.0:
   resolved "https://registry.npmjs.org/o11y_schema/-/o11y_schema-256.154.0.tgz#1f2f94f1e42d07e62a3e18e09b026345b057dc0c"
   integrity sha512-czvU/9cibyZptbr0gLJSM70U7zLlhWC2D2L5e9nOG84Wnqmn4F5YzVjrH1ZQzAzDbBbtbeU6WTS3F/SHqtMQ5g==
 
+o11y_schema@^260.41.0:
+  version "260.41.0"
+  resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-260.41.0.tgz#a93c73ad0e8ed57bf3880a2b0bd0d02846ee4c13"
+  integrity sha512-BJfIvf8Y2rMsz14srDhqSytNe8VG6ljxJOJEB2/ga91RmN0INFZyxQU5Z6E+E62okKUxipXFwI4wkDXt3b2tnA==
+
 object-inspect@^1.13.3, object-inspect@^1.13.4:
   version "1.13.4"
   resolved "https://registry.npmjs.org/object-inspect/-/object-inspect-1.13.4.tgz#8375265e21bc20d0fa582c22e1b13485d6e00213"
