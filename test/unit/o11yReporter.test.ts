@@ -113,31 +113,31 @@ describe('O11yReporter', () => {
       reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint });
     });
 
-    it('should call logEventWithSchema with given schema and event data', async () => {
+    it('should call logEventWithSchema with given schema and caller attributes only', async () => {
       const schema = { name: 'pdpEventSchema', version: '1.0' };
-      const eventName = 'pftEvent';
       const attributes = { userId: 'user-1', action: 'view' };
 
-      await reporter.sendTelemetryEventWithSchema(eventName, attributes, schema);
+      await reporter.sendTelemetryEventWithSchema(attributes, schema);
 
       expect(mockO11yService.logEventWithSchema.called).to.be.true;
       expect(mockO11yService.logEvent.called).to.be.false;
       expect(mockO11yService.forceFlush.called).to.be.true;
 
       const callArgs = mockO11yService.logEventWithSchema.firstCall.args;
-      expect(callArgs[0].eventName).to.equal(`${extensionName}/${eventName}`);
+      expect(callArgs[0]).to.deep.equal(attributes);
       expect(callArgs[0].userId).to.equal('user-1');
       expect(callArgs[0].action).to.equal('view');
       expect(callArgs[1]).to.equal(schema);
     });
 
-    it('should merge common properties with attributes', async () => {
+    it('should include only caller-provided attributes (no eventName or common properties)', async () => {
       const schema = { name: 'custom-schema', version: '1.0' };
-      await reporter.sendTelemetryEventWithSchema('myEvent', { foo: 'bar' }, schema);
+      await reporter.sendTelemetryEventWithSchema({ foo: 'bar' }, schema);
 
       const eventData = mockO11yService.logEventWithSchema.firstCall.args[0];
-      expect(eventData['common.extensionName']).to.equal(extensionName);
       expect(eventData.foo).to.equal('bar');
+      expect(eventData.eventName).to.be.undefined;
+      expect(eventData['common.extensionName']).to.be.undefined;
     });
   });
 

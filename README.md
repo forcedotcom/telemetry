@@ -107,8 +107,8 @@ const reporter = await TelemetryReporter.create({
 reporter.start();
 // Default events use the default schema
 reporter.sendTelemetryEvent('event-name', { foo: 'bar' });
-// PFT or other schema-specific events: pass schema per call
-reporter.sendTelemetryEventWithSchema('pftEventName', { userId: 'user-1', action: 'view' }, pdpEventSchema);
+// Schema-specific events: pass only attributes (must include all fields required by the schema; no properties added by reporter)
+reporter.sendTelemetryEventWithSchema({ userId: 'user-1', action: 'view', eventName: 'pftEventName' }, pdpEventSchema);
 ```
 
 **Note:** `sendTelemetryEventWithSchema` sends only to O11y (not AppInsights). Use it for events that must conform to a given schema; use `sendTelemetryEvent` for all other events.
