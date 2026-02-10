@@ -163,14 +163,18 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    * Sends a telemetry event to O11y only with a specific schema.
    * Use this for events that must conform to a given schema (e.g. PFT/pdpEventSchema).
    * Does not send to AppInsights. Only sends when O11y is enabled and reporter is initialized.
+   * Only the caller-provided attributes are sent; no properties are added by the reporter.
    *
-   * @param eventName - Name of the event
-   * @param attributes - Properties and measurements to publish alongside the event
-   * @param schema - O11y schema object (e.g. from o11y_schema package)
+   * The schema is the O11y encoding schema (e.g. from the o11y_schema package), not JSON Schema,
+   * so this library does not derive or run validation here. Callers should validate attributes
+   * (e.g. with zod) before calling, using the same schema context they use when importing the schema.
+   *
+   * @param attributes - Properties and measurements to publish (only these are sent)
+   * @param schema - O11y encoding schema (e.g. from o11y_schema package)
    */
-  public sendTelemetryEventWithSchema(eventName: string, attributes: Attributes, schema: O11ySchema): void {
+  public sendTelemetryEventWithSchema(attributes: Attributes, schema: O11ySchema): void {
     if (this.isSfdxTelemetryEnabled() && this.enableO11y && this.o11yReporter) {
-      void this.o11yReporter.sendTelemetryEventWithSchema(eventName, attributes, schema).catch((error) => {
+      void this.o11yReporter.sendTelemetryEventWithSchema(attributes, schema).catch((error) => {
         this.logger.debug('Failed to send event with schema to O11y:', error);
       });
     }

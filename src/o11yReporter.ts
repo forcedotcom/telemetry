@@ -101,24 +101,20 @@ export class O11yReporter extends BaseReporter {
    * Use this method when you need to send events that conform to a particular schema
    * (e.g. PFT/pdpEventSchema). Only the events you send via this method use the given schema;
    * all other events use the default schema via sendTelemetryEvent.
+   * Only the caller-provided attributes are sent; no properties (e.g. eventName, common.*)
+   * are added by the reporter.
    *
-   * @param eventName - Name of the event
-   * @param attributes - Properties and measurements to publish alongside the event
-   * @param schema - O11y schema object (e.g. from o11y_schema package)
+   * The schema is the O11y encoding schema (e.g. from the o11y_schema package), not JSON Schema,
+   * so this library does not derive or run validation here. Callers should validate attributes
+   * (e.g. with zod) before calling, using the same schema context they use when importing the schema.
+   *
+   * @param attributes - Properties and measurements to publish (only these are sent; no properties added)
+   * @param schema - O11y encoding schema (e.g. from o11y_schema package)
    */
-  public async sendTelemetryEventWithSchema(
-    eventName: string,
-    attributes: Attributes,
-    schema: O11ySchema
-  ): Promise<void> {
+  public async sendTelemetryEventWithSchema(attributes: Attributes, schema: O11ySchema): Promise<void> {
     await this.initialized;
 
-    const merged = { ...this.commonProperties, ...attributes };
-
-    const eventData: { [key: string]: unknown } = {
-      eventName: `${this.extensionName}/${eventName}`,
-      ...merged,
-    };
+    const eventData: { [key: string]: unknown } = { ...attributes };
 
     this.service.logEventWithSchema(eventData, schema);
 
