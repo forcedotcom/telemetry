@@ -1,3 +1,12 @@
+## [6.6.1](https://github.com/forcedotcom/telemetry/compare/6.6.0...6.6.1) (2026-02-10)
+
+
+### Bug Fixes
+
+* @W-21215399 - send only caller attributes in sendTelemetryEventWithSchema ([c97a034](https://github.com/forcedotcom/telemetry/commit/c97a034836425ae99dc698843e7a39c4321b9794))
+
+
+
 # [6.6.0](https://github.com/forcedotcom/telemetry/compare/6.5.2...6.6.0) (2026-02-08)
 
 
