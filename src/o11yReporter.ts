@@ -33,8 +33,16 @@ export class O11yReporter extends BaseReporter {
     super(options);
     this.extensionName = options.extensionName ?? options.project;
     this.service = O11yService.getInstance(this.extensionName);
+    const dynamicO11yUploadEndpointPath = options.dynamicO11yUploadEndpoint
+      ? options.dynamicO11yUploadEndpoint
+      : undefined;
 
-    this.initialized = this.service.initialize(this.extensionName, options.o11yUploadEndpoint!);
+    this.initialized = this.service.initialize(
+      this.extensionName,
+      options.o11yUploadEndpoint!,
+      options.getConnectionFn,
+      dynamicO11yUploadEndpointPath ? { dynamicO11yUploadEndpointPath } : undefined
+    );
     this.commonProperties = this.buildO11yCommonProperties(options.commonProperties);
   }
 

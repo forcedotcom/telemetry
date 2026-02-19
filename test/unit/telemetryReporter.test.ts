@@ -22,7 +22,7 @@ import * as sinon from 'sinon';
 import { AppInsights } from '../../src/appInsights';
 import { O11yReporter } from '../../src/o11yReporter';
 import { TelemetryReporter } from '../../src/telemetryReporter';
-import type { PdpEvent } from '../../src/types';
+import type { PdpEvent, TelemetryOptions } from '../../src/types';
 import * as enabledStubs from '../../src/enabledCheck';
 
 describe('TelemetryReporter', () => {
@@ -86,6 +86,59 @@ describe('TelemetryReporter', () => {
 
     expect(sendPdpEventStub.calledOnce).to.be.true;
     expect(sendPdpEventStub.firstCall.args[0]).to.deep.equal(pdpEvent);
+  });
+
+  it('when options include getConnectionFn and enableO11y, O11yReporter is constructed with getConnectionFn in options', async () => {
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
+
+    const mockO11yService = {
+      initialize: sandbox.stub().resolves(),
+      logEvent: sandbox.stub(),
+      logEventWithSchema: sandbox.stub(),
+      forceFlush: sandbox.stub().resolves(),
+      enableAutoBatching: sandbox.stub().returns(() => {}),
+    };
+    sandbox.stub(O11yService, 'getInstance').returns(mockO11yService as unknown as O11yService);
+
+    const getConnectionFn = (async () => ({})) as TelemetryOptions['getConnectionFn'];
+
+    await TelemetryReporter.create({
+      project: 'salesforce-cli',
+      key: 'not-used',
+      waitForConnection: true,
+      enableO11y: true,
+      enableAppInsights: false,
+      o11yUploadEndpoint: 'https://example.com/upload',
+      getConnectionFn,
+    });
+
+    expect(mockO11yService.initialize.calledOnce).to.be.true;
+    expect(mockO11yService.initialize.firstCall.args[2]).to.equal(getConnectionFn);
+  });
+
+  it('when options omit getConnectionFn, O11yReporter is still initialized', async () => {
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
+
+    const mockO11yService = {
+      initialize: sandbox.stub().resolves(),
+      logEvent: sandbox.stub(),
+      logEventWithSchema: sandbox.stub(),
+      forceFlush: sandbox.stub().resolves(),
+      enableAutoBatching: sandbox.stub().returns(() => {}),
+    };
+    sandbox.stub(O11yService, 'getInstance').returns(mockO11yService as unknown as O11yService);
+
+    await TelemetryReporter.create({
+      project: 'salesforce-cli',
+      key: 'not-used',
+      waitForConnection: true,
+      enableO11y: true,
+      enableAppInsights: false,
+      o11yUploadEndpoint: 'https://example.com/upload',
+    });
+
+    expect(mockO11yService.initialize.calledOnce).to.be.true;
+    expect(mockO11yService.initialize.firstCall.args[2]).to.be.undefined;
   });
 
   it('should send a telemetry exception', async () => {
