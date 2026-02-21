@@ -822,10 +822,10 @@
   dependencies:
     "@salesforce/ts-types" "^2.0.12"
 
-"@salesforce/o11y-reporter@1.7.4":
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/@salesforce/o11y-reporter/-/o11y-reporter-1.7.4.tgz#79f3e245edca813cce16045246b1f7d90a98c3a2"
-  integrity sha512-Shi5GYEpWtR/oyncMZ7Z5GiY8bDn10u4NEJEfXV+gac7p7193Au9zUp2mbTzRJgrsT3FDfQeSuB9eTBH0NxV3w==
+"@salesforce/o11y-reporter@1.8.1":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@salesforce/o11y-reporter/-/o11y-reporter-1.8.1.tgz#19470752359a1931f207ecea98511451cfa626d7"
+  integrity sha512-zXfFWoNBxkBDPq96X7wJuO2E6T+VsY9sWVfqVnqA2bMrw4ix8hWkXa6IdEytXMCe8mMsaXwGD4Iua0WNzrYhWA==
   dependencies:
     o11y "^258.7.0"
     o11y_schema "256.154.0"
