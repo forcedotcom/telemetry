@@ -1,6 +1,6 @@
 {
   "name": "@salesforce/telemetry",
-  "version": "6.6.4",
+  "version": "6.6.7",
   "description": "Library for telemetry reporting to Application Insights and O11y",
   "main": "lib/exported",
   "exports": {
@@ -43,10 +43,10 @@
   "dependencies": {
     "@salesforce/core": "^8.26.2",
     "@salesforce/kit": "^3.2.4",
-    "@salesforce/o11y-reporter": "1.8.0",
+    "@salesforce/o11y-reporter": "1.8.1",
     "applicationinsights": "^2.9.8",
     "got": "^11",
-    "o11y_schema": "^260.44.0",
+    "o11y_schema": "^260.46.0",
     "proxy-agent": "^6.5.0"
   },
   "devDependencies": {
