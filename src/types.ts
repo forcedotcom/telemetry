@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { Env } from '@salesforce/kit';
+import { Connection as O11yConnection } from '@salesforce/o11y-reporter';
 
 export type Properties = {
   [key: string]: string;
@@ -118,6 +119,21 @@ export type TelemetryOptions = {
   project: string;
   key: string;
   commonProperties?: Properties;
+  /**
+   * Optional getConnection function used at upload time to resolve endpoint and token from the current org.
+   * If getConnection is missing or fails, uploads use the static o11yUploadEndpoint (no auth).
+   * E.g.,
+   * ```
+   * Connection.create({
+   *   authInfo: await AuthInfo.create({ username: 'myAdminUsername' })
+   * })
+   * ```
+   * or
+   * ```
+   * WorkspaceContextUtil.getInstance().getConnection()
+   * ```
+   */
+  getConnectionFn?: () => Promise<O11yConnection>;
   contextTags?: Properties;
   env?: Env;
   gdprSensitiveKeys?: string[];
@@ -125,6 +141,11 @@ export type TelemetryOptions = {
   sessionId?: string;
   waitForConnection?: boolean;
   o11yUploadEndpoint?: string;
+  /**
+   * Optional path appended to the org instance URL for the dynamic endpoint.
+   * Default: /services/data/v65.0/connect/proxy/ui-telemetry.
+   */
+  dynamicO11yUploadEndpoint?: string;
   enableO11y?: boolean;
   enableAppInsights?: boolean;
   // O11y-specific options

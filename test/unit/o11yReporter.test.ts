@@ -68,6 +68,27 @@ describe('O11yReporter', () => {
 
       expect(mockO11yService.initialize.called).to.be.true;
     });
+
+    it('should pass getConnectionFn to O11yService.initialize when provided in options', () => {
+      const getConnectionFn = sandbox.stub().resolves({});
+      reporter = new O11yReporter({
+        project,
+        key,
+        extensionName,
+        o11yUploadEndpoint,
+        getConnectionFn,
+      });
+
+      expect(mockO11yService.initialize.calledOnce).to.be.true;
+      expect(mockO11yService.initialize.firstCall.args[2]).to.equal(getConnectionFn);
+    });
+
+    it('should call initialize without getConnectionFn when option is omitted', () => {
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint });
+
+      expect(mockO11yService.initialize.calledOnce).to.be.true;
+      expect(mockO11yService.initialize.firstCall.args[2]).to.be.undefined;
+    });
   });
 
   describe('sendTelemetryEvent', () => {
