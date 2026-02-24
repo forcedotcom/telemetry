@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* eslint-disable-next-line @typescript-eslint/triple-slash-reference -- needed so dynamic import('o11y_schema/sf_pdp') is typed when test tsconfig compiles */
+/// <reference path="../types/o11y_schema_sf_pdp.d.ts" />
 import { O11yService, type BatchingOptions } from '@salesforce/o11y-reporter';
 import { Attributes, O11ySchema, PdpEvent, Properties, TelemetryOptions } from './types';
 
