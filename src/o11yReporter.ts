@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 import { O11yService, type BatchingOptions } from '@salesforce/o11y-reporter';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore o11y_schema/sf_pdp.d.ts is not a valid module
-import { pdpEventSchema } from 'o11y_schema/sf_pdp';
 import { Attributes, O11ySchema, PdpEvent, Properties, TelemetryOptions } from './types';
+
+// o11y_schema is ESM-only; load via dynamic import() so it works when telemetry is required as CJS
+let pdpEventSchemaPromise: Promise<O11ySchema> | null = null;
+async function getPdpEventSchema(): Promise<O11ySchema> {
+  if (!pdpEventSchemaPromise) {
+    pdpEventSchemaPromise = import('o11y_schema/sf_pdp').then((m) => m.pdpEventSchema as O11ySchema);
+  }
+  return pdpEventSchemaPromise;
+}
 import { BaseReporter } from './baseReporter';
 import { buildPropertiesAndMeasurements } from './utils';
 
@@ -139,7 +145,8 @@ export class O11yReporter extends BaseReporter {
   public async sendPdpEvent(event: PdpEvent): Promise<void> {
     await this.initialized;
 
-    this.service.logEventWithSchema(event, pdpEventSchema);
+    const schema = await getPdpEventSchema();
+    this.service.logEventWithSchema(event, schema);
 
     if (!this._batchingEnabled) {
       await this.service.forceFlush();
