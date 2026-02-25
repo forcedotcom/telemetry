@@ -1,3 +1,13 @@
+## [6.7.1](https://github.com/forcedotcom/telemetry/compare/6.7.0...6.7.1) (2026-02-25)
+
+
+### Bug Fixes
+
+* @W-21347563 - load o11y_schema/sf_pdp via dynamic import() to avoid ERR_REQUIRE_ESM in CJS ([92e1289](https://github.com/forcedotcom/telemetry/commit/92e1289f215d7fd006a81d57d02a8649cabb344f))
+* ensure o11y_schema/sf_pdp declaration is visible to test tsconfig ([e170085](https://github.com/forcedotcom/telemetry/commit/e170085c26822d4493b7f9d294f9014e4a1341b1))
+
+
+
 # [6.7.0](https://github.com/forcedotcom/telemetry/compare/6.6.7...6.7.0) (2026-02-23)
 
 
