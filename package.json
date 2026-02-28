@@ -46,7 +46,7 @@
     "@salesforce/o11y-reporter": "1.8.1",
     "applicationinsights": "^2.9.8",
     "got": "^11",
-    "o11y_schema": "^260.46.0",
+    "o11y_schema": "^260.47.0",
     "proxy-agent": "^6.5.0"
   },
   "devDependencies": {
