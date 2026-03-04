@@ -1,3 +1,12 @@
+# [6.8.0](https://github.com/forcedotcom/telemetry/compare/6.7.3...6.8.0) (2026-03-04)
+
+
+### Features
+
+* add O11yReporter.stop() and TelemetryReporter.stopAsync() for O11y batching cleanup ([7dd9fa7](https://github.com/forcedotcom/telemetry/commit/7dd9fa7666c5df29baf9b9cca26bdadb3a8de2d7))
+
+
+
 ## [6.7.3](https://github.com/forcedotcom/telemetry/compare/6.7.2...6.7.3) (2026-02-28)
 
 
