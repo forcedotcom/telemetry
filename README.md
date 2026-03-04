@@ -44,6 +44,14 @@ reporter.sendTelemetryEvent('event-name', { foo: 'bar', executionTime: 0.5912 })
 reporter.stop();
 ```
 
+To ensure all buffered events are flushed before process exit (e.g. when using O11y batching), use `stopAsync()`:
+
+```javascript
+// Await shutdown so all events are sent before exiting
+await reporter.stopAsync();
+process.exit(0);
+```
+
 **Note:** For short lived processes, the telemetry can take 0-3 seconds to send all events to the server on stop, and even longer if there is a timeout. It is recommended to send telemetry in a detached spawned process. i.e. `spawn(..., { stdio: 'ignore'}).unref();`
 
 ### O11y (Observability) Telemetry
@@ -157,6 +165,14 @@ You can also manually flush buffered events when needed (e.g., before critical o
 ```javascript
 // Manually flush buffered events
 await reporter.flush();
+```
+
+For graceful shutdown that stops the batching interval and flushes all events, use `stopAsync()`:
+
+```javascript
+// Stop batching, flush remaining events, and dispose
+await reporter.stopAsync();
+process.exit(0);
 ```
 
 **Note:** When batching is disabled, events are uploaded immediately after each `sendTelemetryEvent()`, `sendTelemetryException()`, `sendTelemetryTrace()`, or `sendTelemetryMetric()` call for backward compatibility.
