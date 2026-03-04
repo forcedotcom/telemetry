@@ -119,7 +119,22 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    */
   public stop(): void {
     this.reporter?.stop();
-    void this.o11yReporter?.flush();
+    void this.o11yReporter?.stop();
+  }
+
+  /**
+   * Async version of stop() that awaits O11y cleanup (batching interval stop + flush).
+   * Use this when you need to ensure telemetry is fully shut down before process exit.
+   *
+   * @example
+   * ```typescript
+   * await reporter.stopAsync();
+   * process.exit(0);
+   * ```
+   */
+  public async stopAsync(): Promise<void> {
+    this.reporter?.stop();
+    await this.o11yReporter?.stop();
   }
 
   public async waitForConnection(): Promise<void> {

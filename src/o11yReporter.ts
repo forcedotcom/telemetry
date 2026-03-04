@@ -163,6 +163,26 @@ export class O11yReporter extends BaseReporter {
   }
 
   /**
+   * Stop batching (if enabled), flush any remaining events, and clean up.
+   * Call this before process exit to ensure all events are sent and timers are cleared.
+   *
+   * @example
+   * ```typescript
+   * await reporter.stop();
+   * process.exit(0);
+   * ```
+   */
+  public async stop(): Promise<void> {
+    await this.initialized;
+    if (this._batchingCleanup) {
+      this._batchingCleanup();
+      this._batchingCleanup = null;
+      this._batchingEnabled = false;
+    }
+    await this.service.forceFlush();
+  }
+
+  /**
    * Publishes exception to O11y service
    *
    * @param exception {Error} - exception you want published.
