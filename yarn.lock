@@ -4689,10 +4689,10 @@ o11y_schema@256.154.0:
   resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-256.154.0.tgz#1f2f94f1e42d07e62a3e18e09b026345b057dc0c"
   integrity sha512-czvU/9cibyZptbr0gLJSM70U7zLlhWC2D2L5e9nOG84Wnqmn4F5YzVjrH1ZQzAzDbBbtbeU6WTS3F/SHqtMQ5g==
 
-o11y_schema@^260.50.0:
-  version "260.50.0"
-  resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-260.50.0.tgz#e886a2c80f44f19c94562714c173f8b2468dae06"
-  integrity sha512-87ig+sAQ6ohHH0DmdX7I+sVcYpRXqRy676+VjBsrwkzwzMOCgKNmEGkxaTyqNZW5pJogdcvS8jy7zdcxuKyapQ==
+o11y_schema@^260.52.0:
+  version "260.52.0"
+  resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-260.52.0.tgz#d88a61bc12e2bd8993459f067ce51b66d17de5cc"
+  integrity sha512-mVRysdQE3E9N1JxnfEeNOkwtG2YxMtW9f5PoZWptDgzLa5fulsSOC3RCUe+Rw7bOQJ35zWSFkXSSV8YEWdE5nQ==
 
 object-inspect@^1.13.3, object-inspect@^1.13.4:
   version "1.13.4"
