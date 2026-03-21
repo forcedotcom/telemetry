@@ -1,3 +1,12 @@
+## [6.8.6](https://github.com/forcedotcom/telemetry/compare/6.8.5...6.8.6) (2026-03-21)
+
+
+### Bug Fixes
+
+* **deps:** bump flatted from 3.3.3 to 3.4.2 ([f4dabbb](https://github.com/forcedotcom/telemetry/commit/f4dabbb4a6b5d673aa426ae20992ab662c8fdbf5))
+
+
+
 ## [6.8.5](https://github.com/forcedotcom/telemetry/compare/6.8.4...6.8.5) (2026-03-21)
 
 
