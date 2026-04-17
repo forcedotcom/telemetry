@@ -1,3 +1,12 @@
+## [6.8.14](https://github.com/forcedotcom/telemetry/compare/6.8.13...6.8.14) (2026-04-17)
+
+
+### Bug Fixes
+
+* **deps:** bump basic-ftp from 5.2.2 to 5.3.0 ([cbb82b5](https://github.com/forcedotcom/telemetry/commit/cbb82b58e8ed489ff7bba5517fc63f0d3d272f02))
+
+
+
 ## [6.8.13](https://github.com/forcedotcom/telemetry/compare/6.8.12...6.8.13) (2026-04-11)
 
 
