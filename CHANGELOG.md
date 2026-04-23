@@ -1,3 +1,12 @@
+## [6.8.17](https://github.com/forcedotcom/telemetry/compare/6.8.16...6.8.17) (2026-04-23)
+
+
+### Bug Fixes
+
+* bump o11y-reporter ([0069e85](https://github.com/forcedotcom/telemetry/commit/0069e851cbce94f0b150d9faadc8d5fa958d5378))
+
+
+
 ## [6.8.16](https://github.com/forcedotcom/telemetry/compare/6.8.15...6.8.16) (2026-04-18)
 
 
