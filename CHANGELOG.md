@@ -1,3 +1,12 @@
+## [6.8.20](https://github.com/forcedotcom/telemetry/compare/6.8.19...6.8.20) (2026-05-02)
+
+
+### Bug Fixes
+
+* **deps:** bump o11y_schema from 260.63.0 to 260.65.0 ([122171f](https://github.com/forcedotcom/telemetry/commit/122171f25b6ddb0d21b25c4b53d81526e62a7e01))
+
+
+
 ## [6.8.19](https://github.com/forcedotcom/telemetry/compare/6.8.18...6.8.19) (2026-04-30)
 
 
