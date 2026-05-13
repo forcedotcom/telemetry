@@ -1,3 +1,12 @@
+## [6.8.25](https://github.com/forcedotcom/telemetry/compare/6.8.24...6.8.25) (2026-05-13)
+
+
+### Bug Fixes
+
+* **deps:** bump @protobufjs/utf8 from 1.1.0 to 1.1.1 ([c70b0c5](https://github.com/forcedotcom/telemetry/commit/c70b0c55ec95a50d6b3efa288d36636f7c6d7f5d))
+
+
+
 ## [6.8.24](https://github.com/forcedotcom/telemetry/compare/6.8.23...6.8.24) (2026-05-09)
 
 
