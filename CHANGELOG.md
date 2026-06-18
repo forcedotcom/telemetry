@@ -1,3 +1,12 @@
+## [6.8.30](https://github.com/forcedotcom/telemetry/compare/6.8.29...6.8.30) (2026-06-18)
+
+
+### Bug Fixes
+
+* **deps:** bump @babel/core from 7.29.0 to 7.29.7 ([c796007](https://github.com/forcedotcom/telemetry/commit/c7960075109638c6efff65aacef9a366ae3b452a))
+
+
+
 ## [6.8.29](https://github.com/forcedotcom/telemetry/compare/6.8.28...6.8.29) (2026-06-18)
 
 
