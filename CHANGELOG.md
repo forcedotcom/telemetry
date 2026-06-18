@@ -1,3 +1,12 @@
+## [6.8.29](https://github.com/forcedotcom/telemetry/compare/6.8.28...6.8.29) (2026-06-18)
+
+
+### Bug Fixes
+
+* **deps:** bump markdown-it from 14.1.1 to 14.2.0 ([e2fc709](https://github.com/forcedotcom/telemetry/commit/e2fc709047353881d23be1445640559fd81a7511))
+
+
+
 ## [6.8.28](https://github.com/forcedotcom/telemetry/compare/6.8.27...6.8.28) (2026-06-13)
 
 
