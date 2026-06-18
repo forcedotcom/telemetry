@@ -1,3 +1,12 @@
+## [6.8.31](https://github.com/forcedotcom/telemetry/compare/6.8.30...6.8.31) (2026-06-18)
+
+
+### Bug Fixes
+
+* **deps:** bump form-data from 4.0.5 to 4.0.6 ([05b51ee](https://github.com/forcedotcom/telemetry/commit/05b51eeb41b5acb12742765c52383a09260ed6c4))
+
+
+
 ## [6.8.30](https://github.com/forcedotcom/telemetry/compare/6.8.29...6.8.30) (2026-06-18)
 
 
