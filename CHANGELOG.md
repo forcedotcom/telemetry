@@ -1,3 +1,12 @@
+## [6.8.35](https://github.com/forcedotcom/telemetry/compare/6.8.34...6.8.35) (2026-07-04)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 8.31.4 to 8.31.5 ([fb37c62](https://github.com/forcedotcom/telemetry/commit/fb37c62b946e27b8b2da70865a8656c7e4b8d982))
+
+
+
 ## [6.8.34](https://github.com/forcedotcom/telemetry/compare/6.8.33...6.8.34) (2026-06-27)
 
 
