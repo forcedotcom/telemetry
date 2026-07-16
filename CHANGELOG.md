@@ -1,3 +1,12 @@
+## [6.8.37](https://github.com/forcedotcom/telemetry/compare/6.8.36...6.8.37) (2026-07-16)
+
+
+### Bug Fixes
+
+* **deps:** bump websocket-driver from 0.7.4 to 0.7.5 ([ddefb32](https://github.com/forcedotcom/telemetry/commit/ddefb328f5045974f449eefcf8585c769e5354dc))
+
+
+
 ## [6.8.36](https://github.com/forcedotcom/telemetry/compare/6.8.35...6.8.36) (2026-07-11)
 
 
