@@ -1,3 +1,12 @@
+## [6.8.39](https://github.com/forcedotcom/telemetry/compare/6.8.38...6.8.39) (2026-07-24)
+
+
+### Bug Fixes
+
+* **deps:** bump linkify-it from 5.0.1 to 5.0.2 ([1f69b4d](https://github.com/forcedotcom/telemetry/commit/1f69b4dc49483846741e2592853b8c996ebf04ce))
+
+
+
 ## [6.8.38](https://github.com/forcedotcom/telemetry/compare/6.8.37...6.8.38) (2026-07-18)
 
 
