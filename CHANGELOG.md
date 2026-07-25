@@ -1,3 +1,12 @@
+## [6.8.40](https://github.com/forcedotcom/telemetry/compare/6.8.39...6.8.40) (2026-07-25)
+
+
+### Bug Fixes
+
+* **deps:** bump fast-uri from 3.1.2 to 3.1.4 ([584a7fc](https://github.com/forcedotcom/telemetry/commit/584a7fced04d9d9b3790eab076a5c99fb922feee))
+
+
+
 ## [6.8.39](https://github.com/forcedotcom/telemetry/compare/6.8.38...6.8.39) (2026-07-24)
 
 
