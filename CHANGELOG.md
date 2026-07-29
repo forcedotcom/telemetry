@@ -1,3 +1,20 @@
+# [7.0.0](https://github.com/forcedotcom/telemetry/compare/6.8.40...7.0.0) (2026-07-29)
+
+
+* feat!: require Node >=22, drop EOL Node versions @W-23480655@ ([5906f4e](https://github.com/forcedotcom/telemetry/commit/5906f4e1e7999becf5514797d42c157c3cbb15dc))
+
+
+### BREAKING CHANGES
+
+* engines.node raised to >=22.0.0, dropping support for Node 18 and 20
+
+- engines.node bumped to >=22.0.0
+- @salesforce/kit bumped to ^4.0.0
+- @salesforce/core bumped to ^9.0.0
+- added skipLibCheck for pino type compat
+
+
+
 ## [6.8.40](https://github.com/forcedotcom/telemetry/compare/6.8.39...6.8.40) (2026-07-25)
 
 
