@@ -1,3 +1,12 @@
+## [7.0.1](https://github.com/forcedotcom/telemetry/compare/7.0.0...7.0.1) (2026-08-04)
+
+
+### Bug Fixes
+
+* **deps:** bump undici from 8.5.0 to 8.10.0 ([02243c7](https://github.com/forcedotcom/telemetry/commit/02243c7571a07e5cfd471d8669411c2d67b4d73a))
+
+
+
 # [7.0.0](https://github.com/forcedotcom/telemetry/compare/6.8.40...7.0.0) (2026-07-29)
 
 
