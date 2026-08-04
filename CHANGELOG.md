@@ -1,3 +1,12 @@
+## [7.0.2](https://github.com/forcedotcom/telemetry/compare/7.0.1...7.0.2) (2026-08-04)
+
+
+### Bug Fixes
+
+* **deps:** bump ip-address from 10.2.0 to 10.4.0 ([58c762c](https://github.com/forcedotcom/telemetry/commit/58c762ca5f93f04f34a980abf5e2c7c88538d18c))
+
+
+
 ## [7.0.1](https://github.com/forcedotcom/telemetry/compare/7.0.0...7.0.1) (2026-08-04)
 
 
