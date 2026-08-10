@@ -50,7 +50,9 @@
     "proxy-agent": "^6.5.0"
   },
   "devDependencies": {
-    "@salesforce/dev-scripts": "^11.0.4",
+    "@salesforce/dev-scripts": "^13.0.0",
+    "eslint": "^10.4.0",
+    "eslint-config-salesforce-typescript": "^6.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
@@ -95,6 +97,7 @@
         "src/**/*.ts",
         "test/**/*.ts",
         "messages/**",
+        "**/eslint.config.*",
         "**/.eslint*",
         "**/tsconfig.json"
       ],
