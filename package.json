@@ -50,7 +50,7 @@
     "proxy-agent": "^6.5.0"
   },
   "devDependencies": {
-    "@salesforce/dev-scripts": "^13.0.0",
+    "@salesforce/dev-scripts": "^13.0.1",
     "eslint": "^10.4.0",
     "eslint-config-salesforce-typescript": "^6.0.0",
     "ts-node": "^10.9.2",
