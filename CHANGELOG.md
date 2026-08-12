@@ -1,3 +1,12 @@
+## [7.0.5](https://github.com/forcedotcom/telemetry/compare/7.0.4...7.0.5) (2026-08-12)
+
+
+### Bug Fixes
+
+* add @types/* deps via dev-scripts 13.0.2 @W-23474629@ ([36a48fb](https://github.com/forcedotcom/telemetry/commit/36a48fb23e7dc3a7b8c7fcc891efe2c23f0c902e))
+
+
+
 ## [7.0.4](https://github.com/forcedotcom/telemetry/compare/7.0.3...7.0.4) (2026-08-08)
 
 
