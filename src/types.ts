@@ -42,22 +42,22 @@ export type O11ySchema = Record<string, unknown>;
 export type PdpEvent = {
   /**
    * Unique identifier for the event. Follows this naming convention:
-   *     <object>.<action>
+   * `<object>.<action>`
    *
    * object = Specific object within the Product Feature that give us context around the action in lowerCamelCase format.
-   *          Note: The object name can include context around the Product Feature (eg. slackforceMessage).
-   *          Examples: calculatedInsightsRecord,checkoutPaymentmethod, slackforceMessage, promptBuilderTemplate
+   * Note: The object name can include context around the Product Feature (eg. slackforceMessage).
+   * Examples: calculatedInsightsRecord,checkoutPaymentmethod, slackforceMessage, promptBuilderTemplate
    *
    * action = Action the user takes in past tense. This should only be ONE word, in lower case
-   *          Examples: processed, selected, sent, saved
+   * Examples: processed, selected, sent, saved
    */
   eventName: `${string}.${string}`;
   /**
    * Product Feature ID from GUS.
    *
    * Examples:
-   *   Salesforce CLI = aJCEE0000000mHP4AY
-   *   Salesforce Extensions for VS Code = aJCEE0000000mLm4AI
+   * Salesforce CLI = aJCEE0000000mHP4AY
+   * Salesforce Extensions for VS Code = aJCEE0000000mLm4AI
    */
   productFeatureId: `aJC${string}`;
   /**

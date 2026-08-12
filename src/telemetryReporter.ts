@@ -54,6 +54,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
     return isEnabled();
   }
 
+  // eslint-disable-next-line complexity
   public async init(): Promise<void> {
     this.enabled = await isEnabled();
     this.logger = await Logger.child('TelemetryReporter');
@@ -168,7 +169,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
       }
       this.logger.error(`${AppInsights.APP_INSIGHTS_SERVER} responded with ${resp.statusCode}`);
       throw new Error(resp.statusCode.toString());
-    } catch (err) {
+    } catch {
       this.logger.warn(`Connection to ${AppInsights.APP_INSIGHTS_SERVER} timed out after ${timeout} ms`);
       return false;
     }
