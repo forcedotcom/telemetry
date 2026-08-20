@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import * as os from 'node:os';
 import { ConfigAggregator, Logger } from '@salesforce/core';
 import { O11yService } from '@salesforce/o11y-reporter';
