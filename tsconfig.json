@@ -6,8 +6,8 @@
     "module": "Node16",
     "outDir": "./lib",
     "rootDir": "src",
-    "baseUrl": ".",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node", "mocha"]
   },
   "include": ["src/**/*.ts", "types/**/*.d.ts"]
 }
