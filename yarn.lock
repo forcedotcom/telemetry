@@ -914,12 +914,12 @@
   dependencies:
     "@salesforce/ts-types" "^3.0.0"
 
-"@salesforce/o11y-reporter@1.8.5":
-  version "1.8.5"
-  resolved "https://registry.yarnpkg.com/@salesforce/o11y-reporter/-/o11y-reporter-1.8.5.tgz#caf552a5fe6dfc399e7e356d0195aff7bfd5b2a0"
-  integrity sha512-XYtfHHwa/z9jFC3P1QU1hE3mhT5WsMB7hpC9um3Av9Iz74K8sGPaMVFQdkZ/Wy44t4dmGLum4pTtCbfmW42i0w==
+"@salesforce/o11y-reporter@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/o11y-reporter/-/o11y-reporter-1.9.0.tgz#aa9f9c7b80033f7dc60a5bd5c1043c3bdaaa7ba4"
+  integrity sha512-l4XMt6push/1D2bQ9QqR6UzQ2u+Xr7tydouskWY+vjPfPqBzJvb57A47DLxVtSALI1Bo6r5XsqrvaEq0+Qk2zA==
   dependencies:
-    o11y "^264.18.0"
+    o11y "^266.18.0"
     o11y_schema "^264.84.0"
 
 "@salesforce/prettier-config@^0.0.4":
@@ -4145,29 +4145,24 @@ nyc@^17.1.0:
     test-exclude "^6.0.0"
     yargs "^15.0.2"
 
-o11y@^264.18.0:
-  version "264.20.0"
-  resolved "https://registry.yarnpkg.com/o11y/-/o11y-264.20.0.tgz#570a2d25625879891c15290697bd76946d383af7"
-  integrity sha512-QmwrEv2CYNzEIOnArYP1522vbNuB+KTAWu4K+8174bZ5ua2aSFMQW0Q7MLLcl6QrekMBTRt/HmL4sNL5pnr5xg==
+o11y@^266.18.0:
+  version "266.18.0"
+  resolved "https://registry.yarnpkg.com/o11y/-/o11y-266.18.0.tgz#6081653a4ca02b0bf946ba224cdbae1139e9aaaf"
+  integrity sha512-z+0Ow0R+HBTJfh2cvAaS24VFr/tbT0fvU5kwqsVhQzsowSaFu0a6FeLnVwMVirvHe/sFN7FcmpKWfCA1qTj0Pg==
   dependencies:
-    o11y_schema "260.5.0"
+    o11y_schema "264.105.0"
     protobufjs "7.5.6"
     web-vitals "^5.1.0"
 
-o11y_schema@260.5.0:
-  version "260.5.0"
-  resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-260.5.0.tgz#f16ac37aaa9f27afad697744d3b510e7be5bb15c"
-  integrity sha512-0qrtqE394CODoPovUBdQQ2efHls6Z2xP6jvLitEGKSEj1KcCyeBLx2dHwTUtv66zwZTKjSp27QLFF4PZhengEQ==
+o11y_schema@264.105.0, o11y_schema@^264.84.0:
+  version "264.105.0"
+  resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-264.105.0.tgz#977105841e39b75021b6402b6ae68bd4734a1b4a"
+  integrity sha512-HwbCh3tUUVDE9nj/YIuDE76Kf5rRptTlS0ju5yQ9nWaLXNEFGhxOHqDZbivhtpTfwzWAYk6BYhRZqp+M2v1LBQ==
 
 o11y_schema@^260.65.0:
   version "260.65.0"
   resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-260.65.0.tgz#7e0a79aa28be6eaec027709f3a978f2cc158b064"
   integrity sha512-F3VWPhiDHH+L170X4Tt2cfqzlpXGbtowWPz+Npam3yB3KGBUIHA9paRG7FWZKv9wNcxrtQXgIZemmffVQTm3jg==
-
-o11y_schema@^264.84.0:
-  version "264.91.0"
-  resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-264.91.0.tgz#d18d544b353854ed5df14c8106f5402b532f0595"
-  integrity sha512-MeemqnHi6pwSe605s64fiOCpeXhKq3gGAwqbIAU91HMkwUa2As6wMN6QWGnl7cAaaaHAbGhaxZ9PmG3wNb1yHg==
 
 object-deep-merge@^2.0.1:
   version "2.0.1"
