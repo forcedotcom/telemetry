@@ -19,3 +19,4 @@ export * from './telemetryReporter';
 export { isEnabled } from './enabledCheck';
 export default TelemetryReporter;
 export type { Attributes, O11ySchema, O11yBatchingConfig, PdpEvent, TelemetryOptions } from './types';
+export type { FalconUploadOptions } from '@salesforce/o11y-reporter';

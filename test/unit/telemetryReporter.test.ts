@@ -142,6 +142,117 @@ describe('TelemetryReporter', () => {
     expect(mockO11yService.initialize.firstCall.args[2]).to.be.undefined;
   });
 
+  it('when falcon is supplied and enableO11y is true, initialize receives falcon and extensionName positionally', async () => {
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
+
+    const mockO11yService = {
+      initialize: sandbox.stub().resolves(),
+      logEvent: sandbox.stub(),
+      logEventWithSchema: sandbox.stub(),
+      forceFlush: sandbox.stub().resolves(),
+      enableAutoBatching: sandbox.stub().returns(() => {}),
+    };
+    sandbox.stub(O11yService, 'getInstance').returns(mockO11yService as unknown as O11yService);
+
+    const falcon = { apiKey: 'super-secret-key', environment: 'prod' as const };
+
+    await TelemetryReporter.create({
+      project: 'salesforce-cli',
+      key: 'not-used',
+      extensionName: 'salesforce-cli',
+      enableO11y: true,
+      enableAppInsights: false,
+      o11yUploadEndpoint: 'https://example.com/upload',
+      falcon,
+    });
+
+    expect(mockO11yService.initialize.calledOnce).to.be.true;
+    // extensionName is passed as the first positional argument
+    expect(mockO11yService.initialize.firstCall.args[0]).to.equal('salesforce-cli');
+    // falcon is forwarded through the InitializeOptions (4th) argument
+    const initOptions = mockO11yService.initialize.firstCall.args[3];
+    expect(initOptions.falcon).to.deep.equal(falcon);
+  });
+
+  it('when falcon is omitted, initialize receives no falcon and existing behavior is preserved', async () => {
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
+
+    const mockO11yService = {
+      initialize: sandbox.stub().resolves(),
+      logEvent: sandbox.stub(),
+      logEventWithSchema: sandbox.stub(),
+      forceFlush: sandbox.stub().resolves(),
+      enableAutoBatching: sandbox.stub().returns(() => {}),
+    };
+    sandbox.stub(O11yService, 'getInstance').returns(mockO11yService as unknown as O11yService);
+
+    await TelemetryReporter.create({
+      project: 'salesforce-cli',
+      key: 'not-used',
+      enableO11y: true,
+      enableAppInsights: false,
+      o11yUploadEndpoint: 'https://example.com/upload',
+    });
+
+    expect(mockO11yService.initialize.calledOnce).to.be.true;
+    // InitializeOptions always carries appName (defaulted to extensionName/project); falcon is absent
+    const initOptions = mockO11yService.initialize.firstCall.args[3];
+    expect(initOptions.appName).to.equal('salesforce-cli');
+    expect(initOptions).to.not.have.property('falcon');
+  });
+
+  it('when enableO11y is false, O11yReporter is not constructed even if falcon is present', async () => {
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
+
+    const getInstanceStub = sandbox.stub(O11yService, 'getInstance');
+
+    await TelemetryReporter.create({
+      project: 'salesforce-cli',
+      key: 'not-used',
+      enableO11y: false,
+      enableAppInsights: false,
+      o11yUploadEndpoint: 'https://example.com/upload',
+      falcon: { apiKey: 'super-secret-key' },
+    });
+
+    // O11yReporter is never constructed, so the O11yService instance is never requested
+    expect(getInstanceStub.called).to.be.false;
+  });
+
+  it('emits a debug log when falcon is configured without logging the API key', async () => {
+    sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');
+
+    const mockO11yService = {
+      initialize: sandbox.stub().resolves(),
+      logEvent: sandbox.stub(),
+      logEventWithSchema: sandbox.stub(),
+      forceFlush: sandbox.stub().resolves(),
+      enableAutoBatching: sandbox.stub().returns(() => {}),
+    };
+    sandbox.stub(O11yService, 'getInstance').returns(mockO11yService as unknown as O11yService);
+
+    const debug = sandbox.stub();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    sandbox.stub(Logger, 'child').resolves({ warn: sandbox.stub(), debug } as any);
+
+    const apiKey = 'super-secret-key';
+
+    await TelemetryReporter.create({
+      project: 'salesforce-cli',
+      key: 'not-used',
+      enableO11y: true,
+      enableAppInsights: false,
+      o11yUploadEndpoint: 'https://example.com/upload',
+      falcon: { apiKey, environment: 'prod' },
+    });
+
+    const falconLog = debug.getCalls().find((call) => String(call.args[0]).includes('Falcon'));
+    expect(falconLog, 'expected a debug log mentioning Falcon').to.not.be.undefined;
+    // The API key must never be logged
+    const allDebugArgs = debug.getCalls().flatMap((call) => call.args.map(String));
+    expect(allDebugArgs.some((arg) => arg.includes(apiKey))).to.be.false;
+  });
+
   it('should send a telemetry exception', async () => {
     const options = { project, key };
     sandbox.stub(ConfigAggregator.prototype, 'getPropertyValue').returns('false');

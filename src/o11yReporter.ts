@@ -15,7 +15,7 @@
  */
 /* eslint-disable-next-line @typescript-eslint/triple-slash-reference -- needed so dynamic import('o11y_schema/sf_pdp') is typed when test tsconfig compiles */
 /// <reference path="../types/o11y_schema_sf_pdp.d.ts" />
-import { O11yService, type BatchingOptions } from '@salesforce/o11y-reporter';
+import { O11yService, type BatchingOptions, type InitializeOptions } from '@salesforce/o11y-reporter';
 import { Attributes, O11ySchema, PdpEvent, Properties, TelemetryOptions } from './types';
 
 // o11y_schema is ESM-only; load via dynamic import() so it works when telemetry is required as CJS
@@ -39,13 +39,28 @@ export class O11yReporter extends BaseReporter {
     super(options);
     this.extensionName = options.extensionName ?? options.project;
     this.service = O11yService.getInstance(this.extensionName);
-    const dynamicO11yUploadEndpointPath = options.dynamicO11yUploadEndpoint ?? undefined;
 
+    // Default the CoreEnvelope appName to extensionName. o11y-reporter does NOT derive appName
+    // from extensionName — when unset it falls back to its generic "o11y-reporter-extensions"
+    // default — so telemetry sets it here to label events with this consumer's name. A consumer
+    // may override via options.appName (e.g. a co-hosted process where appName is shared).
+    const initOptions: InitializeOptions = { appName: options.appName ?? this.extensionName };
+
+    if (options.dynamicO11yUploadEndpoint) {
+      initOptions.dynamicO11yUploadEndpointPath = options.dynamicO11yUploadEndpoint;
+    }
+
+    if (options.falcon) {
+      initOptions.falcon = options.falcon; // opt-in Falcon publishing
+    }
+
+    // extensionName is passed positionally (already unique per consumer); it becomes the per-event
+    // o11y loggerName. appName (above) is the process-level CoreEnvelope label.
     this.initialized = this.service.initialize(
       this.extensionName,
       options.o11yUploadEndpoint!,
       options.getConnectionFn,
-      dynamicO11yUploadEndpointPath ? { dynamicO11yUploadEndpointPath } : undefined
+      initOptions
     );
     this.commonProperties = this.buildO11yCommonProperties(options.commonProperties);
   }
