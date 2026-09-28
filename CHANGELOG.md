@@ -1,3 +1,12 @@
+# [7.1.0](https://github.com/forcedotcom/telemetry/compare/7.0.6...7.1.0) (2026-09-28)
+
+
+### Features
+
+* @W-23948128 forward Falcon config and default O11y appName to extensionName ([000f338](https://github.com/forcedotcom/telemetry/commit/000f33817cbc4ac948a6bcdfca5904b35bf923a8))
+
+
+
 ## [7.0.6](https://github.com/forcedotcom/telemetry/compare/7.0.5...7.0.6) (2026-08-15)
 
 
