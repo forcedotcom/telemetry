@@ -76,6 +76,14 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
           this.o11yReporter = new O11yReporter(this.options);
           await this.o11yReporter.init();
 
+          // Opt-in Falcon publishing is gated behind enableO11y. Log that it is configured
+          // without ever logging the API key or any other secret.
+          if (this.options.falcon) {
+            this.logger.debug(
+              `O11y Falcon publishing configured (environment: ${this.options.falcon.environment ?? 'dev'})`
+            );
+          }
+
           // Configure batching - enabled by default unless explicitly disabled
           const batchingConfig = this.options.o11yBatching;
           // Batching is enabled by default. Only disable if explicitly set to false

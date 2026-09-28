@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { Env } from '@salesforce/kit';
-import { Connection as O11yConnection } from '@salesforce/o11y-reporter';
+import { Connection as O11yConnection, FalconUploadOptions } from '@salesforce/o11y-reporter';
 
 export type Properties = {
   [key: string]: string;
@@ -151,9 +151,29 @@ export type TelemetryOptions = {
   // O11y-specific options
   extensionName?: string; // For O11yReporter, defaults to project if not provided
   /**
+   * Optional PROCESS-level O11y application name (the CoreEnvelope `appName`).
+   *
+   * When omitted, telemetry defaults it to `extensionName`, so events are labeled with this
+   * consumer's name (e.g. "salesforce-cli") instead of o11y-reporter's generic
+   * "o11y-reporter-extensions" default. Supply an explicit value only for a co-hosted process
+   * where several extensions share one o11y client (e.g. the VS Code Extension Pack): `appName`
+   * is process-level first-writer-wins, so it cannot vary per consumer there — per-consumer
+   * identity always rides on `extensionName` (the o11y `loggerName`) regardless.
+   */
+  appName?: string;
+  /**
    * Batching configuration for O11y telemetry
    * Batching is enabled by default. Set o11yBatching.enableAutoBatching to false to disable batching
    * and upload events immediately after each event.
    */
   o11yBatching?: O11yBatchingConfig;
+  /**
+   * Opt-in Falcon publishing configuration for O11y telemetry.
+   *
+   * When supplied (and enableO11y is true), Falcon becomes the selected upload destination for this
+   * consumer; otherwise the existing org-connection / static-endpoint path is used unchanged.
+   * Carries the Falcon apiKey, an optional environment ("dev" | "prod", defaults to "dev"), and
+   * consumer-supplied endpoints/endpoint. Never hardcode or log the apiKey.
+   */
+  falcon?: FalconUploadOptions;
 };

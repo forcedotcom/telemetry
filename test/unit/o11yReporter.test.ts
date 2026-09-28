@@ -89,6 +89,57 @@ describe('O11yReporter', () => {
       expect(mockO11yService.initialize.calledOnce).to.be.true;
       expect(mockO11yService.initialize.firstCall.args[2]).to.be.undefined;
     });
+
+    it('should forward falcon through InitializeOptions and pass extensionName positionally', () => {
+      const falcon = { apiKey: 'super-secret-key', environment: 'prod' as const };
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint, falcon });
+
+      expect(mockO11yService.initialize.calledOnce).to.be.true;
+      // extensionName is the first positional argument
+      expect(mockO11yService.initialize.firstCall.args[0]).to.equal(extensionName);
+      // falcon is forwarded through the InitializeOptions (4th) argument
+      const initOptions = mockO11yService.initialize.firstCall.args[3];
+      expect(initOptions).to.not.be.undefined;
+      expect(initOptions.falcon).to.deep.equal(falcon);
+      // appName defaults to extensionName (o11y-reporter does not derive it)
+      expect(initOptions.appName).to.equal(extensionName);
+    });
+
+    it('should default appName to extensionName when no appName is provided', () => {
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint });
+
+      expect(mockO11yService.initialize.calledOnce).to.be.true;
+      const initOptions = mockO11yService.initialize.firstCall.args[3];
+      // InitializeOptions always carries appName (defaulted to extensionName); no falcon when omitted
+      expect(initOptions.appName).to.equal(extensionName);
+      expect(initOptions).to.not.have.property('falcon');
+    });
+
+    it('should use an explicit appName override when provided', () => {
+      const appName = 'salesforce-extension-pack';
+      reporter = new O11yReporter({ project, key, extensionName, o11yUploadEndpoint, appName });
+
+      const initOptions = mockO11yService.initialize.firstCall.args[3];
+      expect(initOptions.appName).to.equal(appName);
+    });
+
+    it('should forward both dynamicO11yUploadEndpoint and falcon through InitializeOptions', () => {
+      const falcon = { apiKey: 'super-secret-key' };
+      const dynamicO11yUploadEndpoint = '/services/data/v65.0/connect/proxy/ui-telemetry';
+      reporter = new O11yReporter({
+        project,
+        key,
+        extensionName,
+        o11yUploadEndpoint,
+        dynamicO11yUploadEndpoint,
+        falcon,
+      });
+
+      const initOptions = mockO11yService.initialize.firstCall.args[3];
+      expect(initOptions.dynamicO11yUploadEndpointPath).to.equal(dynamicO11yUploadEndpoint);
+      expect(initOptions.falcon).to.deep.equal(falcon);
+      expect(initOptions.appName).to.equal(extensionName);
+    });
   });
 
   describe('sendTelemetryEvent', () => {
