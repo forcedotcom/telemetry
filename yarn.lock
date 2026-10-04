@@ -871,10 +871,10 @@
   resolved "https://registry.yarnpkg.com/@salesforce/dev-config/-/dev-config-4.3.3.tgz#65650087baa542a905ad4e8b38a5c5302f7f009a"
   integrity sha512-dr2IuZNP759p9iSW72lFmOki9/sqHfMHgEzCt+okVuBsRG5/fPuBNhGVse6abCqCvaqBxzD73IwFyZ979MNd7w==
 
-"@salesforce/dev-scripts@^14.0.0":
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/@salesforce/dev-scripts/-/dev-scripts-14.0.0.tgz#1ff4f35bb79f384de59c52234c995d5248fdd27f"
-  integrity sha512-bO/bKROQfEHFIV9PJF8H34VmCPSqfKArfdpSyDKo/oKoL572w9nCH3TfV7ri19YW8TrxOEoP3WdesWgNk9skMg==
+"@salesforce/dev-scripts@^15.0.0":
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/dev-scripts/-/dev-scripts-15.0.0.tgz#9012559fe43608bbac093d05b4899efd6d973fef"
+  integrity sha512-QtdI8Fyqvn6krN9jjBPFkA6MaRcCc3oOKJthoW4lOa3DO5TxLM3yrOqPsCiIRlX+IhjbjHkhU8+QLMGpmWxW/g==
   dependencies:
     "@commitlint/cli" "^17.8.1"
     "@commitlint/config-conventional" "^17.8.1"
@@ -4149,7 +4149,7 @@ o11y@^266.18.0:
     protobufjs "7.5.6"
     web-vitals "^5.1.0"
 
-o11y_schema@264.105.0:
+o11y_schema@264.105.0, o11y_schema@^264.84.0:
   version "264.105.0"
   resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-264.105.0.tgz#977105841e39b75021b6402b6ae68bd4734a1b4a"
   integrity sha512-HwbCh3tUUVDE9nj/YIuDE76Kf5rRptTlS0ju5yQ9nWaLXNEFGhxOHqDZbivhtpTfwzWAYk6BYhRZqp+M2v1LBQ==
@@ -4158,11 +4158,6 @@ o11y_schema@^260.65.0:
   version "260.65.0"
   resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-260.65.0.tgz#7e0a79aa28be6eaec027709f3a978f2cc158b064"
   integrity sha512-F3VWPhiDHH+L170X4Tt2cfqzlpXGbtowWPz+Npam3yB3KGBUIHA9paRG7FWZKv9wNcxrtQXgIZemmffVQTm3jg==
-
-o11y_schema@^264.84.0:
-  version "264.91.0"
-  resolved "https://registry.yarnpkg.com/o11y_schema/-/o11y_schema-264.91.0.tgz#d18d544b353854ed5df14c8106f5402b532f0595"
-  integrity sha512-MeemqnHi6pwSe605s64fiOCpeXhKq3gGAwqbIAU91HMkwUa2As6wMN6QWGnl7cAaaaHAbGhaxZ9PmG3wNb1yHg==
 
 object-deep-merge@^2.0.1:
   version "2.0.1"
