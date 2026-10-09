@@ -1,3 +1,12 @@
+## [7.1.3](https://github.com/forcedotcom/telemetry/compare/7.1.2...7.1.3) (2026-10-09)
+
+
+### Bug Fixes
+
+* **deps:** bump fast-copy from 3.0.2 to 3.1.0 ([a78a8da](https://github.com/forcedotcom/telemetry/commit/a78a8da59c8fe7713416f66b9667bfa953e4cf11))
+
+
+
 ## [7.1.2](https://github.com/forcedotcom/telemetry/compare/7.1.1...7.1.2) (2026-10-09)
 
 
