@@ -1,3 +1,12 @@
+## [7.1.2](https://github.com/forcedotcom/telemetry/compare/7.1.1...7.1.2) (2026-10-09)
+
+
+### Bug Fixes
+
+* **deps:** bump source-map-js from 1.2.1 to 1.2.2 ([a6d1808](https://github.com/forcedotcom/telemetry/commit/a6d18087fddd42e9e984f66161634f719af5d531))
+
+
+
 ## [7.1.1](https://github.com/forcedotcom/telemetry/compare/7.1.0...7.1.1) (2026-09-28)
 
 
