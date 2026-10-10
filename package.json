@@ -42,7 +42,7 @@
   ],
   "dependencies": {
     "@salesforce/core": "^9.2.2",
-    "@salesforce/kit": "^4.0.0",
+    "@salesforce/kit": "^4.0.1",
     "@salesforce/o11y-reporter": "1.11.0",
     "applicationinsights": "^2.9.8",
     "got": "^11",
