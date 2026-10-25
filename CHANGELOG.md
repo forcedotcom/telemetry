@@ -1,3 +1,12 @@
+## [7.1.13](https://github.com/forcedotcom/telemetry/compare/7.1.12...7.1.13) (2026-10-25)
+
+
+### Bug Fixes
+
+* **deps:** bump zod from 4.3.6 to 4.6.7 ([1ff208f](https://github.com/forcedotcom/telemetry/commit/1ff208fec6952b024cf190bd6d6a2e8afd78fbb7))
+
+
+
 ## [7.1.12](https://github.com/forcedotcom/telemetry/compare/7.1.11...7.1.12) (2026-10-24)
 
 
