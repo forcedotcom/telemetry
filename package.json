@@ -41,7 +41,7 @@
     "!lib/**/*.map"
   ],
   "dependencies": {
-    "@salesforce/core": "^9.4.0",
+    "@salesforce/core": "^9.4.1",
     "@salesforce/kit": "^4.0.8",
     "@salesforce/o11y-reporter": "1.11.0",
     "applicationinsights": "^2.9.8",
