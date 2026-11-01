@@ -1,3 +1,12 @@
+## [7.1.17](https://github.com/forcedotcom/telemetry/compare/7.1.16...7.1.17) (2026-11-01)
+
+
+### Bug Fixes
+
+* **deps:** bump js-yaml from 3.14.2 to 3.15.2 ([09f78b1](https://github.com/forcedotcom/telemetry/commit/09f78b1fdbe55443d1f3ee995ea2b7510e2dc725))
+
+
+
 ## [7.1.16](https://github.com/forcedotcom/telemetry/compare/7.1.15...7.1.16) (2026-10-31)
 
 
