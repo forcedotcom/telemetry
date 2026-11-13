@@ -142,8 +142,7 @@ export class TelemetryReporter extends AsyncCreatable<TelemetryOptions> {
    * ```
    */
   public async stopAsync(): Promise<void> {
-    this.reporter?.stop();
-    await this.o11yReporter?.stop();
+    await Promise.all([this.reporter?.stopAsync(), this.o11yReporter?.stop()]);
   }
 
   public async waitForConnection(): Promise<void> {
