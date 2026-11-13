@@ -44,7 +44,7 @@
     "@salesforce/core": "^9.4.4",
     "@salesforce/kit": "^4.0.9",
     "@salesforce/o11y-reporter": "1.11.0",
-    "applicationinsights": "^2.9.8",
+    "applicationinsights": "~3.16.0",
     "got": "^11",
     "o11y_schema": "^260.65.0",
     "proxy-agent": "^6.5.0"

@@ -52,8 +52,7 @@ export class AppInsights extends BaseReporter {
       this.gdprSensitiveKeys = this.options.gdprSensitiveKeys;
     } else {
       // By default, cloudRoleInstance if a gdpr sensitive property.
-      const keys = new appInsights.Contracts.ContextTagKeys();
-      this.gdprSensitiveKeys = [keys.cloudRoleInstance];
+      this.gdprSensitiveKeys = ['ai.cloud.roleInstance'];
     }
   }
 
@@ -118,8 +117,17 @@ export class AppInsights extends BaseReporter {
   }
 
   public stop(): void {
-    this.appInsightsClient.flush();
-    appInsights.dispose();
+    void this.stopAsync().catch((error: unknown) => {
+      this.logger.debug('AppInsights shutdown failed', error);
+    });
+  }
+
+  public async stopAsync(): Promise<void> {
+    try {
+      await this.appInsightsClient.flush();
+    } finally {
+      await this.appInsightsClient.shutdown();
+    }
   }
 
   /**
@@ -128,7 +136,9 @@ export class AppInsights extends BaseReporter {
   private createAppInsightsClient(): void {
     this.logger.debug('creating appInsightsClient');
 
-    appInsights.setup(this.options.key);
+    const key = this.options.key;
+    const connectionString = key.includes('=') ? key : `InstrumentationKey=${key}`;
+    appInsights.setup(connectionString);
 
     this.appInsightsClient = appInsights.defaultClient;
     this.appInsightsClient.commonProperties = this.buildAppInsightsCommonProperties();

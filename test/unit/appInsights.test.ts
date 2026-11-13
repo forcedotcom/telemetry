@@ -15,11 +15,12 @@
  */
 import { expect } from 'chai';
 import * as sinon from 'sinon';
+import * as applicationinsights from 'applicationinsights';
 import { AppInsights } from '../../src/appInsights';
 import { buildPropertiesAndMeasurements } from '../../src/utils';
 
 describe('AppInsights', () => {
-  const key = 'foo-bar-123';
+  const key = '00000000-0000-4000-8000-000000000001';
   const project = 'force-com-toolbelt';
 
   let sandbox: sinon.SinonSandbox;
@@ -31,15 +32,15 @@ describe('AppInsights', () => {
   });
 
   afterEach(() => {
+    applicationinsights.dispose();
     sandbox.restore();
   });
 
   it('should connect to app insights dashboard', async () => {
     const options = { project, key };
     const reporter = await AppInsights.create(options);
-    const reporterKey = reporter.appInsightsClient ? reporter.appInsightsClient.config.instrumentationKey : null;
     expect(reporter.appInsightsClient).to.not.be.undefined;
-    expect(reporterKey).to.equal(key);
+    expect(reporter.appInsightsClient.config.connectionString).to.equal(`InstrumentationKey=${key}`);
   });
 
   it('should build base properties', async () => {
@@ -132,27 +133,46 @@ describe('AppInsights', () => {
     const reporter = await AppInsights.create(options);
     if (reporter.appInsightsClient) {
       trackStub = sandbox.stub(reporter.appInsightsClient, 'trackEvent').callsFake(() => {});
-      flushStub = sandbox.stub(reporter.appInsightsClient, 'flush').callsFake(() => {});
+      flushStub = sandbox.stub(reporter.appInsightsClient, 'flush').resolves();
     }
     reporter.sendTelemetryEvent('testEvent');
     expect(trackStub.calledOnce).to.be.true;
     expect(flushStub.calledOnce).to.be.false;
   });
 
-  it('stop telemetry event will fail', async () => {
-    const options = { project, key };
-    const reporter = await AppInsights.create(options);
-    flushStub = sandbox.stub(reporter.appInsightsClient, 'flush').callsFake(() => {
-      const error = new Error() as Error & { code?: string };
-      error.code = 'ExtraTerrestrialBiologicalEntityFromZetaReticuli';
-      throw error;
+  it('should await flush before shutdown', async () => {
+    const reporter = await AppInsights.create({ project, key });
+    const order: string[] = [];
+    sandbox.stub(reporter.appInsightsClient, 'flush').callsFake(async () => {
+      await Promise.resolve();
+      order.push('flush');
     });
+    sandbox.stub(reporter.appInsightsClient, 'shutdown').callsFake(async () => {
+      order.push('shutdown');
+    });
+    await reporter.stopAsync();
+    expect(order).to.deep.equal(['flush', 'shutdown']);
+  });
 
-    expect(() => {
-      reporter.stop();
-    })
-      .to.throw(Error)
-      .and.have.property('name', 'Error');
+  it('should shut down even when flush fails', async () => {
+    const reporter = await AppInsights.create({ project, key });
+    const failure = new Error('flush failed');
+    sandbox.stub(reporter.appInsightsClient, 'flush').rejects(failure);
+    const shutdown = sandbox.stub(reporter.appInsightsClient, 'shutdown').resolves();
+    let caught: unknown;
+    try {
+      await reporter.stopAsync();
+    } catch (error) {
+      caught = error;
+    }
+    expect(caught).to.equal(failure);
+    expect(shutdown.calledOnce).to.be.true;
+  });
+
+  it('should accept a connection string without rewriting it', async () => {
+    const connectionString = `InstrumentationKey=${key};IngestionEndpoint=https://example.com/`;
+    const reporter = await AppInsights.create({ project, key: connectionString });
+    expect(reporter.appInsightsClient.config.connectionString).to.equal(connectionString);
   });
 
   it('should send telemetry exception', async () => {
@@ -160,7 +180,7 @@ describe('AppInsights', () => {
     const reporter = await AppInsights.create(options);
     if (reporter.appInsightsClient) {
       trackStub = sandbox.stub(reporter.appInsightsClient, 'trackException').callsFake(() => {});
-      flushStub = sandbox.stub(reporter.appInsightsClient, 'flush').callsFake(() => {});
+      flushStub = sandbox.stub(reporter.appInsightsClient, 'flush').resolves();
     }
     reporter.sendTelemetryException(new Error('testException'));
     expect(trackStub.calledOnce).to.be.true;
@@ -172,7 +192,7 @@ describe('AppInsights', () => {
     const reporter = await AppInsights.create(options);
     if (reporter.appInsightsClient) {
       trackStub = sandbox.stub(reporter.appInsightsClient, 'trackTrace').callsFake(() => {});
-      flushStub = sandbox.stub(reporter.appInsightsClient, 'flush').callsFake(() => {});
+      flushStub = sandbox.stub(reporter.appInsightsClient, 'flush').resolves();
     }
     reporter.sendTelemetryTrace('testTrace');
     expect(trackStub.calledOnce).to.be.true;
@@ -184,7 +204,7 @@ describe('AppInsights', () => {
     const reporter = await AppInsights.create(options);
     if (reporter.appInsightsClient) {
       trackStub = sandbox.stub(reporter.appInsightsClient, 'trackMetric').callsFake(() => {});
-      flushStub = sandbox.stub(reporter.appInsightsClient, 'flush').callsFake(() => {});
+      flushStub = sandbox.stub(reporter.appInsightsClient, 'flush').resolves();
     }
     reporter.sendTelemetryMetric('testMetric', 0);
     expect(trackStub.calledOnce).to.be.true;
