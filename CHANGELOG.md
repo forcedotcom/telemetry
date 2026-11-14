@@ -1,3 +1,12 @@
+## [7.1.21](https://github.com/forcedotcom/telemetry/compare/7.1.20...7.1.21) (2026-11-14)
+
+
+### Bug Fixes
+
+* **deps:** bump brace-expansion from 1.1.12 to 1.1.22 ([8a495b1](https://github.com/forcedotcom/telemetry/commit/8a495b18c59b3b51bf9417b8a1d012f75647d799))
+
+
+
 ## [7.1.20](https://github.com/forcedotcom/telemetry/compare/7.1.19...7.1.20) (2026-11-14)
 
 
