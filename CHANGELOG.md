@@ -1,3 +1,12 @@
+## [7.1.20](https://github.com/forcedotcom/telemetry/compare/7.1.19...7.1.20) (2026-11-14)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 9.4.4 to 9.4.6 ([b64ec36](https://github.com/forcedotcom/telemetry/commit/b64ec36018f56c974e3cd080b6d288720bb3ae15))
+
+
+
 ## [7.1.19](https://github.com/forcedotcom/telemetry/compare/7.1.18...7.1.19) (2026-11-07)
 
 
