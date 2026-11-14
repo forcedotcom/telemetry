@@ -1062,12 +1062,12 @@
   dependencies:
     "@salesforce/ts-types" "^3.2.3"
 
-"@salesforce/o11y-reporter@1.11.0":
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/@salesforce/o11y-reporter/-/o11y-reporter-1.11.0.tgz#0faf5ebf5ce0173a2978f48a80130cae895e3fe1"
-  integrity sha512-ujP7d4Vb2dd1+WLFBW2gTGUG11dGdwbSRA6wBkbohDCnJIZ7qEoMENHrbn6KdZ46TaTDbbAc9GT+UPDS+jCoKg==
+"@salesforce/o11y-reporter@1.12.0":
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/o11y-reporter/-/o11y-reporter-1.12.0.tgz#0407997e444a5705b47727da55a4744dd6eae7d1"
+  integrity sha512-Ey55qf1GKdEuAgtmrgNqom4XFzWxq6T+qEWYyjfrOiyFDb9N4ktM1ly1a4iVlZ4LJNZgB3GveLNDvEXnnJ39wQ==
   dependencies:
-    o11y "^266.18.0"
+    o11y "266.24.0"
     o11y_schema "^264.84.0"
 
 "@salesforce/prettier-config@^0.0.4":
@@ -4330,10 +4330,10 @@ nyc@^17.1.0:
     test-exclude "^6.0.0"
     yargs "^15.0.2"
 
-o11y@^266.18.0:
-  version "266.18.0"
-  resolved "https://registry.yarnpkg.com/o11y/-/o11y-266.18.0.tgz#6081653a4ca02b0bf946ba224cdbae1139e9aaaf"
-  integrity sha512-z+0Ow0R+HBTJfh2cvAaS24VFr/tbT0fvU5kwqsVhQzsowSaFu0a6FeLnVwMVirvHe/sFN7FcmpKWfCA1qTj0Pg==
+o11y@266.24.0:
+  version "266.24.0"
+  resolved "https://registry.yarnpkg.com/o11y/-/o11y-266.24.0.tgz#8398211eefd5243d53bb69e83ffaeedf1937e93d"
+  integrity sha512-FxEc40KoHlbKUct8G4QoC/Knlyc5tBLFRPZVJDiwMGWkzb/wqkNtOFl8NrJ2QPudNHX1cV1Ji0TAnYFVlKZTlw==
   dependencies:
     o11y_schema "264.105.0"
     protobufjs "7.5.6"
