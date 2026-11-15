@@ -1,3 +1,12 @@
+## [7.1.23](https://github.com/forcedotcom/telemetry/compare/7.1.22...7.1.23) (2026-11-15)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/kit from 4.0.9 to 4.0.10 ([a0fe01c](https://github.com/forcedotcom/telemetry/commit/a0fe01c66b87e22e0af9534fb9eab5dc77fb43ae))
+
+
+
 ## [7.1.22](https://github.com/forcedotcom/telemetry/compare/7.1.21...7.1.22) (2026-11-14)
 
 
